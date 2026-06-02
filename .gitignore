@@ -1,0 +1,66 @@
+# Dependencies / build
+node_modules/
+dist/*
+!dist/README.md
+!dist/.gitkeep
+coverage/
+.nyc_output/
+
+# Environment / secrets
+.env
+.env.*
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+**/*_token*
+**/*credentials*
+
+# OpenClaw runtime / private state
+.openclaw/
+openclaw.json
+openclaw.json.*
+**/openclaw.json
+**/openclaw.json.*
+**/auth-profiles.json
+**/sessions/
+**/session*/
+**/logs/
+**/*.log
+
+# Private workspace state
+/AGENTS.md
+/SOUL.md
+/memory/
+**/MEMORY.md
+!workspace-template/MEMORY.template.md
+**/memory/
+**/USER.md
+!workspace-template/USER.template.md
+**/TOOLS.md
+!workspace-template/TOOLS.template.md
+**/HEARTBEAT.md
+!workspace-template/HEARTBEAT.template.md
+**/IDENTITY.md
+!workspace-template/IDENTITY.template.md
+
+# Generated workspaces and task archives
+/workspace-pm/
+/workspace-architect/
+/workspace-backend/
+/workspace-frontend/
+/workspace-qa/
+/workspace-reviewer/
+/workspace-security/
+/workspace-devops/
+/workspace-docs/
+/workspace-research/
+/shared/
+/reports/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

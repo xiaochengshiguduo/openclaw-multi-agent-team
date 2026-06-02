@@ -1,0 +1,11 @@
+[English](troubleshooting-setup.md) | 中文
+
+# 设置故障排查
+
+常见问题：
+
+- 找不到 OpenClaw CLI
+- Node.js 版本过旧
+- 目标目录不可写
+- 工作区已存在
+- 创建符号链接失败

@@ -1,0 +1,5 @@
+{
+  "agents": [
+    { "id": "pm", "workspace": "<OPENCLAW_HOME>/workspace-pm", "model": "<MODEL_ALIAS>" }
+  ]
+}

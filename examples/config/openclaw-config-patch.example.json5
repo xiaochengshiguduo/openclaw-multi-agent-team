@@ -1,0 +1,9 @@
+// Example only. Do not paste blindly into a real config without backup and validation.
+{
+  tools: {
+    agentToAgent: {
+      enabled: true,
+      allow: ["main", "pm"]
+    }
+  }
+}

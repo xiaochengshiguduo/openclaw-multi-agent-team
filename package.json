@@ -1,0 +1,20 @@
+{
+  "name": "openclaw-multi-agent-team",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A complete, reproducible, long-lived multi-agent software team system for OpenClaw.",
+  "license": "MIT",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "doctor": "node scripts/doctor-local.js",
+    "healthcheck": "node scripts/healthcheck-local.js",
+    "healthcheck:runtime": "node scripts/healthcheck-runtime.js",
+    "repro-check": "node scripts/repro-check.js",
+    "reproduce": "node scripts/reproduce-new-machine.js",
+    "preflight": "node scripts/preflight.js",
+    "test": "node tests/smoke/run.js"
+  }
+}

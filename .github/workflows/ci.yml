@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  smoke:
+    name: Smoke tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Doctor local
+        run: node scripts/doctor-local.js
+
+      - name: Healthcheck local
+        run: node scripts/healthcheck-local.js
+
+      - name: Reproduction check
+        run: node scripts/repro-check.js --target /tmp/oc-mat-ci-repro --allow-missing-openclaw
+
+      - name: Smoke tests
+        run: node tests/smoke/run.js
