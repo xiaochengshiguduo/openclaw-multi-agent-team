@@ -9,7 +9,7 @@ English | [中文](README.zh-CN.md)
 
 A reproducible, long-lived multi-agent software team template for OpenClaw.
 
-> Status: v1.0.0 local validation. This repository is a sanitized OpenClaw multi-agent team template and setup toolkit. Review the safety boundaries, development guidelines, and local checks before publishing or applying it to a real runtime.
+> Status: v1.1.0 local validation. This repository is a sanitized OpenClaw multi-agent team template and setup toolkit. Review the safety boundaries, development guidelines, and local checks before publishing or applying it to a real runtime.
 
 ## What this is
 
@@ -118,12 +118,42 @@ For phased/debug workflows, you can still run `generate-workspaces.js`, `registe
 
 For a complete new-machine walkthrough, see the [new-machine reproduction guide](docs/getting-started/reproduce-on-new-machine.md).
 
+## Updating an already-used runtime workspace
+
+Use `bootstrap-new-machine.sh` / `reproduce-new-machine.js` for new machines or full reproduction. For an OpenClaw runtime that has already been used, prefer the incremental runtime workspace updater:
+
+```bash
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw"
+```
+
+The updater is preview-only by default. Apply changes with:
+
+```bash
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply
+```
+
+Successful no-conflict applies restart Gateway by default. Skip restart with:
+
+```bash
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply --no-restart
+```
+
+Safety boundaries:
+
+- Only versioned manifest entries are considered.
+- Only allowlisted project-managed runtime workspace paths can be written: `workspace/AGENTS.md`, `workspace/TEAM.md`, and `workspace/shared/tasks/_template/*.md`.
+- Config, model/provider settings, credentials, memory, sessions, state, transcripts, and user context files are denied.
+- User-modified managed files become conflicts and are not overwritten by default.
+- Writes are backed up, atomic, lock-protected, and recorded in `state/openclaw-multi-agent-team/update-state.json` plus `last-plan.json`.
+- If conflicts or forbidden targets exist, the updater does not write and does not restart.
+
 ## Main scripts
 
 | Script | Purpose | Writes by default? |
 |---|---|---|
 | `scripts/bootstrap-new-machine.sh` | public clone/update wrapper around `reproduce-new-machine.js` | No, unless forwarded `--apply` |
 | `scripts/reproduce-new-machine.js` | one-command new-machine reproduction | No, unless `--apply` |
+| `scripts/update-runtime-workspace.js` | safe incremental update for already-used runtime workspaces | Plan only, full update with `--apply` |
 | `scripts/doctor-local.js` | prerequisite checks | No |
 | `scripts/healthcheck-local.js` | repository/template checks | No |
 | `scripts/healthcheck-runtime.js` | real OpenClaw runtime shape checks | No |

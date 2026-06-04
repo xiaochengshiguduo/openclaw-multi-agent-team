@@ -67,6 +67,51 @@ OpenClaw 在应用 config patch 时可能会创建 `openclaw.json.bak*` 文件�
 密钥只作为本机输入使用。若不想在交互式提示中粘贴 key，使用 `--api-key-env`。`--skip-config` 或 `--skip-restart` 仅建议用于调试或受限环境。
 
 
+## `update-runtime-workspace.js`
+
+用于已经使用过一段时间的 OpenClaw runtime workspace 的安全增量 updater。
+
+```bash
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw"
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply --no-restart
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --to 1.1.0 --apply
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --only task-templates --apply
+```
+
+默认是 dry-run，只会在 `state/openclaw-multi-agent-team/last-plan.json` 写入审计 plan。
+
+使用 `--apply` 时，updater 会：
+
+- 应用 `updates/runtime/*.json` 中的版本化 manifest
+- 只写入 allowlist 中的 runtime workspace 文件：
+  - `workspace/AGENTS.md`
+  - `workspace/TEAM.md`
+  - `workspace/shared/tasks/_template/*.md`
+- 禁止写 OpenClaw config、agent config、memory、sessions、state、transcripts 和用户上下文路径
+- 将用户修改过的托管文件视为 conflict，默认不覆盖
+- 在 `backups/openclaw-multi-agent-team/update-*` 备份被修改文件
+- 使用原子写入和更新锁
+- 写入 `state/openclaw-multi-agent-team/update-state.json`
+- 无冲突成功更新后默认重启 Gateway，除非使用 `--no-restart`
+
+如果存在 conflict 或 forbidden target，不会应用更新，也不会重启 Gateway。
+
+退出码：
+
+```text
+0 = 成功 / 无变更 / dry-run 正常
+1 = runtime error
+2 = 检测到 conflict
+3 = manifest 或目标路径包含 forbidden target
+4 = validation failed
+5 = rollback failed
+6 = 更新成功后 Gateway restart failed
+```
+
+这个 updater 的范围故意比 `reproduce-new-machine.js` 窄：它不会修改 `openclaw.json`、模型/provider 设置、凭证、A2A routing、memory、sessions、state 或 Gateway 配置。
+
+
 ## `bootstrap-new-machine.sh`
 
 用于公开仓库的 bootstrap 辅助脚本：

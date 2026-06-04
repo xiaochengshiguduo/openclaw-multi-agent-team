@@ -11,6 +11,7 @@ const scripts = [
   'doctor-local.js',
   'generate-workspaces.js',
   'reproduce-new-machine.js',
+  'update-runtime-workspace.js',
   'create-task-archive.js',
   'register-agents.js',
   'configure-agent-routing.js',
@@ -66,7 +67,8 @@ for (const smokeTest of [
   'register-agents.dry-run.test.js',
   'configure-agent-to-agent.dry-run.test.js',
   'healthcheck-local.test.js',
-  'create-task-archive.test.js'
+  'create-task-archive.test.js',
+  'update-runtime-workspace.test.js'
 ]) {
   run(process.execPath, [path.join(root, 'tests', 'smoke', smokeTest)]);
   console.log(`ok ${smokeTest}`);

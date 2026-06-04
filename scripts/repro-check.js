@@ -65,6 +65,7 @@ for (const rel of [
   'scripts/generate-workspaces.js',
   'scripts/register-agents.js',
   'scripts/configure-agent-routing.js',
+  'scripts/update-runtime-workspace.js',
   'scripts/healthcheck-local.js',
   'scripts/healthcheck-runtime.md',
   'workspace-template/AGENTS.md',

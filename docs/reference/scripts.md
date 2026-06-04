@@ -67,6 +67,51 @@ OpenClaw itself may create `openclaw.json.bak*` files when applying config patch
 Secrets are local inputs only. Use `--api-key-env` when you prefer not to paste a key into the interactive prompt. Use `--skip-config` or `--skip-restart` only for debugging or constrained environments.
 
 
+## `update-runtime-workspace.js`
+
+Safe incremental updater for an OpenClaw runtime workspace that has already been used.
+
+```bash
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw"
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply --no-restart
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --to 1.1.0 --apply
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --only task-templates --apply
+```
+
+Default mode is dry-run and writes only an audit plan under `state/openclaw-multi-agent-team/last-plan.json`.
+
+With `--apply`, the updater:
+
+- applies versioned manifests from `updates/runtime/*.json`
+- writes only allowlisted runtime workspace files:
+  - `workspace/AGENTS.md`
+  - `workspace/TEAM.md`
+  - `workspace/shared/tasks/_template/*.md`
+- denies OpenClaw config, agent config, memory, sessions, state, transcripts, and user context paths
+- treats user-modified managed files as conflicts and does not overwrite them by default
+- backs up changed files under `backups/openclaw-multi-agent-team/update-*`
+- uses atomic writes and an update lock
+- writes `state/openclaw-multi-agent-team/update-state.json`
+- restarts Gateway after successful no-conflict updates unless `--no-restart` is used
+
+If conflicts or forbidden targets exist, no update is applied and Gateway is not restarted.
+
+Exit codes:
+
+```text
+0 = success / no changes / dry-run ok
+1 = runtime error
+2 = conflicts detected
+3 = forbidden target in manifest or target path
+4 = validation failed
+5 = rollback failed
+6 = restart failed after successful update
+```
+
+This updater is intentionally narrower than `reproduce-new-machine.js`: it does not modify `openclaw.json`, model/provider settings, credentials, A2A routing, memory, sessions, state, or Gateway configuration.
+
+
 ## `bootstrap-new-machine.sh`
 
 Bootstrap helper for public repos:

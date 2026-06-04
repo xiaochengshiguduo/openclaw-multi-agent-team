@@ -2,6 +2,13 @@ English | [中文](CHANGELOG.zh-CN.md)
 
 # Changelog
 
+## 1.1.0 - 2026-06-04
+
+- Added `scripts/update-runtime-workspace.js`, a manifest-driven updater for already-used OpenClaw runtime workspaces.
+- Added versioned runtime update manifest `updates/runtime/1.1.0.json`.
+- The updater is dry-run by default, applies only with `--apply`, writes only allowlisted project-managed workspace/template paths, denies config/memory/session/state paths, backs up changed files, records update state and plan files, detects user-modified files as conflicts, uses atomic writes and a lock, and restarts Gateway after successful no-conflict applies unless `--no-restart` is used.
+- Added smoke tests for dry-run no-write behavior, apply/restart behavior, `--no-restart`, user modification conflicts, forbidden targets, and symlink escape rejection.
+
 ## 1.0.1 - 2026-06-04
 
 - Added a durable sub-agent recovery protocol for runtime events, compaction, and missed `sessions_yield` completion callbacks.

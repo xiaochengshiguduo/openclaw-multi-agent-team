@@ -9,7 +9,7 @@
 
 一个可复现、长期可用的 OpenClaw 多 Agent 软件团队模板。
 
-> 状态：v1.0.0 本地验证中。本仓库是经过脱敏的 OpenClaw 多 Agent 团队模板与设置工具包。在发布或应用到真实 runtime 前，请先审查安全边界、开发规范和本地检查结果。
+> 状态：v1.1.0 本地验证中。本仓库是经过脱敏的 OpenClaw 多 Agent 团队模板与设置工具包。在发布或应用到真实 runtime 前，请先审查安全边界、开发规范和本地检查结果。
 
 ## 这是什么
 
@@ -118,12 +118,42 @@ node scripts/reproduce-new-machine.js --target "$HOME/.openclaw" --apply
 
 完整新机器复现流程见[新机器复现指南](docs/getting-started/reproduce-on-new-machine.zh-CN.md)。
 
+## 更新已经使用过的 runtime workspace
+
+`bootstrap-new-machine.sh` / `reproduce-new-machine.js` 适合新机器或完整复现。对于已经使用过一段时间的 OpenClaw runtime，优先使用增量 runtime workspace updater：
+
+```bash
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw"
+```
+
+updater 默认只预览，不写入。应用更新：
+
+```bash
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply
+```
+
+无冲突成功 apply 后默认重启 Gateway。跳过重启：
+
+```bash
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply --no-restart
+```
+
+安全边界：
+
+- 只处理版本化 manifest 声明的条目。
+- 只允许写入 allowlist 中的项目托管 runtime workspace 路径：`workspace/AGENTS.md`、`workspace/TEAM.md`、`workspace/shared/tasks/_template/*.md`。
+- 禁止写配置、模型/provider 设置、凭证、memory、sessions、state、transcripts 和用户上下文文件。
+- 用户修改过的托管文件默认变成 conflict，不覆盖。
+- 写入前备份，使用原子写入和锁，并记录到 `state/openclaw-multi-agent-team/update-state.json` 与 `last-plan.json`。
+- 如果存在 conflict 或 forbidden target，updater 不写入，也不重启。
+
 ## 主要脚本
 
 | 脚本 | 用途 | 默认写入吗？ |
 |---|---|---|
 | `scripts/bootstrap-new-machine.sh` | 公开 clone/update 后调用 `reproduce-new-machine.js` | 否，除非透传 `--apply` |
 | `scripts/reproduce-new-machine.js` | 一条命令新机器复现 | 否，除非 `--apply` |
+| `scripts/update-runtime-workspace.js` | 已使用 runtime workspace 的安全增量更新 | 只写 plan，完整更新需 `--apply` |
 | `scripts/doctor-local.js` | 前置条件检查 | 否 |
 | `scripts/healthcheck-local.js` | 仓库/模板检查 | 否 |
 | `scripts/healthcheck-runtime.js` | 真实 OpenClaw runtime 形状检查 | 否 |

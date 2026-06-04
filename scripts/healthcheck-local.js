@@ -27,6 +27,7 @@ for (const f of [
   'scripts/healthcheck-runtime.js',
   'scripts/healthcheck-runtime.md',
   'scripts/reproduce-new-machine.js',
+  'scripts/update-runtime-workspace.js',
   'scripts/generate-workspaces.js',
   'scripts/register-agents.js',
   'scripts/configure-agent-routing.js',
