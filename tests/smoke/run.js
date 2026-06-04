@@ -68,6 +68,7 @@ run(process.execPath, [path.join(root, 'tests', 'smoke', 'role-checklists-protoc
 console.log('ok role checklists protocol');
 for (const smokeTest of [
   'bootstrap-new-machine.test.js',
+  'bash-remote-command-shape.test.js',
   'generate-agent-workspaces.test.js',
   'register-agents.dry-run.test.js',
   'configure-agent-to-agent.dry-run.test.js',
