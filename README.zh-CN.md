@@ -123,19 +123,25 @@ node scripts/reproduce-new-machine.js --target "$HOME/.openclaw" --apply
 `bootstrap-new-machine.sh` / `reproduce-new-machine.js` 适合新机器或完整复现。对于已经使用过一段时间的 OpenClaw runtime，优先使用增量 runtime workspace updater：
 
 ```bash
-node scripts/update-runtime-workspace.js --target "$HOME/.openclaw"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" --
 ```
 
 updater 默认只预览，不写入。应用更新：
 
 ```bash
-node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" -- --apply
 ```
 
 无冲突成功 apply 后默认重启 Gateway。跳过重启：
 
 ```bash
-node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply --no-restart
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" -- --apply --no-restart
+```
+
+如果你已经有本地 checkout，等价本地命令是：
+
+```bash
+scripts/update-runtime-workspace.sh --apply
 ```
 
 安全边界：
@@ -153,6 +159,7 @@ node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply --no
 |---|---|---|
 | `scripts/bootstrap-new-machine.sh` | 公开 clone/update 后调用 `reproduce-new-machine.js` | 否，除非透传 `--apply` |
 | `scripts/reproduce-new-machine.js` | 一条命令新机器复现 | 否，除非 `--apply` |
+| `scripts/update-runtime-workspace.sh` | 公开 clone/update 后调用 `update-runtime-workspace.js` | 只写 plan，完整更新需 `--apply` |
 | `scripts/update-runtime-workspace.js` | 已使用 runtime workspace 的安全增量更新 | 只写 plan，完整更新需 `--apply` |
 | `scripts/doctor-local.js` | 前置条件检查 | 否 |
 | `scripts/healthcheck-local.js` | 仓库/模板检查 | 否 |

@@ -123,19 +123,25 @@ For a complete new-machine walkthrough, see the [new-machine reproduction guide]
 Use `bootstrap-new-machine.sh` / `reproduce-new-machine.js` for new machines or full reproduction. For an OpenClaw runtime that has already been used, prefer the incremental runtime workspace updater:
 
 ```bash
-node scripts/update-runtime-workspace.js --target "$HOME/.openclaw"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" --
 ```
 
 The updater is preview-only by default. Apply changes with:
 
 ```bash
-node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" -- --apply
 ```
 
 Successful no-conflict applies restart Gateway by default. Skip restart with:
 
 ```bash
-node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply --no-restart
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" -- --apply --no-restart
+```
+
+If you already have a local checkout, the equivalent local command is:
+
+```bash
+scripts/update-runtime-workspace.sh --apply
 ```
 
 Safety boundaries:
@@ -153,6 +159,7 @@ Safety boundaries:
 |---|---|---|
 | `scripts/bootstrap-new-machine.sh` | public clone/update wrapper around `reproduce-new-machine.js` | No, unless forwarded `--apply` |
 | `scripts/reproduce-new-machine.js` | one-command new-machine reproduction | No, unless `--apply` |
+| `scripts/update-runtime-workspace.sh` | public clone/update wrapper around `update-runtime-workspace.js` | Plan only, full update with `--apply` |
 | `scripts/update-runtime-workspace.js` | safe incremental update for already-used runtime workspaces | Plan only, full update with `--apply` |
 | `scripts/doctor-local.js` | prerequisite checks | No |
 | `scripts/healthcheck-local.js` | repository/template checks | No |

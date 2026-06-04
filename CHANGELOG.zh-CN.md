@@ -4,6 +4,7 @@
 
 ## 1.1.0 - 2026-06-04
 
+- 新增 `scripts/update-runtime-workspace.sh` 公开 clone/update wrapper，使已经使用过的 runtime workspace 可以用类似 `bash -c "$(curl -fsSL .../scripts/update-runtime-workspace.sh)" -- --apply` 的远程命令更新。
 - 新增 `scripts/update-runtime-workspace.js`，用于已经使用过一段时间的 OpenClaw runtime workspace 的 manifest 驱动增量更新。
 - 新增版本化 runtime update manifest：`updates/runtime/1.1.0.json`。
 - updater 默认 dry-run，只有 `--apply` 才写入；只写 allowlist 中的项目托管 workspace/template 路径；禁止写配置、memory、session、state 路径；写入前备份；记录 update state 和 plan；用户修改过的文件按 conflict 处理；使用原子写入和锁；无冲突成功 apply 后默认重启 Gateway，可用 `--no-restart` 跳过。

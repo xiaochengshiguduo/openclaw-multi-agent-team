@@ -4,6 +4,7 @@ English | [中文](CHANGELOG.zh-CN.md)
 
 ## 1.1.0 - 2026-06-04
 
+- Added `scripts/update-runtime-workspace.sh`, a public clone/update wrapper so used runtime workspaces can be updated with a remote command such as `bash -c "$(curl -fsSL .../scripts/update-runtime-workspace.sh)" -- --apply`.
 - Added `scripts/update-runtime-workspace.js`, a manifest-driven updater for already-used OpenClaw runtime workspaces.
 - Added versioned runtime update manifest `updates/runtime/1.1.0.json`.
 - The updater is dry-run by default, applies only with `--apply`, writes only allowlisted project-managed workspace/template paths, denies config/memory/session/state paths, backs up changed files, records update state and plan files, detects user-modified files as conflicts, uses atomic writes and a lock, and restarts Gateway after successful no-conflict applies unless `--no-restart` is used.

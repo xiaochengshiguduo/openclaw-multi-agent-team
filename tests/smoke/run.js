@@ -22,7 +22,8 @@ const scripts = [
 ];
 
 const shellScripts = [
-  'bootstrap-new-machine.sh'
+  'bootstrap-new-machine.sh',
+  'update-runtime-workspace.sh'
 ];
 
 function run(cmd, argv, opts = {}) {
@@ -68,7 +69,8 @@ for (const smokeTest of [
   'configure-agent-to-agent.dry-run.test.js',
   'healthcheck-local.test.js',
   'create-task-archive.test.js',
-  'update-runtime-workspace.test.js'
+  'update-runtime-workspace.test.js',
+  'update-runtime-workspace-wrapper.test.js'
 ]) {
   run(process.execPath, [path.join(root, 'tests', 'smoke', smokeTest)]);
   console.log(`ok ${smokeTest}`);

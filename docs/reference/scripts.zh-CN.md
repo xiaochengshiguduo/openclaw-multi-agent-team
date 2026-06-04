@@ -112,6 +112,26 @@ node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --only task-
 这个 updater 的范围故意比 `reproduce-new-machine.js` 窄：它不会修改 `openclaw.json`、模型/provider 设置、凭证、A2A routing、memory、sessions、state 或 Gateway 配置。
 
 
+## `update-runtime-workspace.sh`
+
+`update-runtime-workspace.js` 的公开 clone/update wrapper。需要从 GitHub 一条命令远程更新时使用它。
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" --
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" -- --apply
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" -- --apply --no-restart
+```
+
+这个 wrapper 会：
+
+- 缺少 repo 时克隆公开仓库到 `~/openclaw-multi-agent-team`
+- 对干净的已有 checkout 尽可能 fast-forward
+- 对有本地改动的 checkout 不做更新
+- 运行 `node scripts/update-runtime-workspace.js --target ~/.openclaw` 并透传参数
+
+在敏感环境中运行远程 `curl | bash` 命令前，建议先审查脚本内容。
+
+
 ## `bootstrap-new-machine.sh`
 
 用于公开仓库的 bootstrap 辅助脚本：

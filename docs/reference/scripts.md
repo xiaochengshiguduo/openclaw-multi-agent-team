@@ -112,6 +112,26 @@ Exit codes:
 This updater is intentionally narrower than `reproduce-new-machine.js`: it does not modify `openclaw.json`, model/provider settings, credentials, A2A routing, memory, sessions, state, or Gateway configuration.
 
 
+## `update-runtime-workspace.sh`
+
+Public clone/update wrapper around `update-runtime-workspace.js`. Use this for one-command remote updates from GitHub.
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" --
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" -- --apply
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" -- --apply --no-restart
+```
+
+The wrapper:
+
+- clones the public repo to `~/openclaw-multi-agent-team` when missing
+- fast-forwards an existing clean checkout when possible
+- leaves dirty checkouts untouched
+- runs `node scripts/update-runtime-workspace.js --target ~/.openclaw` plus forwarded args
+
+Review the script before running remote `curl | bash` commands in sensitive environments.
+
+
 ## `bootstrap-new-machine.sh`
 
 Bootstrap helper for public repos:
