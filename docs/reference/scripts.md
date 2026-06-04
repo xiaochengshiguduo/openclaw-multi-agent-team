@@ -75,6 +75,7 @@ Safe incremental updater for an OpenClaw runtime workspace that has already been
 node scripts/update-runtime-workspace.js --target "$HOME/.openclaw"
 node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply
 node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply --no-restart
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply --overwrite-conflicts
 node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --to 1.1.0 --apply
 node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --only task-templates --apply
 ```
@@ -90,12 +91,14 @@ With `--apply`, the updater:
   - `workspace/shared/tasks/_template/*.md`
 - denies OpenClaw config, agent config, memory, sessions, state, transcripts, and user context paths
 - treats user-modified managed files as conflicts and does not overwrite them by default
-- backs up changed files under `backups/openclaw-multi-agent-team/update-*`
+- in interactive TTY `--apply` runs, asks whether to overwrite the listed modified managed conflicts: empty/`n` keeps no-overwrite behavior; `y`/`Y` overwrites only those listed files
+- requires non-interactive automation to pass explicit `--overwrite-conflicts` before overwriting modified managed conflicts
+- backs up changed or overwritten files under `backups/openclaw-multi-agent-team/update-*`
 - uses atomic writes and an update lock
 - writes `state/openclaw-multi-agent-team/update-state.json`
 - restarts Gateway after successful no-conflict updates unless `--no-restart` is used
 
-If conflicts or forbidden targets exist, no update is applied and Gateway is not restarted.
+If conflicts or forbidden targets remain, no update is applied and Gateway is not restarted.
 
 Exit codes:
 

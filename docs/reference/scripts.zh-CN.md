@@ -75,6 +75,7 @@ OpenClaw 在应用 config patch 时可能会创建 `openclaw.json.bak*` 文件�
 node scripts/update-runtime-workspace.js --target "$HOME/.openclaw"
 node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply
 node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply --no-restart
+node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --apply --overwrite-conflicts
 node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --to 1.1.0 --apply
 node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --only task-templates --apply
 ```
@@ -90,12 +91,14 @@ node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --only task-
   - `workspace/shared/tasks/_template/*.md`
 - 禁止写 OpenClaw config、agent config、memory、sessions、state、transcripts 和用户上下文路径
 - 将用户修改过的托管文件视为 conflict，默认不覆盖
-- 在 `backups/openclaw-multi-agent-team/update-*` 备份被修改文件
+- 在交互式 TTY `--apply` 运行中询问是否覆盖列出的已修改托管 conflict：直接回车/`n` 保持不覆盖；`y`/`Y` 只覆盖这些列出的文件
+- 非交互式自动化必须显式传入 `--overwrite-conflicts`，才会覆盖已修改托管 conflict
+- 在 `backups/openclaw-multi-agent-team/update-*` 备份被修改或覆盖的文件
 - 使用原子写入和更新锁
 - 写入 `state/openclaw-multi-agent-team/update-state.json`
 - 无冲突成功更新后默认重启 Gateway，除非使用 `--no-restart`
 
-如果存在 conflict 或 forbidden target，不会应用更新，也不会重启 Gateway。
+如果仍存在 conflict 或 forbidden target，不会应用更新，也不会重启 Gateway。
 
 退出码：
 

@@ -131,6 +131,59 @@ const templateSop = fs.readFileSync(path.join(root, 'task-templates', '_template
   } finally { cleanTarget(target); }
 }
 
+// empty/non-interactive stdin must keep modified managed-file conflicts safe.
+{
+  const target = makeTarget();
+  try {
+    fs.mkdirSync(path.join(target, 'workspace', 'shared', 'tasks', '_template'), { recursive: true });
+    fs.writeFileSync(path.join(target, 'workspace', 'AGENTS.md'), templateAgents);
+    fs.writeFileSync(path.join(target, 'workspace', 'TEAM.md'), templateTeam);
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'status.md'), templateStatus);
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'main-supervisor-sop.md'), templateSop);
+    must(['--target', target, '--apply', '--no-restart']);
+    const statePath = path.join(target, 'state', 'openclaw-multi-agent-team', 'update-state.json');
+    const state = readJson(statePath);
+    state.version = '1.0.0';
+    fs.writeFileSync(statePath, JSON.stringify(state, null, 2) + '\n');
+    const teamPath = path.join(target, 'workspace', 'TEAM.md');
+    fs.appendFileSync(teamPath, '\nlocal user edit\n');
+    const before = fs.readFileSync(teamPath, 'utf8');
+    const r = run(['--target', target, '--apply', '--no-restart'], { input: '' });
+    assert(r.status === 2, `expected empty stdin conflict exit 2, got ${r.status}`);
+    assert(fs.readFileSync(teamPath, 'utf8') === before, 'empty stdin overwrote managed user edit');
+  } finally { cleanTarget(target); }
+}
+
+// explicit automation flag overwrites only modified managed conflicts, with backup and state updates.
+{
+  const target = makeTarget();
+  try {
+    fs.mkdirSync(path.join(target, 'workspace', 'shared', 'tasks', '_template'), { recursive: true });
+    fs.writeFileSync(path.join(target, 'workspace', 'AGENTS.md'), templateAgents);
+    fs.writeFileSync(path.join(target, 'workspace', 'TEAM.md'), templateTeam);
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'status.md'), templateStatus);
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'main-supervisor-sop.md'), templateSop);
+    must(['--target', target, '--apply', '--no-restart']);
+    const statePath = path.join(target, 'state', 'openclaw-multi-agent-team', 'update-state.json');
+    const state = readJson(statePath);
+    state.version = '1.0.0';
+    fs.writeFileSync(statePath, JSON.stringify(state, null, 2) + '\n');
+    const teamPath = path.join(target, 'workspace', 'TEAM.md');
+    fs.appendFileSync(teamPath, '\nlocal user edit\n');
+    const before = fs.readFileSync(teamPath, 'utf8');
+    const r = must(['--target', target, '--apply', '--no-restart', '--overwrite-conflicts']);
+    const after = fs.readFileSync(teamPath, 'utf8');
+    assert(!after.includes('local user edit'), '--overwrite-conflicts did not replace modified managed file');
+    assert(after.includes('managed-by: openclaw-multi-agent-team'), 'overwritten file missing managed header');
+    const match = r.stdout.match(/Backup: (.+)/);
+    assert(match, 'backup path missing from overwrite output');
+    assert(fs.readFileSync(path.join(match[1].trim(), 'workspace', 'TEAM.md'), 'utf8') === before, 'backup does not contain pre-overwrite content');
+    const newState = readJson(statePath);
+    assert(newState.version === '1.1.0', 'state version not advanced after overwrite');
+    assert(newState.files['workspace/TEAM.md'].sha256 === sha256Text(after), 'state hash not updated after overwrite');
+  } finally { cleanTarget(target); }
+}
+
 // forbidden manifest targets must be rejected before apply.
 {
   const target = makeTarget();

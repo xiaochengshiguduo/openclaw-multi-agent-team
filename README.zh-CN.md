@@ -149,9 +149,10 @@ scripts/update-runtime-workspace.sh --apply
 - 只处理版本化 manifest 声明的条目。
 - 只允许写入 allowlist 中的项目托管 runtime workspace 路径：`workspace/AGENTS.md`、`workspace/TEAM.md`、`workspace/shared/tasks/_template/*.md`。
 - 禁止写配置、模型/provider 设置、凭证、memory、sessions、state、transcripts 和用户上下文文件。
-- 用户修改过的托管文件默认变成 conflict，不覆盖。
-- 写入前备份，使用原子写入和锁，并记录到 `state/openclaw-multi-agent-team/update-state.json` 与 `last-plan.json`。
-- 如果存在 conflict 或 forbidden target，updater 不写入，也不重启。
+- 用户修改过的托管文件会变成 conflict，默认不覆盖。
+- 在交互式 TTY `--apply` 运行中，updater 会询问是否覆盖列出的已修改托管 conflict：直接回车/`n` 保持不覆盖；`y`/`Y` 只覆盖这些列出的文件。非交互式自动化必须显式使用 `--overwrite-conflicts` 才会覆盖。
+- 写入和已授权覆盖前都会备份，使用原子写入和锁，并记录到 `state/openclaw-multi-agent-team/update-state.json` 与 `last-plan.json`。
+- 如果仍存在 conflict 或 forbidden target，updater 不写入，也不重启。
 
 ## 主要脚本
 

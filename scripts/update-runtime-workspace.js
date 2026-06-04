@@ -12,13 +12,16 @@ const { projectRoot, resolvePath, assertInside } = require('./lib/paths');
 const HELP = `
 Usage: node scripts/update-runtime-workspace.js [--target ~/.openclaw] [--apply]
        [--to <version>] [--only workspace|task-templates] [--no-restart]
-       [--json] [--restart-command <cmd>]
+       [--overwrite-conflicts] [--json] [--restart-command <cmd>]
 
 Safely update an already-used OpenClaw runtime workspace with project-managed
 OpenClaw Multi-Agent Team instructions and task templates.
 
 Default is preview/dry-run. With --apply, successful no-conflict updates restart
-Gateway by default. Use --no-restart to skip restart.
+Gateway by default. Use --no-restart to skip restart. If managed files have
+local modifications, interactive apply runs ask before overwriting them; empty or
+n keeps the safe no-overwrite behavior. Automation can opt in explicitly with
+--overwrite-conflicts.
 
 This command never updates OpenClaw config, model/provider settings, memory,
 sessions, state, credentials, or user-owned workspace files.
@@ -268,7 +271,7 @@ function backupPathFor(rel, backupRoot) {
   return path.join(backupRoot, rel);
 }
 
-function buildPlan({ root, targetRoot, manifests, state, only }) {
+function buildPlan({ root, targetRoot, manifests, state, only, overwriteConflictTargets = new Set() }) {
   const plan = {
     ok: true,
     mode: args.apply ? 'apply' : 'dry-run',
@@ -345,8 +348,14 @@ function buildPlan({ root, targetRoot, manifests, state, only }) {
       const matchesPreviousSha = exists && Array.isArray(item.previousSha256) && item.previousSha256.includes(currentSha);
       const missingAllowed = !exists && item.strategy === 'create-or-managed-overwrite';
       const canUpdate = missingAllowed || matchesState || matchesSourceBody || matchesManagedBody || matchesPreviousSha;
-      if (!canUpdate) {
-        plan.conflicts.push({ manifest: manifest.version, target: rel, reason: exists ? 'local file is unmanaged or modified' : 'target missing but strategy does not allow create' });
+      const overwriteAuthorized = exists && managed && overwriteConflictTargets.has(rel);
+      if (!canUpdate && !overwriteAuthorized) {
+        plan.conflicts.push({
+          manifest: manifest.version,
+          target: rel,
+          reason: exists ? 'local file is unmanaged or modified' : 'target missing but strategy does not allow create',
+          overwriteEligible: exists && managed
+        });
         continue;
       }
       const priorAction = plannedByTarget.get(rel);
@@ -369,7 +378,7 @@ function buildPlan({ root, targetRoot, manifests, state, only }) {
           sourceSha256: sourceSha,
           desiredSha256: desiredSha,
           previousSha256: currentState.initialExists ? currentState.initialSha : null,
-          reason: currentState.initialExists ? (matchesState ? 'matches previous updater state' : 'has managed marker') : 'target missing and create allowed',
+          reason: currentState.initialExists ? (overwriteAuthorized ? 'explicitly overwriting modified managed file' : (matchesState ? 'matches previous updater state' : 'has managed marker')) : 'target missing and create allowed',
           content: desired
         };
         plan.actions.push(action);
@@ -411,6 +420,53 @@ function printPlan(plan) {
   for (const c of plan.conflicts) console.log(`[conflict] ${c.target}: ${c.reason}`);
   for (const f of plan.forbidden) console.log(`[forbidden] ${f.target}: ${f.reason}`);
   console.log(`restart: ${plan.restart.planned ? 'planned' : 'not planned'}`);
+}
+
+function managedConflictTargets(plan) {
+  return [...new Set(plan.conflicts
+    .filter((c) => c.overwriteEligible)
+    .map((c) => c.target))];
+}
+
+function isInteractiveApply() {
+  return args.apply && !args.json && Boolean(process.stdin.isTTY && process.stdout.isTTY);
+}
+
+function readPromptLine() {
+  const chunks = [];
+  const buf = Buffer.alloc(1);
+  while (true) {
+    let n = 0;
+    try {
+      n = fs.readSync(0, buf, 0, 1, null);
+    } catch (err) {
+      if (err && err.code === 'EAGAIN') {
+        Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 25);
+        continue;
+      }
+      throw err;
+    }
+    if (n === 0) break;
+    const ch = buf.toString('utf8', 0, n);
+    if (ch === '\n' || ch === '\r') break;
+    chunks.push(ch);
+  }
+  return chunks.join('');
+}
+
+function promptOverwriteConflicts(targets) {
+  if (!targets.length || !isInteractiveApply()) return false;
+  console.log('');
+  console.log('Modified managed files were found:');
+  for (const rel of targets) console.log(`- ${rel}`);
+  process.stdout.write('Overwrite these modified managed files with repository versions? [y/N] ');
+  const answer = readPromptLine().trim();
+  return answer === 'y' || answer === 'Y';
+}
+
+function writePlanAudit(planPath, plan) {
+  ensureDir(path.dirname(planPath));
+  writeJsonAtomic(planPath, { ...plan, actions: plan.actions.map(({ content, targetPath: _tp, ...rest }) => rest) });
 }
 
 function acquireLock(targetRoot) {
@@ -513,16 +569,35 @@ function restartGateway(command) {
     fail(err.message, EXIT.VALIDATION);
   }
   let plan;
+  const overwriteConflictTargets = new Set();
   try {
-    plan = buildPlan({ root, targetRoot, manifests, state, only });
+    plan = buildPlan({ root, targetRoot, manifests, state, only, overwriteConflictTargets });
   } catch (err) {
     fail(err.message, EXIT.VALIDATION);
   }
-  ensureDir(path.dirname(planPath));
-  writeJsonAtomic(planPath, { ...plan, actions: plan.actions.map(({ content, targetPath: _tp, ...rest }) => rest) });
-  printPlan(plan);
+  writePlanAudit(planPath, plan);
+  const suppressInitialConflictPlan = plan.conflicts.length && args['overwrite-conflicts'] === true;
+  if (!suppressInitialConflictPlan) printPlan(plan);
   if (plan.forbidden.length) process.exit(EXIT.FORBIDDEN);
-  if (plan.conflicts.length) process.exit(EXIT.CONFLICT);
+  if (plan.conflicts.length) {
+    const eligibleTargets = managedConflictTargets(plan);
+    const shouldOverwrite = args['overwrite-conflicts'] === true || promptOverwriteConflicts(eligibleTargets);
+    if (!shouldOverwrite) process.exit(EXIT.CONFLICT);
+    for (const rel of eligibleTargets) overwriteConflictTargets.add(rel);
+    try {
+      plan = buildPlan({ root, targetRoot, manifests, state, only, overwriteConflictTargets });
+    } catch (err) {
+      fail(err.message, EXIT.VALIDATION);
+    }
+    writePlanAudit(planPath, plan);
+    if (!args.json && !suppressInitialConflictPlan) {
+      console.log('');
+      console.log('# Runtime workspace update (after overwrite authorization)');
+    }
+    printPlan(plan);
+    if (plan.forbidden.length) process.exit(EXIT.FORBIDDEN);
+    if (plan.conflicts.length) process.exit(EXIT.CONFLICT);
+  }
   if (!args.apply) process.exit(EXIT.OK);
   if (plan.actions.length === 0) {
     if (!args.json) console.log('No changes applied; restart skipped.');

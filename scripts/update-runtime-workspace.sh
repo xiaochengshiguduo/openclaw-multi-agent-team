@@ -12,7 +12,7 @@ DEST_DEFAULT="$HOME/openclaw-multi-agent-team"
 usage() {
   cat <<'USAGE'
 Usage:
-  scripts/update-runtime-workspace.sh [--dest <path>] [--target <path>] [--repo <url>] [--profile <name>] [--apply] [--no-restart] [--to <version>] [--only workspace|task-templates] [--json] [-- <extra updater args>]
+  scripts/update-runtime-workspace.sh [--dest <path>] [--target <path>] [--repo <url>] [--profile <name>] [--apply] [--overwrite-conflicts] [--no-restart] [--to <version>] [--only workspace|task-templates] [--json] [-- <extra updater args>]
 
 Defaults:
   --repo   https://github.com/xiaochengshiguduo/openclaw-multi-agent-team.git
@@ -26,6 +26,10 @@ Behavior:
   - Existing repos with local changes are left untouched.
   - Runs: node scripts/update-runtime-workspace.js --target <target> plus forwarded args.
   - Default is dry-run. Runtime files are updated only with --apply.
+  - User-modified managed files are conflicts and are not overwritten by default.
+  - Interactive TTY --apply asks before overwriting listed modified managed conflicts; empty/n keeps no-overwrite, y/Y overwrites only listed files.
+  - Non-interactive automation must use explicit --overwrite-conflicts to overwrite modified managed conflicts.
+  - Backups are created before writes or authorized overwrites.
   - With --apply, Gateway restarts after a safe no-conflict update unless --no-restart is used.
 
 Remote examples:
@@ -58,7 +62,7 @@ while [[ $# -gt 0 ]]; do
       REPO_URL="$2"; shift 2;;
     --profile)
       PROFILE="$2"; shift 2;;
-    --apply|--no-restart|--json)
+    --apply|--overwrite-conflicts|--no-restart|--json)
       UPDATER_ARGS+=("$1"); shift;;
     --to|--only|--restart-command)
       UPDATER_ARGS+=("$1" "$2"); shift 2;;

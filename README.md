@@ -150,8 +150,9 @@ Safety boundaries:
 - Only allowlisted project-managed runtime workspace paths can be written: `workspace/AGENTS.md`, `workspace/TEAM.md`, and `workspace/shared/tasks/_template/*.md`.
 - Config, model/provider settings, credentials, memory, sessions, state, transcripts, and user context files are denied.
 - User-modified managed files become conflicts and are not overwritten by default.
-- Writes are backed up, atomic, lock-protected, and recorded in `state/openclaw-multi-agent-team/update-state.json` plus `last-plan.json`.
-- If conflicts or forbidden targets exist, the updater does not write and does not restart.
+- In an interactive TTY `--apply` run, the updater asks whether to overwrite the listed modified managed conflicts: empty/`n` keeps no-overwrite behavior; `y`/`Y` overwrites only those listed files. Non-interactive automation must opt in with explicit `--overwrite-conflicts`.
+- Writes and authorized overwrites are backed up, atomic, lock-protected, and recorded in `state/openclaw-multi-agent-team/update-state.json` plus `last-plan.json`.
+- If conflicts or forbidden targets remain, the updater does not write and does not restart.
 
 ## Main scripts
 
