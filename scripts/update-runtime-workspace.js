@@ -282,6 +282,26 @@ function buildPlan({ root, targetRoot, manifests, state, only }) {
     skipped: [],
     restart: { planned: false, performed: false, reason: '' }
   };
+  const virtualFiles = new Map();
+  const plannedByTarget = new Map();
+
+  function getVirtualFile(rel, dst) {
+    if (virtualFiles.has(rel)) return virtualFiles.get(rel);
+    const exists = fs.existsSync(dst);
+    if (exists && !fs.statSync(dst).isFile()) return { exists, invalid: 'target exists and is not a regular file' };
+    const content = exists ? fs.readFileSync(dst, 'utf8') : '';
+    const currentSha = exists ? sha256Text(content) : '';
+    const value = {
+      exists,
+      content,
+      currentSha,
+      initialExists: exists,
+      initialSha: currentSha,
+      managed: exists && hasManagedMarker(content)
+    };
+    virtualFiles.set(rel, value);
+    return value;
+  }
 
   for (const manifest of manifests) {
     validateManifest(manifest, only);
@@ -302,21 +322,23 @@ function buildPlan({ root, targetRoot, manifests, state, only }) {
         continue;
       }
       const sourceRaw = fs.readFileSync(src, 'utf8');
+      const sourceSha = sha256Text(sourceRaw);
       const desired = withManagedHeader(sourceRaw, item, manifest.version);
       const desiredSha = sha256Text(desired);
-      const exists = fs.existsSync(dst);
-      if (exists && !fs.statSync(dst).isFile()) {
-        plan.forbidden.push({ manifest: manifest.version, target: rel, reason: 'target exists and is not a regular file' });
+      const currentState = getVirtualFile(rel, dst);
+      if (currentState.invalid) {
+        plan.forbidden.push({ manifest: manifest.version, target: rel, reason: currentState.invalid });
         continue;
       }
-      const current = exists ? fs.readFileSync(dst, 'utf8') : '';
-      const currentSha = exists ? sha256Text(current) : '';
+      const exists = currentState.exists;
+      const current = currentState.content;
+      const currentSha = currentState.currentSha;
       if (exists && currentSha === desiredSha) {
         plan.skipped.push({ manifest: manifest.version, target: rel, reason: 'unchanged' });
         continue;
       }
       const fileState = state.files && state.files[rel];
-      const managed = exists && hasManagedMarker(current);
+      const managed = exists && currentState.managed;
       const matchesState = exists && fileState && fileState.sha256 === currentSha;
       const matchesSourceBody = exists && current === stripManagedHeader(desired);
       const matchesManagedBody = exists && managed && stripManagedHeader(current) === stripManagedHeader(desired);
@@ -327,22 +349,45 @@ function buildPlan({ root, targetRoot, manifests, state, only }) {
         plan.conflicts.push({ manifest: manifest.version, target: rel, reason: exists ? 'local file is unmanaged or modified' : 'target missing but strategy does not allow create' });
         continue;
       }
-      plan.actions.push({
-        type: exists ? 'update' : 'create',
-        manifest: manifest.version,
-        source: item.source,
-        target: rel,
-        targetPath: dst,
-        sourceSha256: sha256Text(sourceRaw),
-        desiredSha256: desiredSha,
-        previousSha256: exists ? currentSha : null,
-        reason: exists ? (matchesState ? 'matches previous updater state' : 'has managed marker') : 'target missing and create allowed',
-        content: desired
+      const priorAction = plannedByTarget.get(rel);
+      if (priorAction) {
+        priorAction.manifestChain.push(manifest.version);
+        priorAction.manifest = manifest.version;
+        priorAction.source = item.source;
+        priorAction.sourceSha256 = sourceSha;
+        priorAction.desiredSha256 = desiredSha;
+        priorAction.content = desired;
+        priorAction.reason = 'cumulative manifest overlay';
+      } else {
+        const action = {
+          type: currentState.initialExists ? 'update' : 'create',
+          manifest: manifest.version,
+          manifestChain: [manifest.version],
+          source: item.source,
+          target: rel,
+          targetPath: dst,
+          sourceSha256: sourceSha,
+          desiredSha256: desiredSha,
+          previousSha256: currentState.initialExists ? currentState.initialSha : null,
+          reason: currentState.initialExists ? (matchesState ? 'matches previous updater state' : 'has managed marker') : 'target missing and create allowed',
+          content: desired
+        };
+        plan.actions.push(action);
+        plannedByTarget.set(rel, action);
+      }
+      virtualFiles.set(rel, {
+        exists: true,
+        content: desired,
+        currentSha: desiredSha,
+        initialExists: currentState.initialExists,
+        initialSha: currentState.initialSha,
+        managed: true
       });
     }
   }
   plan.restart.planned = plan.actions.length > 0 && plan.conflicts.length === 0 && plan.forbidden.length === 0 && manifests.some((m) => m.restart && m.restart.default !== false) && !args['no-restart'];
-  plan.restart.reason = plan.restart.planned ? (manifests[manifests.length - 1]?.restart?.reason || 'Managed runtime files changed.') : '';
+  const restartManifest = manifests.toReversed().find((m) => m.restart && m.restart.reason);
+  plan.restart.reason = plan.restart.planned ? (restartManifest?.restart?.reason || 'Managed runtime files changed.') : '';
   if (plan.conflicts.length || plan.forbidden.length) plan.ok = false;
   return plan;
 }
