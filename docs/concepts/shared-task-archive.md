@@ -33,4 +33,4 @@ research.md
 final.md
 ```
 
-`routing.md` records why `main` selected direct work, one specialist, a full multi-agent archive, or a high-risk review overlay. It is required for Level 3 multi-agent work and non-trivial Level 4 work. See [Routing decision](routing-decision.md).
+`routing.md` records whether `main` may complete the task directly or must enter the Multi-Agent workflow. It is required for archived Multi-Agent work. See [Routing decision](routing-decision.md).

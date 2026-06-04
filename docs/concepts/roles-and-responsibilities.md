@@ -22,13 +22,15 @@ Default team:
 
 `main` is the only user-facing entrypoint by default. Role Agents should not bypass `main` to talk to users or perform external writes unless explicitly authorized.
 
-`main` must classify non-trivial work before execution:
+Before execution, `main` must decide only the entry boundary:
 
 ```text
-Level 1: main direct
-Level 2: main + one specialist Agent
-Level 3: main creates shared/tasks and coordinates multiple Agents
-Level 4: high-risk overlay requiring security/devops/reviewer participation
+Can main complete this directly?
+Or must this enter the Multi-Agent workflow?
 ```
 
-For Level 3 and non-trivial Level 4 work, `main` records the reason in `routing.md` before execution and updates it if the task is re-routed. See [Routing decision](routing-decision.md).
+`main` may directly complete only chat, read-only, non-durable, low-risk tasks.
+
+`main` must enter the Multi-Agent workflow for any task that modifies durable artifacts, creates formal project outcomes, affects runtime/environment state, is primarily review/testing/verification/audit/risk assessment/release readiness, or produces reusable procedures/templates/long-term rules.
+
+After a task enters the Multi-Agent workflow, `TEAM.md` decides concrete role routing. For archived Multi-Agent work, `main` records the entry decision in `routing.md` and updates it if the task is re-routed. See [Routing decision](routing-decision.md).

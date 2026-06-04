@@ -4,73 +4,39 @@
 
 ## 决策
 
-- Level: Level 3
-- Mode: multi-agent-archived
+- Decision: multi-agent
 - Created by: main
 - Date: 2026-05-30
 
 ## 原因
 
-- 复杂度：文档和流程更新，需要设计、验证和审查。
-- 影响范围：影响未来任务入口、角色选择和共享任务档案。
-- 风险：实现风险低，但工作流影响较高。
-- 持久化需求：需要，因为路由决策应可审计。
-- 不确定性：部分流程表述和阈值需要审查。
-- 用户 override：用户要求采用四级路由模型和可解释 routing decision。
+- 任务是否属于聊天/只读/非持久/低风险：否。
+- 为什么允许或不允许 main 直接处理：任务会修改持久化工作流文档、模板和测试。
+- 用户 override：用户要求持久化路由决策模型。
 
-## 评分
+## 是否允许直接处理
 
-| 维度 | 分数 | 说明 |
-|---|---:|---|
-| 复杂度 | 2 | 设计 + 文档 + 验证 |
-| 影响范围 | 2 | 多份文档/模板/测试 |
-| 角色 | 2 | main、pm、architect、docs、qa、reviewer |
-| 风险 | 1 | 工作流影响，无生产变更 |
-| 持久化 | 2 | 需要任务档案约定 |
-| 不确定性 | 1 | 流程措辞和阈值 |
-| 总分 | 10 | Level 3 |
+- 聊天或解释：否
+- 只读检查：否
+- 非持久计划/建议：否
+- 低风险：是，但任务具有持久产物，因此不允许直接处理
 
-## 高风险触发条件
+## 必须进入 Multi-Agent 的触发条件
 
-- 密钥/凭证/私有配置：否
-- 认证/授权/网络暴露：否
-- destructive 或不可逆写入：否
-- Runtime/Gateway/model/provider/scheduler 配置：否
-- systemd/cron/nginx/SSH/DNS/CI/CD/deployment/release：否
-- 外部写入/公开资源：否，除非用户之后批准 push/PR
-- 隐私敏感数据/memory/session transcript：否
+- 持久产物：是 — 文档、模板和测试
+- 正式项目结果：是 — 实现后可能产生 changelog/commit
+- runtime/环境状态：否
+- 审查/测试/验证/审计/风险评估/发布就绪：是 — 验证和审查属于验收内容
+- 可复用流程/模板/skill/SOP/长期规则：是 — 路由协议是长期规则
 
-## 选择的 Agent
+## 给 TEAM.md 路由的备注
 
-- `main`：负责路由、用户沟通和最终交付。
-- `pm`：确认用户价值、范围和验收标准。
-- `architect`：检查四级模型和任务档案集成。
-- `docs`：编写双语文档和交接说明。
-- `qa`：定义 routing 文档/模板的 smoke 覆盖。
-- `reviewer`：检查清晰度、可维护性和是否过度复杂。
-
-## 未选择
-
-- `backend`：
-  - 原因：预计没有后端/runtime 实现。
-- `frontend`：
-  - 原因：没有 UI/client 工作。
-- `security`：
-  - 原因：示例不涉及密钥或 runtime 变更；如果加入外部写入或配置变更则参与。
-- `devops`：
-  - 原因：示例不涉及部署/runtime 变更；如果加入 CI/CD 或 OpenClaw runtime 变更则参与。
-- `research`：
-  - 原因：实现前已完成先例调研。
-
-## 升级条件
-
-- Upgrade to Level 2 if：不适用，当前已经是 Level 3。
-- Upgrade to Level 3 if：已经是 Level 3。
-- Add Level 4 overlay if：加入 push/release/runtime config/external-write 工作。
-- Ask user before：推送到 GitHub、开 PR、发布或修改 runtime config。
+- Context for TEAM.md：这是工作流/协议文档任务，需要验证覆盖。
+- Known constraints：不修改 runtime config，不做外部写入，除非用户另行批准。
+- User confirmations required：GitHub push、PR、release 或 runtime config 变更。
 
 ## 重新路由日志
 
 | 时间 | 变更 | 原因 |
 |---|---|---|
-| 2026-05-30 | 初始 Level 3 路由 | 用户要求持久化路由决策优化 |
+| 2026-05-30 | 初始进入 Multi-Agent | 用户要求持久化路由决策模型 |

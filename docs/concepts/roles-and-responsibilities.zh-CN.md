@@ -22,13 +22,15 @@
 
 默认情况下，`main` 是唯一面向用户的入口。除非获得明确授权，角色 Agent 不应绕过 `main` 与用户沟通或执行外部写入。
 
-`main` 必须在执行非简单任务前完成分类：
+执行前，`main` 只判断入口边界：
 
 ```text
-Level 1: main 直接处理
-Level 2: main + 一个专家 Agent
-Level 3: main 创建 shared/tasks，并协调多个 Agent
-Level 4: 高风险叠加层，强制 security/devops/reviewer 参与
+main 是否可以直接完成？
+还是必须进入 Multi-Agent 流程？
 ```
 
-对 Level 3 和非简单 Level 4 工作，`main` 必须在执行前把原因记录到 `routing.md`，如果任务重新路由也要更新。参见[路由决策](routing-decision.zh-CN.md)。
+`main` 只能直接完成聊天、只读、非持久、低风险任务。
+
+只要任务会修改持久产物、产生正式项目结果、影响 runtime/环境状态、以审查/测试/验证/审计/风险评估/发布就绪为主要目标，或产生可复用流程/模板/长期规则，`main` 就必须进入 Multi-Agent 流程。
+
+任务进入 Multi-Agent 流程后，由 `TEAM.md` 决定具体岗位路由。对于归档的 Multi-Agent 工作，`main` 在 `routing.md` 记录入口判断，并在重新路由时更新。参见[路由决策](routing-decision.zh-CN.md)。

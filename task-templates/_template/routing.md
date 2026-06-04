@@ -2,67 +2,36 @@
 
 ## Decision
 
-- Level:
-- Mode: direct / single-role-assisted / multi-agent-archived / high-risk-overlay
+- Decision: direct / multi-agent
 - Created by:
 - Date:
 
 ## Reasoning
 
-- Complexity:
-- Impact:
-- Risk:
-- Durability need:
-- Uncertainty:
+- Is the task chat/read-only/non-durable/low-risk?
+- Why direct handling is allowed or not:
 - User override:
 
-## Score
+## Direct handling allowed
 
-| Dimension | Score | Notes |
-|---|---:|---|
-| Complexity |  |  |
-| Impact |  |  |
-| Roles |  |  |
-| Risk |  |  |
-| Durability |  |  |
-| Uncertainty |  |  |
-| Total |  |  |
+- Chat or explanation:
+- Read-only inspection:
+- Non-durable planning/advice:
+- Low-risk:
 
-## High-risk triggers
+## Mandatory Multi-Agent entry triggers
 
-- Secrets/credentials/private config:
-- Auth/authorization/network exposure:
-- Destructive or irreversible writes:
-- Runtime/Gateway/model/provider/scheduler config:
-- systemd/cron/nginx/SSH/DNS/CI/CD/deployment/release:
-- External writes/public resources:
-- Privacy-sensitive data/memory/session transcript:
+- Durable artifacts: code/docs/scripts/tests/templates/configs/workflows/project protocols:
+- Formal project outcomes: commit/tag/release/push/PR/changelog/version change:
+- Runtime/environment state: OpenClaw runtime/Gateway/agent workspace/memory/sessions/state/cron/service/shell rc/routing/DNS/network:
+- Review/testing/verification/audit/risk assessment/release readiness:
+- Reusable procedures/templates/skills/SOPs/long-term rules:
 
-## Selected Agents
+## Notes for TEAM.md routing
 
-- `main`:
-- `pm`:
-- `architect`:
-- `backend`:
-- `frontend`:
-- `qa`:
-- `reviewer`:
-- `security`:
-- `devops`:
-- `docs`:
-- `research`:
-
-## Not Selected
-
-- Agent:
-  - Reason:
-
-## Escalation conditions
-
-- Upgrade to Level 2 if:
-- Upgrade to Level 3 if:
-- Add Level 4 overlay if:
-- Ask user before:
+- Context for TEAM.md:
+- Known constraints:
+- User confirmations required:
 
 ## Re-routing log
 

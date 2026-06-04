@@ -33,4 +33,4 @@ research.md
 final.md
 ```
 
-`routing.md` 记录 `main` 为什么选择直接处理、一个专家、完整多 Agent 档案或高风险审查叠加层。Level 3 多 Agent 工作和非简单 Level 4 工作必须包含它。参见[路由决策](routing-decision.zh-CN.md)。
+`routing.md` 记录 `main` 是否可以直接完成任务，还是必须进入 Multi-Agent 流程。归档的 Multi-Agent 工作必须包含它。参见[路由决策](routing-decision.zh-CN.md)。
