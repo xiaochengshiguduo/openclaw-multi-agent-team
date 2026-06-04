@@ -5,6 +5,7 @@
 ## 1.1.0 - 2026-06-04
 
 - 收紧 `main` 自处理边界：`main` 只能直接完成聊天、只读、非持久、低风险任务；持久产物、正式项目结果、runtime/环境变更、审查/测试/验证/审计/风险评估和可复用长期流程必须进入 Multi-Agent 流程。
+- 强化 `TEAM.md` 作为进入 Multi-Agent 后的调度手册，新增调度模式、串行/并行协作规则、冲突处理、Agent 权限矩阵和完成定义。
 - 新增 `scripts/update-runtime-workspace.sh` 公开 clone/update wrapper，使已经使用过的 runtime workspace 可以用类似 `bash -c "$(curl -fsSL .../scripts/update-runtime-workspace.sh)" -- --apply` 的远程命令更新。
 - 新增 `scripts/update-runtime-workspace.js`，用于已经使用过一段时间的 OpenClaw runtime workspace 的 manifest 驱动增量更新。
 - 新增版本化 runtime update manifest：`updates/runtime/1.1.0.json`。

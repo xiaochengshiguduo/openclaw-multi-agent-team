@@ -60,6 +60,8 @@ run(process.execPath, [path.join(root, 'tests', 'smoke', 'markdown-language-pair
 console.log('ok markdown language pairs');
 run(process.execPath, [path.join(root, 'tests', 'smoke', 'routing-decision.js')]);
 console.log('ok routing decision');
+run(process.execPath, [path.join(root, 'tests', 'smoke', 'team-dispatch-protocol.js')]);
+console.log('ok team dispatch protocol');
 run(process.execPath, [path.join(root, 'tests', 'smoke', 'role-agent-protocols.js')]);
 console.log('ok role agent protocols');
 for (const smokeTest of [

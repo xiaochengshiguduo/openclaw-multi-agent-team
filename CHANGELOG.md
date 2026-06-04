@@ -5,6 +5,7 @@ English | [中文](CHANGELOG.zh-CN.md)
 ## 1.1.0 - 2026-06-04
 
 - Tightened the `main` self-handling boundary: `main` may directly complete only chat, read-only, non-durable, low-risk tasks; durable artifacts, formal project outcomes, runtime/environment changes, review/testing/verification/audit/risk assessment, and reusable long-term procedures must enter the Multi-Agent workflow.
+- Hardened `TEAM.md` as the post-entry Multi-Agent dispatch manual with dispatch modes, serial/parallel coordination rules, conflict handling, an Agent permission matrix, and completion criteria.
 - Added `scripts/update-runtime-workspace.sh`, a public clone/update wrapper so used runtime workspaces can be updated with a remote command such as `bash -c "$(curl -fsSL .../scripts/update-runtime-workspace.sh)" -- --apply`.
 - Added `scripts/update-runtime-workspace.js`, a manifest-driven updater for already-used OpenClaw runtime workspaces.
 - Added versioned runtime update manifest `updates/runtime/1.1.0.json`.
