@@ -8,6 +8,7 @@
 - 强化 `TEAM.md` 作为进入 Multi-Agent 后的调度手册，新增调度模式、串行/并行协作规则、冲突处理、Agent 权限矩阵和完成定义。
 - 扩展 `TEAM.md` 的进入 Multi-Agent 后任务路由示例，并为每个 `roles/*/AGENTS.md` 增加岗位专属 checklist。
 - 新增 bash 一键部署/更新远程命令形态的 smoke 覆盖。
+- 收紧角色 `SOUL.md` 的治理/安全边界，并新增 SOUL 协议 smoke 覆盖。
 - 新增 `scripts/update-runtime-workspace.sh` 公开 clone/update wrapper，使已经使用过的 runtime workspace 可以用类似 `bash -c "$(curl -fsSL .../scripts/update-runtime-workspace.sh)" -- --apply` 的远程命令更新。
 - 新增 `scripts/update-runtime-workspace.js`，用于已经使用过一段时间的 OpenClaw runtime workspace 的 manifest 驱动增量更新。
 - 新增版本化 runtime update manifest：`updates/runtime/1.1.0.json`。

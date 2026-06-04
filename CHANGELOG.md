@@ -8,6 +8,7 @@ English | [中文](CHANGELOG.zh-CN.md)
 - Hardened `TEAM.md` as the post-entry Multi-Agent dispatch manual with dispatch modes, serial/parallel coordination rules, conflict handling, an Agent permission matrix, and completion criteria.
 - Expanded `TEAM.md` with detailed post-entry task routing examples, and added role-specific checklists to every `roles/*/AGENTS.md` file.
 - Added smoke coverage for bash one-click deployment/update remote command shapes.
+- Tightened role `SOUL.md` governance/safety boundaries and added SOUL protocol smoke coverage.
 - Added `scripts/update-runtime-workspace.sh`, a public clone/update wrapper so used runtime workspaces can be updated with a remote command such as `bash -c "$(curl -fsSL .../scripts/update-runtime-workspace.sh)" -- --apply`.
 - Added `scripts/update-runtime-workspace.js`, a manifest-driven updater for already-used OpenClaw runtime workspaces.
 - Added versioned runtime update manifest `updates/runtime/1.1.0.json`.

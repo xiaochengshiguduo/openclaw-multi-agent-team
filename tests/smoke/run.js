@@ -66,6 +66,8 @@ run(process.execPath, [path.join(root, 'tests', 'smoke', 'role-agent-protocols.j
 console.log('ok role agent protocols');
 run(process.execPath, [path.join(root, 'tests', 'smoke', 'role-checklists-protocol.js')]);
 console.log('ok role checklists protocol');
+run(process.execPath, [path.join(root, 'tests', 'smoke', 'role-soul-protocols.js')]);
+console.log('ok role SOUL protocols');
 for (const smokeTest of [
   'bootstrap-new-machine.test.js',
   'bash-remote-command-shape.test.js',
