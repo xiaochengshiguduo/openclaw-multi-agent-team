@@ -33,6 +33,12 @@ for (const needle of [
   '## Dependencies',
   '## Completion Criteria',
   'Permission level:',
+  '### 4.1 功能实现类',
+  '### 4.2 缺陷、事故和环境类',
+  '### 4.3 审查、验证和发布类',
+  '### 4.4 文档、调研和长期规则类',
+  '发布就绪判断',
+  '新增可复用 SOP / 模板 / skill',
   '`routing.md` 记录 main 入口判断以及进入 Multi-Agent 后的路由备注'
 ]) {
   assert(team.includes(needle), `TEAM.md missing: ${needle}`);

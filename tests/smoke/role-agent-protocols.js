@@ -30,6 +30,12 @@ for (const role of roles) {
   if (!text.includes('## 2. 岗位焦点')) {
     fail(`AGENTS.md for role ${role} is missing role focus section`);
   }
+  if (!text.includes(`${role} Checklist`)) {
+    fail(`AGENTS.md for role ${role} is missing role checklist`);
+  }
+  if (!text.includes('至少检查')) {
+    fail(`AGENTS.md for role ${role} checklist should include check items`);
+  }
   if (!text.includes('## 6. 输出格式') && !text.includes('## 7. 对用户输出')) {
     fail(`AGENTS.md for role ${role} is missing output guidance`);
   }

@@ -244,12 +244,36 @@ subagents.md
 
 ## 4. 常见任务路由示例
 
+以下示例只描述任务已经进入 Multi-Agent 后的路由方式；入口判断仍由 `AGENTS.md` / `routing.md` 负责。
+
+### 4.1 功能实现类
+
 - “加一个登录功能” → pm → architect → backend + frontend → security → qa → reviewer → main 汇总
+- “新增一个后端 API” → architect（接口/数据契约）→ backend → security（如涉及权限/外部输入）→ qa → reviewer → main 汇总
 - “修一个前端按钮样式” → frontend → qa 或 reviewer（视复杂度）→ main 汇总
+- “新增管理页面” → pm → architect → backend + frontend → qa → reviewer → docs（如需用户文档）→ main 汇总
+
+### 4.2 缺陷、事故和环境类
+
 - “接口报 500” → backend → devops（如涉及环境/日志）→ qa → main 汇总
-- “选一个向量数据库” → research → architect → main 汇总
+- “CI 失败 / 构建失败” → devops → backend/frontend（按失败模块）→ reviewer → main 汇总
+- “生产事故复盘” → devops → backend/frontend/security（按影响面）→ qa → docs（复盘/Runbook）→ main 汇总
+- “性能退化” → architect → backend/frontend/devops（按瓶颈）→ qa → reviewer → main 汇总
+
+### 4.3 审查、验证和发布类
+
 - “准备上线” → qa → security → devops → docs → main 确认
+- “发布就绪判断” → qa + reviewer + security + devops → docs（release notes）→ main 汇总
+- “安全审计” → security → backend/frontend/devops（按发现）→ reviewer → main 汇总
+- “代码质量专项审查” → reviewer → architect（如涉及结构性问题）→ qa（必要回归）→ main 汇总
+
+### 4.4 文档、调研和长期规则类
+
+- “选一个向量数据库” → research → architect → security/devops（按风险）→ main 汇总
 - “写 README” → docs → reviewer（可选）→ main 汇总
+- “新增可复用 SOP / 模板 / skill” → pm 或 architect（定义目标/边界）→ docs → reviewer → qa（验证示例）→ main 汇总
+- “修改团队协作协议” → architect → reviewer → docs（如需同步文档）→ main 汇总
+
 
 ## 5. 标准 Task Brief
 

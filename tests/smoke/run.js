@@ -64,6 +64,8 @@ run(process.execPath, [path.join(root, 'tests', 'smoke', 'team-dispatch-protocol
 console.log('ok team dispatch protocol');
 run(process.execPath, [path.join(root, 'tests', 'smoke', 'role-agent-protocols.js')]);
 console.log('ok role agent protocols');
+run(process.execPath, [path.join(root, 'tests', 'smoke', 'role-checklists-protocol.js')]);
+console.log('ok role checklists protocol');
 for (const smokeTest of [
   'bootstrap-new-machine.test.js',
   'generate-agent-workspaces.test.js',
