@@ -30,6 +30,7 @@
 - `status.md` — 状态流转和当前阶段。
 - `brief.md` — 任务目标、范围、约束、验收标准。
 - `plan.md` — 路由、步骤、当前 next action。
+- `subagents.md` — 子 Agent 登记、等待状态、恢复日志和清理记录。
 - `<role>.md` — 岗位输出，如 `pm.md`、`architecture.md`。
 - `final.md` — main 的最终整合和用户交付。
 
@@ -113,6 +114,58 @@ Route: `docs`
 Route: `research`
 
 触发条件：技术选型、竞品、API 文档、方案比较。
+
+## 5.1 子 Agent 可恢复调度 SOP
+
+当任务使用子 Agent 且可能跨 turn、runtime event、compact 或后台完成事件时，main 必须把等待关系写入任务档案，不只依赖 `sessions_yield` 的一次性回调。
+
+### Spawn 前
+
+1. 确认任务档案存在：`shared/tasks/<task-id>/`。
+2. 创建或更新 `subagents.md`。
+3. 为每个子 Agent 记录：
+   - `taskName`
+   - role
+   - label / session 线索
+   - cleanup 策略
+   - 状态：planned / running / waiting / completed / failed / recovered / archived
+   - 期望输出
+   - 结果归档路径
+
+重要任务默认 `cleanup: keep`。只有轻量任务、结果不需要恢复或 main 已完成归档后，才使用 `cleanup: delete`。
+
+### Yield 前
+
+在 `status.md` 中记录：
+
+```text
+Status: waiting-agent
+Waiting for agents:
+- <taskName>
+Recovery required on runtime event: yes
+```
+
+### Runtime event / compact 恢复后
+
+main 必须先执行 recovery lookup：
+
+1. 读取 `status.md` 和 `subagents.md`，确认等待对象。
+2. 使用 `subagents list` 查看 active/recent 子 Agent。
+3. 如果未找到，使用 `sessions_list` 按 label / taskName / role 查找。
+4. 找到会话后，用 `sessions_history` 拉取最终输出。
+5. 将输出归档到对应 `<role>.md` 或 `subagents/<taskName>.md`。
+6. 更新 `subagents.md` 和 `status.md`。
+
+如果 recovery lookup 失败，main 应标记 `[warning] subagent result unavailable after recovery lookup`，再决定重试、重新派发或自行完成；不得未经 lookup 直接断言“子 Agent 没结果”。
+
+### 清理条件
+
+只有满足以下条件才允许清理子 Agent 会话：
+
+- main 已读取输出。
+- 输出已归档到任务档案。
+- main 已完成冲突整合。
+- 不再需要继续追溯原始子 Agent 会话。
 
 ## 6. 给岗位 Agent 的 brief 必须包含
 

@@ -23,7 +23,7 @@ try {
   run(['--slug', 'smoke-test', '--tasks-root', tasksRoot, '--apply']);
   const dirs = fs.readdirSync(tasksRoot);
   if (dirs.length !== 1) throw new Error('expected exactly one task archive');
-  for (const file of ['metadata.md', 'routing.md', 'status.md', 'brief.md', 'plan.md']) {
+  for (const file of ['metadata.md', 'routing.md', 'status.md', 'brief.md', 'plan.md', 'subagents.md']) {
     if (!fs.existsSync(path.join(tasksRoot, dirs[0], file))) throw new Error(`missing task file: ${file}`);
   }
   console.log('ok create-task-archive smoke');

@@ -136,6 +136,35 @@ main 和岗位 Agent 都应区分“可以合理假设继续”和“必须追�
 
 追问时一次只问最关键的 1-3 个问题，并说明为什么这些问题会阻塞继续。
 
+### 3.2 子 Agent 可恢复调度协议
+
+当 main 使用子 Agent 且任务可能跨 turn、触发 `sessions_yield`、runtime event、会话压缩或后台完成事件时，必须启用可恢复调度协议，避免只依赖一次性的等待链。
+
+启用条件：
+
+- 需要 1 个以上子 Agent。
+- 任务进入 `waiting-agent` 状态。
+- main 使用 `sessions_yield` 等待子 Agent。
+- 任务涉及发布、安全、系统配置、部署、代码审查、QA 或其他需要可追溯输出的工作。
+- 用户明确要求“继续”“后台”“多 Agent”“审查”“正式方案”等可能跨回合的任务。
+
+要求：
+
+1. **spawn 前建档或更新任务档案**：在 `shared/tasks/<task-id>/` 中记录目标、状态和参与岗位。
+2. **登记子 Agent**：每个子 Agent 必须记录 `taskName`、role、label、cleanup 策略、状态、期望输出和结果路径。
+3. **重要任务默认 `cleanup: keep`**：只有轻量、一次性、结果已被 main 捕获且不需要恢复的子任务，才允许 `cleanup: delete`。
+4. **yield 前记录等待对象**：`status.md` 必须列出正在等待的 `taskName`，并标记 `Recovery required on runtime event: yes`。
+5. **runtime event / compact 恢复后先 recovery**：main 不得直接判定子 Agent 丢失或自行跳过；必须先查任务档案、`subagents list`、必要时 `sessions_list` / `sessions_history`。
+6. **归档后再清理**：只有当 main 已读取子 Agent 输出、写入任务档案并完成整合后，才允许清理子 Agent 会话。
+
+推荐新增任务档案文件：
+
+```text
+subagents.md
+```
+
+用于记录子 Agent 生命周期、等待状态、恢复线索和结果归档路径。模板见 `task-templates/_template/subagents.md`。
+
 ## 4. 常见任务路由示例
 
 - “加一个登录功能” → pm → architect → backend + frontend → security → qa → reviewer → main 汇总
@@ -227,6 +256,7 @@ shared/tasks/TASK-YYYYMMDD-HHMM-short-name/
 - `status.md`
 - `brief.md`
 - `plan.md`
+- `subagents.md`
 - `pm.md`
 - `requirements-package.md`
 - `architecture.md`
@@ -264,8 +294,9 @@ blocked | cancelled
 - `final`：main 整合冲突、写入 final.md、向用户交付。
 - `archived`：任务完成并停止活跃跟进。
 
-`metadata.md` 记录任务身份、来源、可见性、参与者和决策日志。  
+`metadata.md` 记录任务身份、来源、可见性、参与者和决策日志。
 `status.md` 记录当前阶段、状态、owner、阻塞项和下一步。
+`subagents.md` 记录子 Agent 的 taskName、会话线索、cleanup 策略、等待状态、恢复日志和结果归档路径。
 
 ## 10. main 调度 SOP
 

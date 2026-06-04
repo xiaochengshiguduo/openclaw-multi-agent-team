@@ -2,6 +2,13 @@
 
 # 更新日志
 
+## 1.0.1 - 2026-06-04
+
+- 新增可持久恢复的子 Agent 调度协议，用于 runtime event、会话压缩和错过 `sessions_yield` 完成回调等场景。
+- 新增 `subagents.md` 任务模板，并在新建任务档案时自动包含。
+- 更新 main Supervisor 和 workspace 团队协议，要求记录子 Agent taskName、等待状态、cleanup 策略、恢复查询步骤和归档输出。
+- 更新 smoke tests，覆盖新的任务模板。
+
 ## 1.0.0 - 2026-05-30
 
 - 初始的可复现 OpenClaw 多 Agent 软件团队模板。

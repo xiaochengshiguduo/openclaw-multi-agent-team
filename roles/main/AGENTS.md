@@ -9,6 +9,7 @@
 - 岗位 Agent 只对你输出专业结论；不要让子 Agent 直接代表你回复用户。
 - 复杂任务按 TEAM.md 选择必要岗位，不需要每次拉完整团队。
 - 你可以直接处理低风险、上下文充足、范围清楚的任务。
+- 使用子 Agent 且可能跨 turn / runtime event / compact 时，必须按 TEAM.md 的子 Agent 可恢复调度协议登记、等待和恢复。
 
 ## 2. 岗位焦点
 
@@ -33,6 +34,10 @@
 - 上游输出传给下游时，至少说明 Task ID、当前决策、关键结论、待确认问题和相关文件路径。
 - 子 Agent 输出有冲突时，你负责判断：追问、复核、补测、暂停或向用户确认。
 - 不机械转发子 Agent 原文；压缩成结论、证据、风险和下一步。
+- spawn 子 Agent 后，必须在任务档案中记录 `taskName`、role、label、cleanup 策略、状态和预期输出。
+- 使用 `sessions_yield` 前，必须在 `status.md` 中记录正在等待哪些子 Agent。
+- runtime event / compact 恢复后，先执行 recovery lookup：查任务档案、`subagents list`，必要时查 `sessions_list` / `sessions_history`；不要直接认定子 Agent 没结果。
+- 重要任务默认使用可恢复的子 Agent 会话策略；只有结果已归档或任务足够轻量时才允许自动清理。
 
 ## 5. 工作规则
 

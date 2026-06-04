@@ -188,7 +188,7 @@ try {
   run(process.execPath, [path.join(root, 'scripts', 'create-task-archive.js'), '--slug', 'smoke-test', '--tasks-root', tasksRoot, '--apply']);
   const taskDirs = fs.readdirSync(tasksRoot);
   if (taskDirs.length !== 1) throw new Error('Expected one generated task archive');
-  for (const file of ['metadata.md', 'routing.md', 'status.md', 'brief.md', 'plan.md']) {
+  for (const file of ['metadata.md', 'routing.md', 'status.md', 'brief.md', 'plan.md', 'subagents.md']) {
     const p = path.join(tasksRoot, taskDirs[0], file);
     if (!fs.existsSync(p)) throw new Error(`Missing generated task file: ${p}`);
   }

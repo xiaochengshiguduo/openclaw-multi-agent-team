@@ -69,8 +69,9 @@ const taskTemplate = read('docs/reference/task-template.md');
 assert(taskTemplate.includes('- `routing.md`'), 'task-template.md must list routing.md');
 
 const constants = read('scripts/lib/constants.js');
-assert(constants.includes("TASK_TEMPLATE_FILES = ['metadata.md', 'routing.md', 'status.md', 'brief.md', 'plan.md']"), 'TASK_TEMPLATE_FILES must include routing.md');
+assert(constants.includes("TASK_TEMPLATE_FILES = ['metadata.md', 'routing.md', 'status.md', 'brief.md', 'plan.md', 'subagents.md']"), 'TASK_TEMPLATE_FILES must include routing.md and subagents.md');
 assert(constants.includes("'metadata.md', 'routing.md', 'status.md'"), 'ALL_TASK_TEMPLATE_FILES must include routing.md');
+assert(constants.includes("'plan.md', 'subagents.md', 'agent-output.md'"), 'ALL_TASK_TEMPLATE_FILES must include subagents.md');
 
 const template = read('task-templates/_template/routing.md');
 for (const needle of ['## Decision', '## Reasoning', '## Score', '## High-risk triggers', '## Selected Agents', '## Re-routing log']) {

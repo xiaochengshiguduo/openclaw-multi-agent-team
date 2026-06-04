@@ -85,6 +85,30 @@ No active work remains.
 
 - [blocking] ...
 
+## Waiting For Agents
+
+Use this section when status is `waiting-agent` or when main has yielded for sub-agent work.
+
+- Recovery required on runtime event: yes | no
+- Waiting for:
+  - taskName: <stable-task-name>
+    role: pm | architect | backend | frontend | qa | reviewer | security | devops | docs | research
+    label: <session label if known>
+    expected output: <short description>
+    result path: <role.md or subagents/taskName.md>
+
+## Recovery Checklist
+
+After runtime event / compact / continuation while waiting for agents:
+
+- [ ] Read this `status.md` and `subagents.md`.
+- [ ] Check active/recent subagents.
+- [ ] If needed, search sessions by label/taskName.
+- [ ] Pull session history for completed agents.
+- [ ] Archive recovered outputs into task files.
+- [ ] Update agent status and transition log.
+- [ ] Only then decide whether to continue waiting, retry, or proceed without the agent.
+
 ## Next Action
 
 - ...
