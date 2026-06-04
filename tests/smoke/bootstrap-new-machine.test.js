@@ -28,7 +28,7 @@ function copyDir(src, dst) {
 function makeStandaloneRepo(tmp) {
   const dest = path.join(tmp, 'repo');
   copyDir(root, dest);
-  let r = spawnSync('git', ['init'], { cwd: dest, encoding: 'utf8' });
+  let r = spawnSync('git', ['init', '-b', 'main'], { cwd: dest, encoding: 'utf8' });
   if (r.status !== 0) throw new Error(r.stderr || 'git init failed');
   r = spawnSync('git', ['add', '.'], { cwd: dest, encoding: 'utf8' });
   if (r.status !== 0) throw new Error(r.stderr || 'git add failed');
