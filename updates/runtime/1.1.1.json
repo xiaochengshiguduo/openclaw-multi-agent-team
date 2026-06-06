@@ -1,0 +1,28 @@
+{
+  "version": "1.1.1",
+  "description": "Add subagent model override protocol to workspace instructions.",
+  "files": [
+    {
+      "source": "roles/main/AGENTS.md",
+      "target": "workspace/AGENTS.md",
+      "strategy": "managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "workspace-template/TEAM.md",
+      "target": "workspace/TEAM.md",
+      "strategy": "managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "task-templates/_template/subagents.md",
+      "target": "workspace/shared/tasks/_template/subagents.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    }
+  ],
+  "restart": {
+    "default": true,
+    "reason": "Reload updated workspace instructions with subagent model protocol."
+  }
+}

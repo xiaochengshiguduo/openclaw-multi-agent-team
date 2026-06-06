@@ -76,7 +76,7 @@ const templateSop = fs.readFileSync(path.join(root, 'task-templates', '_template
     const team = fs.readFileSync(path.join(target, 'workspace', 'TEAM.md'), 'utf8');
     assert(team.includes('managed-by: openclaw-multi-agent-team'), 'managed marker missing');
     const state = readJson(path.join(target, 'state', 'openclaw-multi-agent-team', 'update-state.json'));
-    assert(state.version === '1.1.0', 'state version not updated');
+    assert(state.version === '1.1.1', 'state version not updated');
   } finally { cleanTarget(target); }
 }
 
@@ -179,7 +179,7 @@ const templateSop = fs.readFileSync(path.join(root, 'task-templates', '_template
     assert(match, 'backup path missing from overwrite output');
     assert(fs.readFileSync(path.join(match[1].trim(), 'workspace', 'TEAM.md'), 'utf8') === before, 'backup does not contain pre-overwrite content');
     const newState = readJson(statePath);
-    assert(newState.version === '1.1.0', 'state version not advanced after overwrite');
+    assert(newState.version === '1.1.1', 'state version not advanced after overwrite');
     assert(newState.files['workspace/TEAM.md'].sha256 === sha256Text(after), 'state hash not updated after overwrite');
   } finally { cleanTarget(target); }
 }
@@ -269,7 +269,7 @@ function writeCumulativeManifestFixture(tmpRepo, opts = {}) {
     files: [{ source: sourceC, target: 'workspace/TEAM.md', strategy: 'managed-overwrite', kind: 'workspace', previousSha256: opts.badPreviousSha ? ['0'.repeat(64)] : [sha256Text(contentB)] }],
     restart: { default: true, reason: 'Reload 1.3 runtime files.' }
   }, null, 2));
-  return { sourceA, sourceB, sourceC, contentA, contentB, contentC };
+  return { sourceA, sourceB, sourceC, bodyA, bodyB, bodyC, contentA, contentB, contentC };
 }
 
 function writeUpdaterState(target, version, files) {
@@ -286,9 +286,20 @@ function writeUpdaterState(target, version, files) {
   try {
     const fx = writeCumulativeManifestFixture(tmpRepo);
     const teamPath = path.join(target, 'workspace', 'TEAM.md');
-    fs.mkdirSync(path.dirname(teamPath), { recursive: true });
-    fs.writeFileSync(teamPath, fx.contentA);
-    writeUpdaterState(target, '1.1.0', { 'workspace/TEAM.md': { sha256: sha256Text(fx.contentA), source: fx.sourceA, version: '1.1.0' } });
+    fs.mkdirSync(path.join(target, 'workspace', 'shared', 'tasks', '_template'), { recursive: true });
+    const managedTeamA = managedContent(fx.sourceA, '1.1.1', fx.bodyA);
+    fs.writeFileSync(teamPath, managedTeamA);
+    fs.writeFileSync(path.join(target, 'workspace', 'AGENTS.md'), managedContent('roles/main/AGENTS.md', '1.1.1', templateAgents));
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'subagents.md'), managedContent('task-templates/_template/subagents.md', '1.1.1', fs.readFileSync(path.join(root, 'task-templates', '_template', 'subagents.md'), 'utf8')));
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'status.md'), managedContent('task-templates/_template/status.md', '1.1.1', templateStatus));
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'main-supervisor-sop.md'), managedContent('task-templates/_template/main-supervisor-sop.md', '1.1.1', templateSop));
+    writeUpdaterState(target, '1.1.1', {
+      'workspace/TEAM.md': { sha256: sha256Text(managedTeamA), source: fx.sourceA, version: '1.1.1' },
+      'workspace/AGENTS.md': { sha256: sha256Text(managedContent('roles/main/AGENTS.md', '1.1.1', templateAgents)), source: 'roles/main/AGENTS.md', version: '1.1.1' },
+      'workspace/shared/tasks/_template/subagents.md': { sha256: sha256Text(managedContent('task-templates/_template/subagents.md', '1.1.1', fs.readFileSync(path.join(root, 'task-templates', '_template', 'subagents.md'), 'utf8'))), source: 'task-templates/_template/subagents.md', version: '1.1.1' },
+      'workspace/shared/tasks/_template/status.md': { sha256: sha256Text(managedContent('task-templates/_template/status.md', '1.1.1', templateStatus)), source: 'task-templates/_template/status.md', version: '1.1.1' },
+      'workspace/shared/tasks/_template/main-supervisor-sop.md': { sha256: sha256Text(managedContent('task-templates/_template/main-supervisor-sop.md', '1.1.1', templateSop)), source: 'task-templates/_template/main-supervisor-sop.md', version: '1.1.1' }
+    });
     const r = spawnSync(process.execPath, [path.join(tmpRepo, 'scripts', 'update-runtime-workspace.js'), '--target', target, '--apply', '--no-restart', '--to', '1.3.0'], { encoding: 'utf8' });
     assert(r.status === 0, 'expected cumulative apply success, got ' + r.status + '\nstdout=' + r.stdout + '\nstderr=' + r.stderr);
     assert(fs.readFileSync(teamPath, 'utf8') === fx.contentC, 'final cumulative content was not applied');
@@ -309,12 +320,23 @@ function writeUpdaterState(target, version, files) {
   try {
     const fx = writeCumulativeManifestFixture(tmpRepo);
     const teamPath = path.join(target, 'workspace', 'TEAM.md');
-    fs.mkdirSync(path.dirname(teamPath), { recursive: true });
-    fs.writeFileSync(teamPath, fx.contentA + 'local edit\n');
-    writeUpdaterState(target, '1.1.0', { 'workspace/TEAM.md': { sha256: sha256Text(fx.contentA), source: fx.sourceA, version: '1.1.0' } });
+    fs.mkdirSync(path.join(target, 'workspace', 'shared', 'tasks', '_template'), { recursive: true });
+    const managedTeamA = managedContent(fx.sourceA, '1.1.1', fx.bodyA);
+    fs.writeFileSync(teamPath, managedTeamA + 'local edit\n');
+    fs.writeFileSync(path.join(target, 'workspace', 'AGENTS.md'), managedContent('roles/main/AGENTS.md', '1.1.1', templateAgents));
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'subagents.md'), managedContent('task-templates/_template/subagents.md', '1.1.1', fs.readFileSync(path.join(root, 'task-templates', '_template', 'subagents.md'), 'utf8')));
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'status.md'), managedContent('task-templates/_template/status.md', '1.1.1', templateStatus));
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'main-supervisor-sop.md'), managedContent('task-templates/_template/main-supervisor-sop.md', '1.1.1', templateSop));
+    writeUpdaterState(target, '1.1.1', {
+      'workspace/TEAM.md': { sha256: sha256Text(managedTeamA), source: fx.sourceA, version: '1.1.1' },
+      'workspace/AGENTS.md': { sha256: sha256Text(managedContent('roles/main/AGENTS.md', '1.1.1', templateAgents)), source: 'roles/main/AGENTS.md', version: '1.1.1' },
+      'workspace/shared/tasks/_template/subagents.md': { sha256: sha256Text(managedContent('task-templates/_template/subagents.md', '1.1.1', fs.readFileSync(path.join(root, 'task-templates', '_template', 'subagents.md'), 'utf8'))), source: 'task-templates/_template/subagents.md', version: '1.1.1' },
+      'workspace/shared/tasks/_template/status.md': { sha256: sha256Text(managedContent('task-templates/_template/status.md', '1.1.1', templateStatus)), source: 'task-templates/_template/status.md', version: '1.1.1' },
+      'workspace/shared/tasks/_template/main-supervisor-sop.md': { sha256: sha256Text(managedContent('task-templates/_template/main-supervisor-sop.md', '1.1.1', templateSop)), source: 'task-templates/_template/main-supervisor-sop.md', version: '1.1.1' }
+    });
     const r = spawnSync(process.execPath, [path.join(tmpRepo, 'scripts', 'update-runtime-workspace.js'), '--target', target, '--apply', '--no-restart', '--to', '1.3.0'], { encoding: 'utf8' });
     assert(r.status === 2, 'expected cumulative user-edit conflict exit 2, got ' + r.status);
-    assert(fs.readFileSync(teamPath, 'utf8') === fx.contentA + 'local edit\n', 'user edit was overwritten');
+    assert(fs.readFileSync(teamPath, 'utf8') === managedTeamA + 'local edit\n', 'user edit was overwritten');
   } finally { cleanTarget(target); fs.rmSync(tmpRepo, { recursive: true, force: true }); }
 }
 
@@ -326,12 +348,23 @@ function writeUpdaterState(target, version, files) {
   try {
     const fx = writeCumulativeManifestFixture(tmpRepo, { badPreviousSha: true });
     const teamPath = path.join(target, 'workspace', 'TEAM.md');
-    fs.mkdirSync(path.dirname(teamPath), { recursive: true });
-    fs.writeFileSync(teamPath, fx.contentA);
-    writeUpdaterState(target, '1.1.0', { 'workspace/TEAM.md': { sha256: sha256Text(fx.contentA), source: fx.sourceA, version: '1.1.0' } });
+    fs.mkdirSync(path.join(target, 'workspace', 'shared', 'tasks', '_template'), { recursive: true });
+    const managedTeamA = managedContent(fx.sourceA, '1.1.1', fx.bodyA);
+    fs.writeFileSync(teamPath, managedTeamA);
+    fs.writeFileSync(path.join(target, 'workspace', 'AGENTS.md'), managedContent('roles/main/AGENTS.md', '1.1.1', templateAgents));
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'subagents.md'), managedContent('task-templates/_template/subagents.md', '1.1.1', fs.readFileSync(path.join(root, 'task-templates', '_template', 'subagents.md'), 'utf8')));
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'status.md'), managedContent('task-templates/_template/status.md', '1.1.1', templateStatus));
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'main-supervisor-sop.md'), managedContent('task-templates/_template/main-supervisor-sop.md', '1.1.1', templateSop));
+    writeUpdaterState(target, '1.1.1', {
+      'workspace/TEAM.md': { sha256: sha256Text(managedTeamA), source: fx.sourceA, version: '1.1.1' },
+      'workspace/AGENTS.md': { sha256: sha256Text(managedContent('roles/main/AGENTS.md', '1.1.1', templateAgents)), source: 'roles/main/AGENTS.md', version: '1.1.1' },
+      'workspace/shared/tasks/_template/subagents.md': { sha256: sha256Text(managedContent('task-templates/_template/subagents.md', '1.1.1', fs.readFileSync(path.join(root, 'task-templates', '_template', 'subagents.md'), 'utf8'))), source: 'task-templates/_template/subagents.md', version: '1.1.1' },
+      'workspace/shared/tasks/_template/status.md': { sha256: sha256Text(managedContent('task-templates/_template/status.md', '1.1.1', templateStatus)), source: 'task-templates/_template/status.md', version: '1.1.1' },
+      'workspace/shared/tasks/_template/main-supervisor-sop.md': { sha256: sha256Text(managedContent('task-templates/_template/main-supervisor-sop.md', '1.1.1', templateSop)), source: 'task-templates/_template/main-supervisor-sop.md', version: '1.1.1' }
+    });
     const r = spawnSync(process.execPath, [path.join(tmpRepo, 'scripts', 'update-runtime-workspace.js'), '--target', target, '--apply', '--no-restart', '--to', '1.3.0'], { encoding: 'utf8' });
     assert(r.status === 2, 'expected bad intermediate previousSha conflict exit 2, got ' + r.status);
-    assert(fs.readFileSync(teamPath, 'utf8') === fx.contentA, 'bad previousSha update was applied');
+    assert(fs.readFileSync(teamPath, 'utf8') === managedTeamA, 'bad previousSha update was applied');
   } finally { cleanTarget(target); fs.rmSync(tmpRepo, { recursive: true, force: true }); }
 }
 
@@ -342,7 +375,17 @@ function writeUpdaterState(target, version, files) {
   const tmpRepo = makeTempRepo();
   try {
     writeCumulativeManifestFixture(tmpRepo, { firstStrategy: 'managed-overwrite' });
-    writeUpdaterState(target, '1.1.0', {});
+    fs.mkdirSync(path.join(target, 'workspace', 'shared', 'tasks', '_template'), { recursive: true });
+    fs.writeFileSync(path.join(target, 'workspace', 'AGENTS.md'), managedContent('roles/main/AGENTS.md', '1.1.1', templateAgents));
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'subagents.md'), managedContent('task-templates/_template/subagents.md', '1.1.1', fs.readFileSync(path.join(root, 'task-templates', '_template', 'subagents.md'), 'utf8')));
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'status.md'), managedContent('task-templates/_template/status.md', '1.1.1', templateStatus));
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'main-supervisor-sop.md'), managedContent('task-templates/_template/main-supervisor-sop.md', '1.1.1', templateSop));
+    writeUpdaterState(target, '1.1.1', {
+      'workspace/AGENTS.md': { sha256: sha256Text(managedContent('roles/main/AGENTS.md', '1.1.1', templateAgents)), source: 'roles/main/AGENTS.md', version: '1.1.1' },
+      'workspace/shared/tasks/_template/subagents.md': { sha256: sha256Text(managedContent('task-templates/_template/subagents.md', '1.1.1', fs.readFileSync(path.join(root, 'task-templates', '_template', 'subagents.md'), 'utf8'))), source: 'task-templates/_template/subagents.md', version: '1.1.1' },
+      'workspace/shared/tasks/_template/status.md': { sha256: sha256Text(managedContent('task-templates/_template/status.md', '1.1.1', templateStatus)), source: 'task-templates/_template/status.md', version: '1.1.1' },
+      'workspace/shared/tasks/_template/main-supervisor-sop.md': { sha256: sha256Text(managedContent('task-templates/_template/main-supervisor-sop.md', '1.1.1', templateSop)), source: 'task-templates/_template/main-supervisor-sop.md', version: '1.1.1' }
+    });
     const r = spawnSync(process.execPath, [path.join(tmpRepo, 'scripts', 'update-runtime-workspace.js'), '--target', target, '--apply', '--no-restart', '--to', '1.3.0'], { encoding: 'utf8' });
     assert(r.status === 2, 'expected missing managed-overwrite conflict exit 2, got ' + r.status);
     assert(!fs.existsSync(path.join(target, 'workspace', 'TEAM.md')), 'missing managed-overwrite target was created');

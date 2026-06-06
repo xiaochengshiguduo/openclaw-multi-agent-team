@@ -73,5 +73,25 @@ if (fs.existsSync(examplesDir)) {
   }
 }
 
+// Check that runtime manifest 1.1.1 exists and includes the protocol files
+const manifest111Path = path.join(root, 'updates', 'runtime', '1.1.1.json');
+assert(fs.existsSync(manifest111Path), 'updates/runtime/1.1.1.json missing');
+
+const manifest111 = JSON.parse(fs.readFileSync(manifest111Path, 'utf8'));
+assert(manifest111.version === '1.1.1', 'manifest version should be 1.1.1');
+assert(manifest111.description.includes('subagent model') || manifest111.description.includes('model override'), 'manifest description should reference model protocol');
+
+const requiredFiles = [
+  { source: 'roles/main/AGENTS.md', target: 'workspace/AGENTS.md' },
+  { source: 'workspace-template/TEAM.md', target: 'workspace/TEAM.md' },
+  { source: 'task-templates/_template/subagents.md', target: 'workspace/shared/tasks/_template/subagents.md' }
+];
+
+for (const rf of requiredFiles) {
+  const entry = manifest111.files.find((f) => f.source === rf.source && f.target === rf.target);
+  assert(entry, `manifest 1.1.1 missing file: ${rf.source} -> ${rf.target}`);
+  assert(entry.strategy === 'managed-overwrite' || entry.strategy === 'create-or-managed-overwrite', `manifest 1.1.1 file ${rf.target} should use safe strategy`);
+}
+
 if (failures) process.exit(1);
 console.log('ok subagent model override protocol');
