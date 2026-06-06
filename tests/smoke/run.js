@@ -76,6 +76,9 @@ for (const smokeTest of [
   'configure-agent-to-agent.dry-run.test.js',
   'healthcheck-local.test.js',
   'create-task-archive.test.js',
+  'runtime-localization-inventory.test.js',
+  'runtime-localization-bilingual-mirrors.test.js',
+  'runtime-localization-source-resolution.test.js',
   'update-runtime-workspace.test.js',
   'update-runtime-workspace-wrapper.test.js'
 ]) {

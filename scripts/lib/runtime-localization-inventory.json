@@ -1,0 +1,284 @@
+{
+  "schemaVersion": 1,
+  "description": "English runtime source files that must participate in runtime localization. Chinese mirrors are expected beside these sources as .zh-CN.md in the localization implementation phase, but are intentionally not required or created by this Step 2 inventory.",
+  "languages": [
+    "en",
+    "zh-CN"
+  ],
+  "defaultLanguage": "en",
+  "localizedMirrorSuffix": ".zh-CN.md",
+  "sourceFiles": [
+    {
+      "path": "roles/main/AGENTS.md",
+      "kind": "role-agents",
+      "role": "main",
+      "target": "workspace/AGENTS.md"
+    },
+    {
+      "path": "roles/main/SOUL.md",
+      "kind": "role-soul",
+      "role": "main",
+      "target": "workspace/SOUL.md"
+    },
+    {
+      "path": "roles/pm/AGENTS.md",
+      "kind": "role-agents",
+      "role": "pm",
+      "target": "workspace-pm/AGENTS.md"
+    },
+    {
+      "path": "roles/pm/SOUL.md",
+      "kind": "role-soul",
+      "role": "pm",
+      "target": "workspace-pm/SOUL.md"
+    },
+    {
+      "path": "roles/architect/AGENTS.md",
+      "kind": "role-agents",
+      "role": "architect",
+      "target": "workspace-architect/AGENTS.md"
+    },
+    {
+      "path": "roles/architect/SOUL.md",
+      "kind": "role-soul",
+      "role": "architect",
+      "target": "workspace-architect/SOUL.md"
+    },
+    {
+      "path": "roles/backend/AGENTS.md",
+      "kind": "role-agents",
+      "role": "backend",
+      "target": "workspace-backend/AGENTS.md"
+    },
+    {
+      "path": "roles/backend/SOUL.md",
+      "kind": "role-soul",
+      "role": "backend",
+      "target": "workspace-backend/SOUL.md"
+    },
+    {
+      "path": "roles/frontend/AGENTS.md",
+      "kind": "role-agents",
+      "role": "frontend",
+      "target": "workspace-frontend/AGENTS.md"
+    },
+    {
+      "path": "roles/frontend/SOUL.md",
+      "kind": "role-soul",
+      "role": "frontend",
+      "target": "workspace-frontend/SOUL.md"
+    },
+    {
+      "path": "roles/qa/AGENTS.md",
+      "kind": "role-agents",
+      "role": "qa",
+      "target": "workspace-qa/AGENTS.md"
+    },
+    {
+      "path": "roles/qa/SOUL.md",
+      "kind": "role-soul",
+      "role": "qa",
+      "target": "workspace-qa/SOUL.md"
+    },
+    {
+      "path": "roles/reviewer/AGENTS.md",
+      "kind": "role-agents",
+      "role": "reviewer",
+      "target": "workspace-reviewer/AGENTS.md"
+    },
+    {
+      "path": "roles/reviewer/SOUL.md",
+      "kind": "role-soul",
+      "role": "reviewer",
+      "target": "workspace-reviewer/SOUL.md"
+    },
+    {
+      "path": "roles/security/AGENTS.md",
+      "kind": "role-agents",
+      "role": "security",
+      "target": "workspace-security/AGENTS.md"
+    },
+    {
+      "path": "roles/security/SOUL.md",
+      "kind": "role-soul",
+      "role": "security",
+      "target": "workspace-security/SOUL.md"
+    },
+    {
+      "path": "roles/devops/AGENTS.md",
+      "kind": "role-agents",
+      "role": "devops",
+      "target": "workspace-devops/AGENTS.md"
+    },
+    {
+      "path": "roles/devops/SOUL.md",
+      "kind": "role-soul",
+      "role": "devops",
+      "target": "workspace-devops/SOUL.md"
+    },
+    {
+      "path": "roles/docs/AGENTS.md",
+      "kind": "role-agents",
+      "role": "docs",
+      "target": "workspace-docs/AGENTS.md"
+    },
+    {
+      "path": "roles/docs/SOUL.md",
+      "kind": "role-soul",
+      "role": "docs",
+      "target": "workspace-docs/SOUL.md"
+    },
+    {
+      "path": "roles/research/AGENTS.md",
+      "kind": "role-agents",
+      "role": "research",
+      "target": "workspace-research/AGENTS.md"
+    },
+    {
+      "path": "roles/research/SOUL.md",
+      "kind": "role-soul",
+      "role": "research",
+      "target": "workspace-research/SOUL.md"
+    },
+    {
+      "path": "workspace-template/AGENTS.md",
+      "kind": "workspace-template",
+      "target": "AGENTS.md"
+    },
+    {
+      "path": "workspace-template/SOUL.md",
+      "kind": "workspace-template",
+      "target": "SOUL.md"
+    },
+    {
+      "path": "workspace-template/TEAM.md",
+      "kind": "workspace-template",
+      "target": "TEAM.md"
+    },
+    {
+      "path": "workspace-template/USER.template.md",
+      "kind": "workspace-template",
+      "target": "USER.md"
+    },
+    {
+      "path": "workspace-template/TOOLS.template.md",
+      "kind": "workspace-template",
+      "target": "TOOLS.md"
+    },
+    {
+      "path": "workspace-template/MEMORY.template.md",
+      "kind": "workspace-template",
+      "target": "MEMORY.md"
+    },
+    {
+      "path": "workspace-template/HEARTBEAT.template.md",
+      "kind": "workspace-template",
+      "target": "HEARTBEAT.md"
+    },
+    {
+      "path": "workspace-template/IDENTITY.template.md",
+      "kind": "workspace-template",
+      "target": "IDENTITY.md"
+    },
+    {
+      "path": "task-templates/_template/metadata.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/metadata.md"
+    },
+    {
+      "path": "task-templates/_template/routing.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/routing.md"
+    },
+    {
+      "path": "task-templates/_template/status.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/status.md"
+    },
+    {
+      "path": "task-templates/_template/brief.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/brief.md"
+    },
+    {
+      "path": "task-templates/_template/plan.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/plan.md"
+    },
+    {
+      "path": "task-templates/_template/subagents.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/subagents.md"
+    },
+    {
+      "path": "task-templates/_template/agent-output.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/agent-output.md"
+    },
+    {
+      "path": "task-templates/_template/requirements-package.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/requirements-package.md"
+    },
+    {
+      "path": "task-templates/_template/main-supervisor-sop.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/main-supervisor-sop.md"
+    },
+    {
+      "path": "task-templates/_template/pm.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/pm.md"
+    },
+    {
+      "path": "task-templates/_template/architecture.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/architecture.md"
+    },
+    {
+      "path": "task-templates/_template/backend.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/backend.md"
+    },
+    {
+      "path": "task-templates/_template/frontend.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/frontend.md"
+    },
+    {
+      "path": "task-templates/_template/qa.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/qa.md"
+    },
+    {
+      "path": "task-templates/_template/review.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/review.md"
+    },
+    {
+      "path": "task-templates/_template/security.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/security.md"
+    },
+    {
+      "path": "task-templates/_template/devops.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/devops.md"
+    },
+    {
+      "path": "task-templates/_template/docs.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/docs.md"
+    },
+    {
+      "path": "task-templates/_template/research.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/research.md"
+    },
+    {
+      "path": "task-templates/_template/final.md",
+      "kind": "task-template",
+      "target": "workspace/shared/tasks/_template/final.md"
+    }
+  ]
+}

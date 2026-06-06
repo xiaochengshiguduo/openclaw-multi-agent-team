@@ -7,6 +7,12 @@ const root = path.resolve(__dirname, '..', '..');
 
 const excludedPrefixes = ['roles/', 'task-templates/', 'workspace-template/'];
 const rootRuntimeFiles = new Set(['AGENTS.md', 'SOUL.md', 'USER.md', 'TOOLS.md', 'HEARTBEAT.md', 'IDENTITY.md']);
+const runtimeLocalizationInventory = require(path.join(root, 'scripts', 'lib', 'runtime-localization-inventory.json'));
+const allowedRuntimeZhMirrors = new Set(
+  runtimeLocalizationInventory.sourceFiles
+    .filter((item) => item.path.endsWith('.md'))
+    .map((item) => item.path.replace(/\.md$/, runtimeLocalizationInventory.localizedMirrorSuffix || '.zh-CN.md'))
+);
 
 function walk(dir) {
   const out = [];
@@ -85,13 +91,13 @@ for (const file of mdFiles) {
 for (const file of mdFiles) {
   const r = rel(file);
   if (!r.endsWith('.zh-CN.md')) continue;
-  if (excludedPrefixes.some(prefix => r.startsWith(prefix))) {
-    console.error(`Unexpected zh-CN translation under excluded template/source directory: ${r}`);
-    failures += 1;
-  }
   const enRel = r.replace(/\.zh-CN\.md$/, '.md');
   if (!mdSet.has(enRel)) {
     console.error(`zh-CN file has no English sibling: ${r}`);
+    failures += 1;
+  }
+  if (excludedPrefixes.some(prefix => r.startsWith(prefix)) && !allowedRuntimeZhMirrors.has(r)) {
+    console.error(`Unexpected runtime zh-CN mirror not listed in runtime localization inventory: ${r}`);
     failures += 1;
   }
 }
