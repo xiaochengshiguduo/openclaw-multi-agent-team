@@ -2,6 +2,15 @@
 
 # 更新日志
 
+## 1.1.1 - 2026-06-06
+
+- 新增子 Agent 模型覆盖协议：`main` 在 `sessions_spawn` 时必须默认省略 `model` 参数；由 OpenClaw 配置决定模型，除非用户明确要求特定模型、任务/项目协议要求，或临时降级/事故缓解需要。
+- 当 `main` 覆盖模型时，必须在 `subagents.md` 中记录模型和原因，并在非用户要求的覆盖时向用户说明。
+- 更新 `workspace-template/TEAM.md`，新增 3.6 节（子 Agent 模型选择协议），并重新编号 3.6→3.7（可恢复子 Agent 调度）和 3.7→3.8（Multi-Agent 完成定义）。
+- 更新 `roles/main/AGENTS.md` 调度规则，禁止未经请求的模型覆盖。
+- 更新 `task-templates/_template/subagents.md`，增加 model 和 model reason 列。
+- 新增 smoke test `subagent-model-override-protocol.test.js` 验证协议覆盖。
+
 ## 1.1.0 - 2026-06-04
 
 - 收紧 `main` 自处理边界：`main` 只能直接完成聊天、只读、非持久、低风险任务；持久产物、正式项目结果、runtime/环境变更、审查/测试/验证/审计/风险评估和可复用长期流程必须进入 Multi-Agent 流程。

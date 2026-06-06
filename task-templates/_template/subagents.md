@@ -9,17 +9,25 @@ Track every child agent used by this task so main can recover after runtime even
 - Before `sessions_yield`, update `status.md` to `waiting-agent` and list the taskNames below.
 - After runtime event / compact, main must run recovery lookup before assuming a child result is unavailable.
 - Clean up child sessions only after outputs are archived and final integration is complete.
+- Default: omit `model` in sessions_spawn; rely on OpenClaw config/agent defaults.
+- Record model + reason when explicitly overriding (user request, task/protocol requirement, or incident mitigation).
 
 ## Agent Registry
 
-| taskName | role | label/session hint | cleanup | status | spawned at | expected output | result path |
-|---|---|---|---|---|---|---|---|
-| example_review | reviewer | label: example-review | keep | planned | YYYY-MM-DD HH:mm TZ | review risks and evidence | review.md |
+| taskName | role | label/session hint | model | model reason | cleanup | status | spawned at | expected output | result path |
+|---|---|---|---|---|---|---|---|---|---|
+| example_review | reviewer | label: example-review | (default) | - | keep | planned | YYYY-MM-DD HH:mm TZ | review risks and evidence | review.md |
 
 Status values:
 
 ```text
 planned | running | waiting | completed | recovered | failed | archived | cancelled
+```
+
+Model reason examples:
+
+```text
+- | user requested ddgpt | task protocol requires gpt-5 | fallback: default model rate-limited
 ```
 
 ## Recovery Log
