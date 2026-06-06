@@ -188,6 +188,39 @@ const templateSop = fs.readFileSync(path.join(root, 'task-templates', '_template
   } finally { cleanTarget(target); }
 }
 
+// explicit automation flag can also adopt eligible unmanaged runtime template conflicts.
+{
+  const target = makeTarget();
+  try {
+    fs.mkdirSync(path.join(target, 'workspace', 'shared', 'tasks', '_template'), { recursive: true });
+    fs.writeFileSync(path.join(target, 'workspace', 'AGENTS.md'), templateAgents);
+    fs.writeFileSync(path.join(target, 'workspace', 'TEAM.md'), templateTeam);
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'status.md'), templateStatus);
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'main-supervisor-sop.md'), templateSop);
+    must(['--target', target, '--apply', '--no-restart']);
+    const statePath = path.join(target, 'state', 'openclaw-multi-agent-team', 'update-state.json');
+    const state = readJson(statePath);
+    state.version = '1.1.0';
+    fs.writeFileSync(statePath, JSON.stringify(state, null, 2) + '\n');
+    const routingPath = path.join(target, 'workspace', 'shared', 'tasks', '_template', 'routing.md');
+    const before = '# Local routing template\n';
+    fs.writeFileSync(routingPath, before);
+    const conflict = run(['--target', target, '--apply', '--no-restart'], { input: '' });
+    assert(conflict.status === 2, `expected unmanaged template conflict exit 2, got ${conflict.status}`);
+    assert(conflict.stdout.includes('[conflict] workspace/shared/tasks/_template/routing.md'), 'routing conflict not reported');
+    assert(fs.readFileSync(routingPath, 'utf8') === before, 'unmanaged template overwritten without authorization');
+    const r = must(['--target', target, '--apply', '--no-restart', '--overwrite-conflicts']);
+    const after = fs.readFileSync(routingPath, 'utf8');
+    assert(after.includes('managed-by: openclaw-multi-agent-team'), 'adopted template missing managed header');
+    assert(after.includes('# Routing Decision'), 'adopted template missing repository content');
+    const match = r.stdout.match(/Backup: (.+)/);
+    assert(match, 'backup path missing from adopt output');
+    assert(fs.readFileSync(path.join(match[1].trim(), 'workspace', 'shared', 'tasks', '_template', 'routing.md'), 'utf8') === before, 'backup does not contain pre-adopt template');
+    const newState = readJson(statePath);
+    assert(newState.files['workspace/shared/tasks/_template/routing.md'].sha256 === sha256Text(after), 'state hash not updated after adopting template');
+  } finally { cleanTarget(target); }
+}
+
 // forbidden manifest targets must be rejected before apply.
 {
   const target = makeTarget();

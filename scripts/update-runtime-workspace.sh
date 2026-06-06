@@ -26,9 +26,9 @@ Behavior:
   - Existing repos with local changes are left untouched.
   - Runs: node scripts/update-runtime-workspace.js --target <target> plus forwarded args.
   - Default is dry-run. Runtime files are updated only with --apply.
-  - User-modified managed files are conflicts and are not overwritten by default.
-  - Interactive TTY --apply asks before overwriting listed modified managed conflicts; empty/n keeps no-overwrite, y/Y overwrites only listed files.
-  - Non-interactive automation must use explicit --overwrite-conflicts to overwrite modified managed conflicts.
+  - User-modified or unmanaged runtime files are conflicts and are not overwritten by default.
+  - Interactive TTY --apply asks before overwriting/adopting listed eligible conflicts; empty/n keeps no-overwrite, y/Y overwrites only listed files.
+  - Non-interactive automation must use explicit --overwrite-conflicts to overwrite/adopt eligible conflicts.
   - Backups are created before writes or authorized overwrites.
   - With --apply, Gateway restarts after a safe no-conflict update unless --no-restart is used.
 

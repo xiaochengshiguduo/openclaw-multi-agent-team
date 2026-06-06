@@ -21,9 +21,9 @@ OpenClaw Multi-Agent Team instructions and task templates.
 
 Default is preview/dry-run. With --apply, successful no-conflict updates restart
 Gateway by default. Use --no-restart to skip restart. If managed files have
-local modifications, interactive apply runs ask before overwriting them; empty or
-n keeps the safe no-overwrite behavior. Automation can opt in explicitly with
---overwrite-conflicts.
+local modifications, interactive apply asks before overwriting/adopting eligible
+conflicts; empty or n keeps the safe no-overwrite behavior. Automation can opt in
+explicitly with --overwrite-conflicts.
 
 This command never updates OpenClaw config, model/provider settings, memory,
 sessions, state, credentials, or user-owned workspace files.
@@ -366,13 +366,15 @@ function buildPlan({ root, targetRoot, manifests, state, only, language = DEFAUL
       const matchesPreviousSha = exists && Array.isArray(item.previousSha256) && item.previousSha256.includes(currentSha);
       const missingAllowed = !exists && item.strategy === 'create-or-managed-overwrite';
       const canUpdate = missingAllowed || matchesState || matchesSourceBody || matchesManagedBody || matchesPreviousSha;
-      const overwriteAuthorized = exists && managed && overwriteConflictTargets.has(rel);
+      const overwriteAuthorized = exists && overwriteConflictTargets.has(rel);
+      const overwriteEligible = exists && (managed || item.strategy === 'create-or-managed-overwrite');
       if (!canUpdate && !overwriteAuthorized) {
         plan.conflicts.push({
           manifest: manifest.version,
           target: rel,
           reason: exists ? 'local file is unmanaged or modified' : 'target missing but strategy does not allow create',
-          overwriteEligible: exists && managed
+          overwriteEligible,
+          managed
         });
         continue;
       }
@@ -396,7 +398,7 @@ function buildPlan({ root, targetRoot, manifests, state, only, language = DEFAUL
           sourceSha256: sourceSha,
           desiredSha256: desiredSha,
           previousSha256: currentState.initialExists ? currentState.initialSha : null,
-          reason: currentState.initialExists ? (overwriteAuthorized ? 'explicitly overwriting modified managed file' : (matchesState ? 'matches previous updater state' : 'has managed marker')) : 'target missing and create allowed',
+          reason: currentState.initialExists ? (overwriteAuthorized ? 'explicitly overwriting/adopting conflicting file' : (matchesState ? 'matches previous updater state' : 'has managed marker')) : 'target missing and create allowed',
           content: desired
         };
         plan.actions.push(action);
@@ -476,9 +478,9 @@ function readPromptLine() {
 function promptOverwriteConflicts(targets) {
   if (!targets.length || !isInteractiveApply()) return false;
   console.log('');
-  console.log('Modified managed files were found:');
+  console.log('Conflicting runtime files were found:');
   for (const rel of targets) console.log(`- ${rel}`);
-  process.stdout.write('Overwrite these modified managed files with repository versions? [y/N] ');
+  process.stdout.write('Overwrite/adopt these files with repository versions? [y/N] ');
   const answer = readPromptLine().trim();
   return answer === 'y' || answer === 'Y';
 }
