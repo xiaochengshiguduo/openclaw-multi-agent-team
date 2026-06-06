@@ -60,7 +60,10 @@ try {
   const updateRoot = path.join(tmp, 'update-fixture');
   fs.mkdirSync(updateRoot, { recursive: true });
   const cleanRepo = path.join(updateRoot, 'repo');
-  const clone = spawnSync('git', ['clone', '-q', standaloneRepo, cleanRepo], { encoding: 'utf8' });
+  // Use --no-local so CI does not hardlink/borrow objects from the source
+  // fixture repo. GitHub Actions checkouts can be shallow/partial, and local
+  // clone optimization may fail later with missing object reads.
+  const clone = spawnSync('git', ['clone', '--no-local', '-q', standaloneRepo, cleanRepo], { encoding: 'utf8' });
   if (clone.status !== 0) throw new Error(clone.stderr || 'git clone failed');
   const originUrl = spawnSync('git', ['-C', cleanRepo, 'remote', 'get-url', 'origin'], { encoding: 'utf8' });
   if (originUrl.status !== 0 || path.resolve(originUrl.stdout.trim()) !== path.resolve(standaloneRepo)) {
