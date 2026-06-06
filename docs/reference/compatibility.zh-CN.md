@@ -14,7 +14,7 @@
 | WSL | v1 未测试 / 不支持 |
 | 原生 Windows | v1 不支持 |
 | Telegram 绑定 | 默认仅 `main` |
-| Gateway 重启 | 专用复现脚本可在显式 `--apply` 后重启；普通辅助脚本不重启 |
+| Gateway 重启 | 专用复现/更新流程可在显式 `--apply` 后重启；支持时可用 `--no-restart`；低层辅助脚本不重启 |
 | 配置补丁 | preview-first；仅在显式复现工作流中应用 |
 
 ## 兼容性理念

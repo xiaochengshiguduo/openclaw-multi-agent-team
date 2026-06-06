@@ -2,9 +2,9 @@
 
 # 发布说明草稿
 
-`v1.0.0` 发布说明草稿。创建 GitHub Release 前请先审查。
+`v1.1.0` 发布说明草稿。创建 GitHub Release 前请先审查。
 
-## v1.0.0 — 初始稳定模板版本
+## v1.1.0 — Runtime 更新与 preflight 完善
 
 `openclaw-multi-agent-team` 是一个面向 OpenClaw 的、可复现、长期存在的多 Agent 软件团队模板。
 
@@ -29,7 +29,7 @@
 - Telegram bot token
 - Gateway token
 - 私有记忆、会话、转录记录或任务归档
-- 专用新机器复现脚本之外的自动 Gateway 重启
+- 专用复现/更新流程之外的自动 Gateway 重启
 - 显式 `--apply` 复现工作流之外的自动生产配置变更
 - 子 Agent Telegram 绑定
 

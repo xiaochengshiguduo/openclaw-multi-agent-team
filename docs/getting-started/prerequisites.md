@@ -18,4 +18,4 @@ Optional for runtime steps:
 - configured model/provider credentials in your own OpenClaw environment
 - Telegram binding on `main` only, if you want Telegram access
 
-Standalone setup scripts do not install OpenClaw, generate tokens, bind Telegram, or restart Gateway automatically. The complete new-machine reproducer may restart Gateway when applying reviewed config changes.
+Standalone setup scripts do not install OpenClaw, generate tokens, bind Telegram, or restart Gateway automatically. Dedicated reproduction/update workflows may restart Gateway only after explicit `--apply`; use `--no-restart` where supported if you need to defer restart.

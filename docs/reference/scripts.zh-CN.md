@@ -64,7 +64,7 @@ node scripts/reproduce-new-machine.js --target "$HOME/.openclaw" --apply --keep-
 
 OpenClaw 在应用 config patch 时可能会创建 `openclaw.json.bak*` 文件。为避免重复复现时备份不断堆积，脚本会在成功写入 patch 后删除较旧的 `openclaw.json.bak*` 文件。它不会删除 `openclaw.json.last-good` 或无关文件。使用 `--keep-config-backups <n>` 可保留更多备份，使用 `--no-prune-config-backups` 可关闭清理。
 
-密钥只作为本机输入使用。若不想在交互式提示中粘贴 key，使用 `--api-key-env`。`--skip-config` 或 `--skip-restart` 仅建议用于调试或受限环境。
+密钥只作为本机输入使用。若不想在交互式提示中粘贴 key，使用 `--api-key-env`。`--skip-config` 或 `--skip-restart` 仅建议用于调试或受限环境。对于增量 runtime 更新，如果需要先应用文件、稍后再重启 Gateway，使用 `--no-restart`。
 
 
 ## `update-runtime-workspace.js`

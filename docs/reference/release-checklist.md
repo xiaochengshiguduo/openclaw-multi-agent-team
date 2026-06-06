@@ -10,7 +10,7 @@ Use this checklist before creating a release tag, GitHub release, or changing re
 - [ ] v1 is Linux only.
 - [ ] OpenClaw installation/update is out of scope.
 - [ ] Config patching remains preview-first: one-command reproduction requires explicit `--apply`; lower-level config helpers remain manual.
-- [ ] Gateway restart can happen only in the dedicated reproducer after explicit `--apply`; ordinary helpers do not restart Gateway.
+- [ ] Gateway restart can happen only in dedicated reproduction/update workflows after explicit `--apply`; use `--no-restart` where supported when you need to defer restart. Lower-level helpers do not restart Gateway.
 - [ ] Telegram binding remains on `main` only by default.
 
 ## 2. Required local checks
@@ -20,6 +20,7 @@ node scripts/doctor-local.js
 node scripts/healthcheck-local.js
 node scripts/repro-check.js --target /tmp/oc-mat-release-repro
 node scripts/repro-check.js --target /tmp/oc-mat-ci-repro --allow-missing-openclaw  # repository CI only
+node scripts/preflight.js --target /tmp/oc-mat-preflight-repro
 node tests/smoke/run.js
 ```
 
@@ -70,7 +71,7 @@ Review before commit.
 Only after maintainer confirmation:
 
 ```bash
-git commit -m "Prepare v1.0.0 release"
+git commit -m "Prepare vX.Y.Z release"
 ```
 
 ## 6. GitHub release readiness

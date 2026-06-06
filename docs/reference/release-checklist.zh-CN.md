@@ -10,7 +10,7 @@
 - [ ] v1 仅支持 Linux。
 - [ ] OpenClaw 安装/更新不在范围内。
 - [ ] Config patching 保持 preview-first：一键复现必须显式 `--apply`；低层配置辅助脚本仍保持手动。
-- [ ] Gateway 重启只能由专用复现脚本在显式 `--apply` 后执行；普通辅助脚本不重启 Gateway。
+- [ ] Gateway 重启只能由专用复现/更新流程在显式 `--apply` 后执行；需要延后重启时，在支持的位置使用 `--no-restart`。低层辅助脚本不重启 Gateway。
 - [ ] Telegram binding 默认只保留在 `main`。
 
 ## 2. 必需本地检查
@@ -20,6 +20,7 @@ node scripts/doctor-local.js
 node scripts/healthcheck-local.js
 node scripts/repro-check.js --target /tmp/oc-mat-release-repro
 node scripts/repro-check.js --target /tmp/oc-mat-ci-repro --allow-missing-openclaw  # repository CI only
+node scripts/preflight.js --target /tmp/oc-mat-preflight-repro
 node tests/smoke/run.js
 ```
 
@@ -70,7 +71,7 @@ commit 前必须审查。
 只有在 maintainer 确认后执行：
 
 ```bash
-git commit -m "Prepare v1.0.0 release"
+git commit -m "Prepare vX.Y.Z release"
 ```
 
 ## 6. GitHub release readiness

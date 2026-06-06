@@ -13,7 +13,7 @@ This project does **not** install, upgrade, downgrade, or pin OpenClaw.
 - This project does not guarantee that the installed OpenClaw is the latest version.
 - This project does not automatically update OpenClaw.
 - This project does not modify real OpenClaw config or restart Gateway in dry-run mode.
-- The complete new-machine reproducer may apply project-managed config and restart Gateway only after preview and explicit `--apply` confirmation.
+- Dedicated reproduction/update workflows may restart Gateway only after preview and explicit `--apply` confirmation; use `--no-restart` where supported to defer restart.
 
 ## Verified development version
 
@@ -59,7 +59,7 @@ If a target machine already has workspaces or Agents with the same names, review
 
 ## Compatibility expectations
 
-Compatibility expectations for v1.0.0 are conservative:
+Compatibility expectations for v1.1.0 are conservative:
 
 - Linux only
 - Node.js 24+

@@ -13,7 +13,7 @@
 - 本项目不保证已安装的 OpenClaw 是最新版本。
 - 本项目不会自动更新 OpenClaw。
 - 本项目在 dry-run 模式下不会修改真实 OpenClaw 配置或重启 Gateway。
-- 完整新机器复现脚本只有在清晰 preview 且显式 `--apply` 后，才会应用项目管理的配置并按需重启 Gateway。
+- 专用复现/更新流程只有在清晰 preview 且显式 `--apply` 后，才可以按需重启 Gateway；需要延后重启时，在支持的位置使用 `--no-restart`。
 
 ## 已验证的开发版本
 
@@ -59,7 +59,7 @@ openclaw --version
 
 ## 兼容性预期
 
-v1.0.0 的兼容性预期较为保守：
+v1.1.0 的兼容性预期较为保守：
 
 - 仅支持 Linux
 - Node.js 24+

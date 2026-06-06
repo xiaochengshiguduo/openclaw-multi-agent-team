@@ -9,8 +9,8 @@ This project is comprehensive, but safety boundaries are strict.
 - dry-run by default
 - `--apply` for writes
 - no Gateway restart in dry-run mode
-- ordinary helper scripts do not restart Gateway
-- the dedicated new-machine reproducer may restart Gateway only after explicit `--apply`
+- lower-level helper scripts do not restart Gateway
+- dedicated reproduction/update workflows may restart Gateway only after explicit `--apply`; use `--no-restart` where supported to defer restart
 - no real secrets in repository
 - no real private memory or sessions
 - no Telegram binding for sub-agents by default

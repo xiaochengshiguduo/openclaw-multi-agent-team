@@ -9,8 +9,8 @@
 - 默认 dry-run
 - 使用 `--apply` 执行写入
 - dry-run 模式不重启 Gateway
-- 普通辅助脚本不重启 Gateway
-- 专用新机复现脚本只有在显式 `--apply` 后才可以重启 Gateway
+- 低层辅助脚本不重启 Gateway
+- 专用复现/更新流程只有在显式 `--apply` 后才可以重启 Gateway；支持时可用 `--no-restart` 延后重启
 - 仓库中不存放真实密钥
 - 不存放真实的私有 memory 或 sessions
 - 默认不为子 Agent 绑定 Telegram

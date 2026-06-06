@@ -30,7 +30,7 @@
 5. [健康检查指南](guides/run-healthchecks.zh-CN.md)
 6. [E2E 演练指南](guides/run-an-e2e-drill.zh-CN.md)
 
-重要边界：本项目**不安装、不升级、不降级、不固定** OpenClaw。它从 OpenClaw 已经存在之后开始工作。专用新机器复现脚本可以在显式 `--apply` 后重启 Gateway，让生成的多 Agent 配置生效；普通辅助脚本仍保持 preview-first，且不重启 Gateway。
+重要边界：本项目**不安装、不升级、不降级、不固定** OpenClaw。它从 OpenClaw 已经存在之后开始工作。专用复现/更新流程可以在显式 `--apply` 后重启 Gateway，让生成的多 Agent 配置或托管 runtime 更新生效；需要延后重启时，在支持的位置使用 `--no-restart`。普通低层辅助脚本仍保持 preview-first，且不重启 Gateway。
 
 ## 概念地图
 

@@ -23,6 +23,6 @@ This repository must never contain real OpenClaw runtime state or private user d
 - Write-capable scripts default to dry-run.
 - `--apply` is required for writes, command execution, config mutation, or Gateway restart.
 - Config helpers are preview-first.
-- Ordinary helper scripts do not restart Gateway.
-- The dedicated new-machine reproducer may restart Gateway after explicit `--apply` so validated routing config is loaded.
+- Lower-level helper scripts do not restart Gateway.
+- Dedicated reproduction/update workflows may restart Gateway after explicit `--apply` so validated routing config or managed runtime updates are loaded; use `--no-restart` where supported to defer restart.
 - Sub-agents are not bound to Telegram by default.

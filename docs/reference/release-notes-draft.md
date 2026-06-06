@@ -2,9 +2,9 @@ English | [中文](release-notes-draft.zh-CN.md)
 
 # Release Notes Draft
 
-Draft release notes for `v1.0.0`. Review before creating a GitHub Release.
+Draft release notes for `v1.1.0`. Review before creating a GitHub Release.
 
-## v1.0.0 — Initial stable template release
+## v1.1.0 — Runtime update and preflight polish
 
 `openclaw-multi-agent-team` is a reproducible, long-lived multi-agent software team template for OpenClaw.
 
@@ -29,7 +29,7 @@ This release does not include or modify:
 - Telegram bot tokens
 - Gateway tokens
 - private memories, sessions, transcripts, or task archives
-- automatic Gateway restart outside the dedicated new-machine reproducer
+- automatic Gateway restart outside dedicated reproduction/update workflows
 - automatic production config mutation outside explicit `--apply` reproduction workflows
 - sub-agent Telegram binding
 

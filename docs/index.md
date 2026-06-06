@@ -30,7 +30,7 @@ If OpenClaw is already installed and configured through the official onboarding 
 5. [Healthcheck guide](guides/run-healthchecks.md)
 6. [E2E drill guide](guides/run-an-e2e-drill.md)
 
-Important boundary: this project does **not** install, upgrade, downgrade, or pin OpenClaw. It starts after OpenClaw exists. The dedicated new-machine reproducer may restart Gateway after explicit `--apply` so the generated multi-agent config is loaded; ordinary helper scripts remain preview-first and do not restart Gateway.
+Important boundary: this project does **not** install, upgrade, downgrade, or pin OpenClaw. It starts after OpenClaw exists. Dedicated reproduction/update workflows may restart Gateway after explicit `--apply` so generated multi-agent config or managed runtime updates are loaded; use `--no-restart` where supported to defer restart. Ordinary lower-level helpers remain preview-first and do not restart Gateway.
 
 ## Concept map
 

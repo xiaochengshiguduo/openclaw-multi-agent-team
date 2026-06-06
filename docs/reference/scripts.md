@@ -64,7 +64,7 @@ Default mode is dry-run and prints the complete plan. With `--apply`, it:
 
 OpenClaw itself may create `openclaw.json.bak*` files when applying config patches. To avoid backup buildup during repeated reproduction runs, the script removes older `openclaw.json.bak*` files after a successful patch write. It does not remove `openclaw.json.last-good` or unrelated files. Use `--keep-config-backups <n>` to keep more, or `--no-prune-config-backups` to disable this cleanup.
 
-Secrets are local inputs only. Use `--api-key-env` when you prefer not to paste a key into the interactive prompt. Use `--skip-config` or `--skip-restart` only for debugging or constrained environments.
+Secrets are local inputs only. Use `--api-key-env` when you prefer not to paste a key into the interactive prompt. Use `--skip-config` or `--skip-restart` only for debugging or constrained environments. For incremental runtime updates, use `--no-restart` when you need to apply files but restart Gateway later.
 
 
 ## `update-runtime-workspace.js`

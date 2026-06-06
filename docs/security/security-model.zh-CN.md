@@ -23,6 +23,6 @@
 - 可写脚本默认 dry-run。
 - 写入、执行命令、修改配置或重启 Gateway 都必须显式使用 `--apply`。
 - Config helpers 必须 preview-first。
-- 普通辅助脚本不重启 Gateway。
-- 专用新机器复现脚本可以在显式 `--apply` 后重启 Gateway，让已验证的路由配置生效。
+- 低层辅助脚本不重启 Gateway。
+- 专用复现/更新流程可以在显式 `--apply` 后重启 Gateway，让已验证的路由配置或托管 runtime 更新生效；支持时可用 `--no-restart` 延后重启。
 - 子 Agents 默认不绑定 Telegram。

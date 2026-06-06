@@ -14,7 +14,7 @@ English | [中文](compatibility.zh-CN.md)
 | WSL | not tested / not supported in v1 |
 | native Windows | not supported in v1 |
 | Telegram binding | `main` only by default |
-| Gateway restart | dedicated reproducer may restart after explicit `--apply`; ordinary helpers do not restart |
+| Gateway restart | dedicated reproduction/update workflows may restart after explicit `--apply`; use `--no-restart` where supported; lower-level helpers do not restart |
 | Config patching | preview-first; apply only in explicit reproduction workflows |
 
 ## Compatibility philosophy
