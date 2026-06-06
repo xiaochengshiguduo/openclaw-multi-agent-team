@@ -12,7 +12,7 @@ DEST_DEFAULT="$HOME/openclaw-multi-agent-team"
 usage() {
   cat <<'USAGE'
 Usage:
-  scripts/bootstrap-new-machine.sh [--dest <path>] [--target <path>] [--repo <url>] [--profile <name>] [--config-path <path>] [--apply] [--yes] [-- <extra reproduce args>]
+  scripts/bootstrap-new-machine.sh [--dest <path>] [--target <path>] [--repo <url>] [--profile <name>] [--config-path <path>] [--language en|zh-CN] [--lang en|zh-CN] [--apply] [--yes] [-- <extra reproduce args>]
 
 Defaults:
   --repo   https://github.com/xiaochengshiguduo/openclaw-multi-agent-team.git
@@ -28,9 +28,32 @@ Behavior:
 
 Examples:
   scripts/bootstrap-new-machine.sh
+  scripts/bootstrap-new-machine.sh --language zh-CN
   scripts/bootstrap-new-machine.sh --apply
   scripts/bootstrap-new-machine.sh --apply --yes -- --api-key-env OPENCLAW_MODEL_API_KEY
 USAGE
+}
+
+choose_language_if_interactive() {
+  if [[ -n "$LANGUAGE" ]]; then return; fi
+  if [[ ! -t 0 || ! -t 1 ]]; then return; fi
+
+  echo "Choose runtime language / 选择运行时语言:"
+  echo "  1) English (en)"
+  echo "  2) 中文（简体，zh-CN）"
+  printf "Language [1/en, 2/zh-CN; default: en]: "
+  local choice=""
+  read -r choice || true
+  case "$choice" in
+    ""|1|en|EN|English|english)
+      LANGUAGE="en";;
+    2|zh-CN|zh-cn|ZH-CN|Chinese|chinese|中文)
+      LANGUAGE="zh-CN";;
+    *)
+      echo "Unsupported language choice: $choice" >&2
+      echo "Use --language en or --language zh-CN." >&2
+      exit 2;;
+  esac
 }
 
 DEST="$DEST_DEFAULT"
@@ -40,6 +63,7 @@ PROFILE=""
 APPLY=0
 YES=0
 CONFIG_PATH=""
+LANGUAGE=""
 EXTRA_ARGS=()
 
 while [[ $# -gt 0 ]]; do
@@ -56,6 +80,8 @@ while [[ $# -gt 0 ]]; do
       PROFILE="$2"; shift 2;;
     --config-path)
       CONFIG_PATH="$2"; shift 2;;
+    --language|--lang)
+      LANGUAGE="$2"; shift 2;;
     --apply)
       APPLY=1; shift;;
     --yes)
@@ -76,6 +102,8 @@ if ! command -v node >/dev/null 2>&1; then
   echo "node not found in PATH" >&2
   exit 1
 fi
+
+choose_language_if_interactive
 
 mkdir -p "$(dirname "$DEST")"
 
@@ -102,6 +130,7 @@ cd "$DEST"
 
 CMD=(node scripts/reproduce-new-machine.js --target "$TARGET")
 if [[ -n "$CONFIG_PATH" ]]; then CMD+=(--config-path "$CONFIG_PATH"); fi
+if [[ -n "$LANGUAGE" ]]; then CMD+=(--language "$LANGUAGE"); fi
 if [[ $APPLY -eq 1 ]]; then CMD+=(--apply); fi
 if [[ $YES -eq 1 ]]; then CMD+=(--yes); fi
 CMD+=("${EXTRA_ARGS[@]}")

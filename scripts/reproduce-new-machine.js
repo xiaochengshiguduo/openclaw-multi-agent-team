@@ -10,9 +10,11 @@ const { parseArgs, printHelp, isApply } = require('./lib/cli');
 const { resolvePath } = require('./lib/paths');
 const { ROLE_AGENTS, ROLES } = require('./lib/constants');
 const { agentToAgentPatch } = require('./lib/openclaw-config');
+const { DEFAULT_RUNTIME_LANGUAGE, normalizeRuntimeLanguage } = require('./lib/runtime-localization');
 
 const HELP = `
 Usage: node scripts/reproduce-new-machine.js [--target ~/.openclaw] [--apply]
+       [--language en|zh-CN] [--lang en|zh-CN]
        [--config-path <path>]
        [--model <provider/model>] [--provider-id <id>] [--model-id <id>] [--base-url <url>]
        [--api <api>] [--alias <alias>] [--api-key-env <ENV>]
@@ -307,6 +309,13 @@ async function main() {
   let alias = args.alias || (reused && reused.alias) || DEFAULTS.alias;
   let apiKey = args['api-key'] || (reused && reused.apiKey) || '';
   let apiKeyEnv = args['api-key-env'] || (reused && reused.apiKeyEnv) || '';
+  let language;
+  try {
+    language = normalizeRuntimeLanguage(args.language || args.lang || DEFAULT_RUNTIME_LANGUAGE);
+  } catch (err) {
+    console.error(err.message);
+    process.exit(2);
+  }
   const skipConfig = args['skip-config'] === true;
   const skipRestart = args['skip-restart'] === true;
   const pruneBackups = args['no-prune-config-backups'] !== true;
@@ -370,6 +379,7 @@ async function main() {
   console.log(`target: ${target}`);
   console.log(`configPath: ${configPath}`);
   console.log(`model: ${model} (alias ${alias})`);
+  console.log(`runtime language: ${language}`);
   if (!skipConfig) {
     if (reuseConfig) {
       console.log(`config reuse: ${existingConfig ? `from ${existingConfigPath}` : `none found at ${existingConfigPath}`}`);
@@ -393,7 +403,7 @@ async function main() {
     console.log(`node scripts/healthcheck-local.js`);
     console.log(`node tests/smoke/run.js`);
     console.log(`node scripts/repro-check.js --target ${shellQuote(target)}`);
-    console.log(`node scripts/generate-workspaces.js --target ${shellQuote(target)} --apply`);
+    console.log(`node scripts/generate-workspaces.js --target ${shellQuote(target)} --language ${shellQuote(language)} --apply`);
     if (!skipConfig) {
       console.log(`openclaw config patch --file ${shellQuote(patchPath)} --dry-run`);
       console.log(`openclaw config patch --file ${shellQuote(patchPath)}`);
@@ -423,7 +433,7 @@ async function main() {
   run(process.execPath, [path.join(__dirname, 'healthcheck-local.js')]);
   run(process.execPath, [path.join(__dirname, '..', 'tests', 'smoke', 'run.js')]);
   run(process.execPath, [path.join(__dirname, 'repro-check.js'), '--target', target]);
-  run(process.execPath, [path.join(__dirname, 'generate-workspaces.js'), '--target', target, '--apply']);
+  run(process.execPath, [path.join(__dirname, 'generate-workspaces.js'), '--target', target, '--language', language, '--apply']);
 
   if (!skipConfig) {
     ensureConfigFileExists(configPath);

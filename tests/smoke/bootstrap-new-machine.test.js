@@ -45,11 +45,15 @@ try {
     '--dest', standaloneRepo,
     '--target', profileTarget,
     '--profile', 'smoke',
+    '--language', 'zh-CN',
     '--', '--skip-restart'
   ], { env: { ...process.env, HOME: path.join(tmp, 'home') } });
   if (!profile.stdout.includes('# Existing repo has no upstream; skipping update')) throw new Error('standalone repo should not fetch without upstream');
   if (!profile.stdout.includes('# Running reproducer')) throw new Error('bootstrap did not run reproducer');
   if (!profile.stdout.includes('New-machine reproduction plan')) throw new Error('reproducer did not start through bootstrap');
+  if (!profile.stdout.includes('runtime language: zh-CN')) throw new Error('bootstrap did not forward --language to reproducer');
+  if (!profile.stdout.includes('node scripts/generate-workspaces.js')) throw new Error('reproducer dry-run did not preview workspace generation');
+  if (!profile.stdout.includes('--language \'zh-CN\'')) throw new Error('reproducer dry-run did not forward selected language to workspace generation');
   if (profile.stdout.includes('OpenClaw does not know the command')) throw new Error('profile wrapper invoked openclaw with node script as a subcommand');
   if (fs.existsSync(path.join(profileTarget, 'workspace'))) throw new Error('bootstrap dry-run wrote workspace files');
 
@@ -62,10 +66,11 @@ try {
   if (originUrl.status !== 0 || path.resolve(originUrl.stdout.trim()) !== path.resolve(standaloneRepo)) {
     throw new Error('clean repo origin must be local fixture path');
   }
-  const update = run(['--dest', cleanRepo, '--target', path.join(updateRoot, 'home'), '--', '--skip-restart'], {
+  const update = run(['--dest', cleanRepo, '--target', path.join(updateRoot, 'home'), '--lang', 'zh-CN', '--', '--skip-restart'], {
     env: { ...process.env, HOME: path.join(updateRoot, 'home-env') }
   });
   if (!update.stdout.includes('# Updating existing repo from: origin/main')) throw new Error('clean existing repo was not fast-forward checked');
+  if (!update.stdout.includes('runtime language: zh-CN')) throw new Error('bootstrap did not forward --lang alias to reproducer');
 
   fs.writeFileSync(path.join(cleanRepo, 'local-change.txt'), 'dirty\n');
   const dirty = run(['--dest', cleanRepo, '--target', path.join(updateRoot, 'dirty-home'), '--', '--skip-restart'], {

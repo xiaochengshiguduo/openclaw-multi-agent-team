@@ -12,7 +12,7 @@ DEST_DEFAULT="$HOME/openclaw-multi-agent-team"
 usage() {
   cat <<'USAGE'
 Usage:
-  scripts/update-runtime-workspace.sh [--dest <path>] [--target <path>] [--repo <url>] [--profile <name>] [--apply] [--overwrite-conflicts] [--no-restart] [--to <version>] [--only workspace|task-templates] [--json] [-- <extra updater args>]
+  scripts/update-runtime-workspace.sh [--dest <path>] [--target <path>] [--repo <url>] [--profile <name>] [--apply] [--overwrite-conflicts] [--no-restart] [--language en|zh-CN] [--lang en|zh-CN] [--to <version>] [--only workspace|task-templates] [--json] [-- <extra updater args>]
 
 Defaults:
   --repo   https://github.com/xiaochengshiguduo/openclaw-multi-agent-team.git
@@ -64,7 +64,7 @@ while [[ $# -gt 0 ]]; do
       PROFILE="$2"; shift 2;;
     --apply|--overwrite-conflicts|--no-restart|--json)
       UPDATER_ARGS+=("$1"); shift;;
-    --to|--only|--restart-command)
+    --to|--only|--restart-command|--language|--lang)
       UPDATER_ARGS+=("$1" "$2"); shift 2;;
     --)
       shift; UPDATER_ARGS+=("$@"); break;;

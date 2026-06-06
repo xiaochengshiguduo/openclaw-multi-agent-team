@@ -6,19 +6,31 @@
       "source": "roles/main/AGENTS.md",
       "target": "workspace/AGENTS.md",
       "strategy": "managed-overwrite",
-      "kind": "workspace"
+      "kind": "workspace",
+      "sources": {
+        "en": "roles/main/AGENTS.md",
+        "zh-CN": "roles/main/AGENTS.zh-CN.md"
+      }
     },
     {
       "source": "workspace-template/TEAM.md",
       "target": "workspace/TEAM.md",
       "strategy": "managed-overwrite",
-      "kind": "workspace"
+      "kind": "workspace",
+      "sources": {
+        "en": "workspace-template/TEAM.md",
+        "zh-CN": "workspace-template/TEAM.zh-CN.md"
+      }
     },
     {
       "source": "task-templates/_template/subagents.md",
       "target": "workspace/shared/tasks/_template/subagents.md",
       "strategy": "create-or-managed-overwrite",
-      "kind": "task-templates"
+      "kind": "task-templates",
+      "sources": {
+        "en": "task-templates/_template/subagents.md",
+        "zh-CN": "task-templates/_template/subagents.zh-CN.md"
+      }
     }
   ],
   "restart": {

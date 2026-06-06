@@ -8,11 +8,13 @@ const crypto = require('crypto');
 const { spawnSync } = require('child_process');
 const { parseArgs, printHelp } = require('./lib/cli');
 const { projectRoot, resolvePath, assertInside } = require('./lib/paths');
+const { DEFAULT_RUNTIME_LANGUAGE, normalizeRuntimeLanguage, resolveManifestSource } = require('./lib/runtime-localization');
 
 const HELP = `
 Usage: node scripts/update-runtime-workspace.js [--target ~/.openclaw] [--apply]
        [--to <version>] [--only workspace|task-templates] [--no-restart]
-       [--overwrite-conflicts] [--json] [--restart-command <cmd>]
+       [--overwrite-conflicts] [--language en|zh-CN] [--lang en|zh-CN] [--json]
+       [--restart-command <cmd>]
 
 Safely update an already-used OpenClaw runtime workspace with project-managed
 OpenClaw Multi-Agent Team instructions and task templates.
@@ -44,7 +46,9 @@ const LOCK_REL = path.join('state', MANAGED_BY, 'update.lock');
 
 const ALLOWLIST = [
   /^workspace\/AGENTS\.md$/,
+  /^workspace\/SOUL\.md$/,
   /^workspace\/TEAM\.md$/,
+  /^workspace-[A-Za-z0-9_-]+\/(?:AGENTS|SOUL)\.md$/,
   /^workspace\/shared\/tasks\/_template\/[A-Za-z0-9._-]+\.md$/
 ];
 
@@ -267,11 +271,16 @@ function validateManifest(manifest, only) {
   }
 }
 
+function resolveUpdaterLanguage(args, state) {
+  return normalizeRuntimeLanguage(args.language || args.lang || (state && state.language) || DEFAULT_RUNTIME_LANGUAGE);
+}
+
 function backupPathFor(rel, backupRoot) {
   return path.join(backupRoot, rel);
 }
 
-function buildPlan({ root, targetRoot, manifests, state, only, overwriteConflictTargets = new Set() }) {
+function buildPlan({ root, targetRoot, manifests, state, only, language = DEFAULT_RUNTIME_LANGUAGE, overwriteConflictTargets = new Set() }) {
+  const selectedLanguage = normalizeRuntimeLanguage(language);
   const plan = {
     ok: true,
     mode: args.apply ? 'apply' : 'dry-run',
@@ -279,6 +288,7 @@ function buildPlan({ root, targetRoot, manifests, state, only, overwriteConflict
     sourceCommit: gitCommit(root),
     fromVersion: state.version || null,
     toVersion: manifests.length ? manifests[manifests.length - 1].version : (state.version || null),
+    language: selectedLanguage,
     actions: [],
     conflicts: [],
     forbidden: [],
@@ -317,7 +327,15 @@ function buildPlan({ root, targetRoot, manifests, state, only, overwriteConflict
         plan.forbidden.push({ manifest: manifest.version, target: item.target, reason: err.message });
         continue;
       }
-      const src = sourcePath(root, item.source);
+      let resolvedSource;
+      try {
+        resolvedSource = resolveManifestSource(item, selectedLanguage);
+      } catch (err) {
+        plan.forbidden.push({ manifest: manifest.version, target: rel, reason: err.message });
+        continue;
+      }
+      const sourceItem = { ...item, source: resolvedSource };
+      const src = sourcePath(root, resolvedSource);
       const dst = targetPath(targetRoot, rel);
       const symlink = pathHasSymlinkEscape(targetRoot, dst);
       if (symlink) {
@@ -326,7 +344,7 @@ function buildPlan({ root, targetRoot, manifests, state, only, overwriteConflict
       }
       const sourceRaw = fs.readFileSync(src, 'utf8');
       const sourceSha = sha256Text(sourceRaw);
-      const desired = withManagedHeader(sourceRaw, item, manifest.version);
+      const desired = withManagedHeader(sourceRaw, sourceItem, manifest.version);
       const desiredSha = sha256Text(desired);
       const currentState = getVirtualFile(rel, dst);
       if (currentState.invalid) {
@@ -362,7 +380,7 @@ function buildPlan({ root, targetRoot, manifests, state, only, overwriteConflict
       if (priorAction) {
         priorAction.manifestChain.push(manifest.version);
         priorAction.manifest = manifest.version;
-        priorAction.source = item.source;
+        priorAction.source = resolvedSource;
         priorAction.sourceSha256 = sourceSha;
         priorAction.desiredSha256 = desiredSha;
         priorAction.content = desired;
@@ -372,7 +390,7 @@ function buildPlan({ root, targetRoot, manifests, state, only, overwriteConflict
           type: currentState.initialExists ? 'update' : 'create',
           manifest: manifest.version,
           manifestChain: [manifest.version],
-          source: item.source,
+          source: resolvedSource,
           target: rel,
           targetPath: dst,
           sourceSha256: sourceSha,
@@ -414,6 +432,7 @@ function printPlan(plan) {
   }
   console.log(`# Runtime workspace update (${plan.mode})`);
   console.log(`target: ${plan.targetRoot}`);
+  console.log(`language: ${plan.language || DEFAULT_RUNTIME_LANGUAGE}`);
   console.log(`from: ${plan.fromVersion || 'unknown'} -> ${plan.toVersion || 'none'}`);
   for (const a of plan.actions) console.log(`[${a.type}] ${a.target} (${a.reason})`);
   for (const s of plan.skipped) console.log(`[skip] ${s.target} (${s.reason})`);
@@ -526,6 +545,7 @@ function applyPlan(plan, targetRoot, statePath, previousState = {}) {
     }
     const newState = {
       version: plan.toVersion,
+      language: plan.language || DEFAULT_RUNTIME_LANGUAGE,
       appliedAt: nowIso(),
       sourceCommit: plan.sourceCommit,
       files: { ...((previousState && previousState.files) || {}) }
@@ -560,6 +580,12 @@ function restartGateway(command) {
   const statePath = path.join(targetRoot, STATE_REL);
   const planPath = path.join(targetRoot, PLAN_REL);
   const state = readJson(statePath, { version: '', files: {} });
+  let language;
+  try {
+    language = resolveUpdaterLanguage(args, state);
+  } catch (err) {
+    fail(err.message, EXIT.VALIDATION);
+  }
   const only = args.only || '';
   if (only && !['workspace', 'task-templates'].includes(only)) fail(`invalid --only: ${only}`, EXIT.VALIDATION);
   let manifests;
@@ -571,7 +597,7 @@ function restartGateway(command) {
   let plan;
   const overwriteConflictTargets = new Set();
   try {
-    plan = buildPlan({ root, targetRoot, manifests, state, only, overwriteConflictTargets });
+    plan = buildPlan({ root, targetRoot, manifests, state, only, language, overwriteConflictTargets });
   } catch (err) {
     fail(err.message, EXIT.VALIDATION);
   }
@@ -585,7 +611,7 @@ function restartGateway(command) {
     if (!shouldOverwrite) process.exit(EXIT.CONFLICT);
     for (const rel of eligibleTargets) overwriteConflictTargets.add(rel);
     try {
-      plan = buildPlan({ root, targetRoot, manifests, state, only, overwriteConflictTargets });
+      plan = buildPlan({ root, targetRoot, manifests, state, only, language, overwriteConflictTargets });
     } catch (err) {
       fail(err.message, EXIT.VALIDATION);
     }

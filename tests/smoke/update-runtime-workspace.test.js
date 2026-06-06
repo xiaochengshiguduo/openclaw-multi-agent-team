@@ -47,13 +47,16 @@ const templateSop = fs.readFileSync(path.join(root, 'task-templates', '_template
   const target = makeTarget();
   try {
     fs.mkdirSync(path.join(target, 'workspace', 'shared', 'tasks', '_template'), { recursive: true });
-    fs.writeFileSync(path.join(target, 'workspace', 'AGENTS.md'), templateAgents);
-    fs.writeFileSync(path.join(target, 'workspace', 'TEAM.md'), templateTeam);
-    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'status.md'), templateStatus);
-    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'main-supervisor-sop.md'), templateSop);
-    const r = must(['--target', target]);
-    assert(r.stdout.includes('Runtime workspace update (dry-run)'), 'dry-run output missing');
-    assert(!fs.readFileSync(path.join(target, 'workspace', 'TEAM.md'), 'utf8').includes('managed-by: openclaw-multi-agent-team'), 'dry-run modified workspace file');
+    fs.writeFileSync(path.join(target, 'workspace', 'AGENTS.md'), managedContent('roles/main/AGENTS.zh-CN.md', '1.1.1', fs.readFileSync(path.join(root, 'roles', 'main', 'AGENTS.zh-CN.md'), 'utf8')));
+    fs.writeFileSync(path.join(target, 'workspace', 'TEAM.md'), managedContent('workspace-template/TEAM.zh-CN.md', '1.1.1', fs.readFileSync(path.join(root, 'workspace-template', 'TEAM.zh-CN.md'), 'utf8')));
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'status.md'), managedContent('task-templates/_template/status.zh-CN.md', '1.1.1', fs.readFileSync(path.join(root, 'task-templates', '_template', 'status.zh-CN.md'), 'utf8')));
+    fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'main-supervisor-sop.md'), managedContent('task-templates/_template/main-supervisor-sop.zh-CN.md', '1.1.1', fs.readFileSync(path.join(root, 'task-templates', '_template', 'main-supervisor-sop.zh-CN.md'), 'utf8')));
+    const r = must(['--target', target, '--language', 'zh-CN']);
+    assert(r.stdout.includes('language: zh-CN'), 'dry-run output missing selected language');
+    const plan = readJson(path.join(target, 'state', 'openclaw-multi-agent-team', 'last-plan.json'));
+    assert(plan.language === 'zh-CN', 'dry-run plan did not record zh-CN language');
+    assert(plan.actions.some((a) => a.source.endsWith('.zh-CN.md')), 'dry-run plan did not select zh-CN manifest sources');
+    assert(fs.readFileSync(path.join(target, 'workspace', 'TEAM.md'), 'utf8').includes('version: 1.1.1'), 'dry-run modified workspace file');
     assert(!fs.existsSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'subagents.md')), 'dry-run created template file');
     assert(fs.existsSync(path.join(target, 'state', 'openclaw-multi-agent-team', 'last-plan.json')), 'dry-run should write audit plan');
   } finally { cleanTarget(target); }
@@ -76,7 +79,8 @@ const templateSop = fs.readFileSync(path.join(root, 'task-templates', '_template
     const team = fs.readFileSync(path.join(target, 'workspace', 'TEAM.md'), 'utf8');
     assert(team.includes('managed-by: openclaw-multi-agent-team'), 'managed marker missing');
     const state = readJson(path.join(target, 'state', 'openclaw-multi-agent-team', 'update-state.json'));
-    assert(state.version === '1.1.1', 'state version not updated');
+    assert(state.version === '1.2.0', 'state version not updated');
+    assert(state.language === 'en', 'default apply did not record English language');
   } finally { cleanTarget(target); }
 }
 
@@ -179,7 +183,7 @@ const templateSop = fs.readFileSync(path.join(root, 'task-templates', '_template
     assert(match, 'backup path missing from overwrite output');
     assert(fs.readFileSync(path.join(match[1].trim(), 'workspace', 'TEAM.md'), 'utf8') === before, 'backup does not contain pre-overwrite content');
     const newState = readJson(statePath);
-    assert(newState.version === '1.1.1', 'state version not advanced after overwrite');
+    assert(newState.version === '1.2.0', 'state version not advanced after overwrite');
     assert(newState.files['workspace/TEAM.md'].sha256 === sha256Text(after), 'state hash not updated after overwrite');
   } finally { cleanTarget(target); }
 }
@@ -276,6 +280,31 @@ function writeUpdaterState(target, version, files) {
   const stateDir = path.join(target, 'state', 'openclaw-multi-agent-team');
   fs.mkdirSync(stateDir, { recursive: true });
   fs.writeFileSync(path.join(stateDir, 'update-state.json'), JSON.stringify({ version, appliedAt: new Date(0).toISOString(), sourceCommit: 'test', files }, null, 2) + '\n');
+}
+
+function writeLocalizationManifestFixture(tmpRepo, opts = {}) {
+  const updatesDir = path.join(tmpRepo, 'updates', 'runtime');
+  const fixtureDir = path.join(tmpRepo, 'updates', 'runtime-fixtures');
+  fs.mkdirSync(updatesDir, { recursive: true });
+  fs.mkdirSync(fixtureDir, { recursive: true });
+  const sourceEn = 'updates/runtime-fixtures/team-en.md';
+  const sourceZh = 'updates/runtime-fixtures/team-zh-CN.md';
+  fs.writeFileSync(path.join(tmpRepo, sourceEn), '# Team English\n');
+  fs.writeFileSync(path.join(tmpRepo, sourceZh), '# Team Chinese\n');
+  const file = {
+    source: 'updates/runtime-fixtures/team-legacy.md',
+    sources: opts.omitZh ? { en: sourceEn } : { en: sourceEn, 'zh-CN': sourceZh },
+    target: 'workspace/TEAM.md',
+    strategy: 'create-or-managed-overwrite',
+    kind: 'workspace'
+  };
+  fs.writeFileSync(path.join(tmpRepo, file.source), '# Team Legacy\n');
+  fs.writeFileSync(path.join(updatesDir, '9.9.9.json'), JSON.stringify({
+    version: '9.9.9',
+    files: [file],
+    restart: { default: false }
+  }, null, 2));
+  return { sourceEn, sourceZh };
 }
 
 // skipped-version updates to the same target must use cumulative virtual state,
@@ -389,6 +418,97 @@ function writeUpdaterState(target, version, files) {
     const r = spawnSync(process.execPath, [path.join(tmpRepo, 'scripts', 'update-runtime-workspace.js'), '--target', target, '--apply', '--no-restart', '--to', '1.3.0'], { encoding: 'utf8' });
     assert(r.status === 2, 'expected missing managed-overwrite conflict exit 2, got ' + r.status);
     assert(!fs.existsSync(path.join(target, 'workspace', 'TEAM.md')), 'missing managed-overwrite target was created');
+  } finally { cleanTarget(target); fs.rmSync(tmpRepo, { recursive: true, force: true }); }
+}
+
+// legacy updater state without language should behave as default English, and
+// apply should record the resolved default language in state and plan helpers.
+{
+  const target = makeTarget();
+  const tmpRepo = makeTempRepo();
+  try {
+    const fx = writeLocalizationManifestFixture(tmpRepo);
+    fs.mkdirSync(path.join(target, 'state', 'openclaw-multi-agent-team'), { recursive: true });
+    fs.writeFileSync(path.join(target, 'state', 'openclaw-multi-agent-team', 'update-state.json'), JSON.stringify({ version: '9.9.8', files: {} }, null, 2) + '\n');
+    const r = spawnSync(process.execPath, [path.join(tmpRepo, 'scripts', 'update-runtime-workspace.js'), '--target', target, '--apply', '--no-restart', '--to', '9.9.9'], { encoding: 'utf8' });
+    assert(r.status === 0, 'expected default-language apply success, got ' + r.status + '\nstdout=' + r.stdout + '\nstderr=' + r.stderr);
+    const team = fs.readFileSync(path.join(target, 'workspace', 'TEAM.md'), 'utf8');
+    assert(team.includes('# Team English'), 'legacy state without language did not use English source');
+    assert(team.includes('<!-- source: ' + fx.sourceEn + ' -->'), 'managed header did not record resolved English source');
+    const plan = readJson(path.join(target, 'state', 'openclaw-multi-agent-team', 'last-plan.json'));
+    assert(plan.language === 'en', 'plan did not record default English language');
+    const state = readJson(path.join(target, 'state', 'openclaw-multi-agent-team', 'update-state.json'));
+    assert(state.language === 'en', 'state did not record default English language');
+    assert(state.files['workspace/TEAM.md'].source === fx.sourceEn, 'state did not record resolved English source');
+  } finally { cleanTarget(target); fs.rmSync(tmpRepo, { recursive: true, force: true }); }
+}
+
+// explicit language should override state language and preserve the selected
+// language in plan/state.
+{
+  const target = makeTarget();
+  const tmpRepo = makeTempRepo();
+  try {
+    const fx = writeLocalizationManifestFixture(tmpRepo);
+    fs.mkdirSync(path.join(target, 'state', 'openclaw-multi-agent-team'), { recursive: true });
+    fs.writeFileSync(path.join(target, 'state', 'openclaw-multi-agent-team', 'update-state.json'), JSON.stringify({ version: '9.9.8', language: 'en', files: {} }, null, 2) + '\n');
+    const r = spawnSync(process.execPath, [path.join(tmpRepo, 'scripts', 'update-runtime-workspace.js'), '--target', target, '--apply', '--no-restart', '--language', 'zh-CN', '--to', '9.9.9'], { encoding: 'utf8' });
+    assert(r.status === 0, 'expected explicit zh-CN apply success, got ' + r.status + '\nstdout=' + r.stdout + '\nstderr=' + r.stderr);
+    const team = fs.readFileSync(path.join(target, 'workspace', 'TEAM.md'), 'utf8');
+    assert(team.includes('# Team Chinese'), 'explicit zh-CN did not use Chinese source');
+    assert(team.includes('<!-- source: ' + fx.sourceZh + ' -->'), 'managed header did not record resolved Chinese source');
+    const plan = readJson(path.join(target, 'state', 'openclaw-multi-agent-team', 'last-plan.json'));
+    assert(plan.language === 'zh-CN', 'plan did not record explicit zh-CN language');
+    const state = readJson(path.join(target, 'state', 'openclaw-multi-agent-team', 'update-state.json'));
+    assert(state.language === 'zh-CN', 'state did not preserve explicit zh-CN language');
+    assert(state.files['workspace/TEAM.md'].source === fx.sourceZh, 'state did not record resolved Chinese source');
+  } finally { cleanTarget(target); fs.rmSync(tmpRepo, { recursive: true, force: true }); }
+}
+
+// state language should be used when no explicit language is supplied.
+{
+  const target = makeTarget();
+  const tmpRepo = makeTempRepo();
+  try {
+    writeLocalizationManifestFixture(tmpRepo);
+    fs.mkdirSync(path.join(target, 'state', 'openclaw-multi-agent-team'), { recursive: true });
+    fs.writeFileSync(path.join(target, 'state', 'openclaw-multi-agent-team', 'update-state.json'), JSON.stringify({ version: '9.9.8', language: 'zh-CN', files: {} }, null, 2) + '\n');
+    const r = spawnSync(process.execPath, [path.join(tmpRepo, 'scripts', 'update-runtime-workspace.js'), '--target', target, '--to', '9.9.9', '--json'], { encoding: 'utf8' });
+    assert(r.status === 0, 'expected state zh-CN dry-run success, got ' + r.status + '\nstdout=' + r.stdout + '\nstderr=' + r.stderr);
+    const plan = JSON.parse(r.stdout);
+    assert(plan.language === 'zh-CN', 'dry-run plan did not preserve state zh-CN language');
+    assert(plan.actions[0].source.endsWith('team-zh-CN.md'), 'state zh-CN did not resolve Chinese source in plan');
+  } finally { cleanTarget(target); fs.rmSync(tmpRepo, { recursive: true, force: true }); }
+}
+
+// zh-CN selection must fail clearly when the manifest has no zh-CN source.
+{
+  const target = makeTarget();
+  const tmpRepo = makeTempRepo();
+  try {
+    writeLocalizationManifestFixture(tmpRepo, { omitZh: true });
+    fs.mkdirSync(path.join(target, 'state', 'openclaw-multi-agent-team'), { recursive: true });
+    fs.writeFileSync(path.join(target, 'state', 'openclaw-multi-agent-team', 'update-state.json'), JSON.stringify({ version: '9.9.8', language: 'zh-CN', files: {} }, null, 2) + '\n');
+    const r = spawnSync(process.execPath, [path.join(tmpRepo, 'scripts', 'update-runtime-workspace.js'), '--target', target, '--to', '9.9.9'], { encoding: 'utf8' });
+    assert(r.status === 3, 'expected missing zh-CN source forbidden exit 3, got ' + r.status);
+    assert((r.stdout + r.stderr).includes('source missing for selected language zh-CN'), 'missing zh-CN source error was not clear');
+  } finally { cleanTarget(target); fs.rmSync(tmpRepo, { recursive: true, force: true }); }
+}
+
+// invalid explicit or state language must fail validation clearly.
+{
+  const target = makeTarget();
+  const tmpRepo = makeTempRepo();
+  try {
+    writeLocalizationManifestFixture(tmpRepo);
+    let r = spawnSync(process.execPath, [path.join(tmpRepo, 'scripts', 'update-runtime-workspace.js'), '--target', target, '--language', 'fr', '--to', '9.9.9'], { encoding: 'utf8' });
+    assert(r.status === 4, 'expected invalid explicit language exit 4, got ' + r.status);
+    assert((r.stdout + r.stderr).includes('invalid language: fr'), 'invalid explicit language error was not clear');
+    fs.mkdirSync(path.join(target, 'state', 'openclaw-multi-agent-team'), { recursive: true });
+    fs.writeFileSync(path.join(target, 'state', 'openclaw-multi-agent-team', 'update-state.json'), JSON.stringify({ version: '9.9.8', language: 'fr', files: {} }, null, 2) + '\n');
+    r = spawnSync(process.execPath, [path.join(tmpRepo, 'scripts', 'update-runtime-workspace.js'), '--target', target, '--to', '9.9.9'], { encoding: 'utf8' });
+    assert(r.status === 4, 'expected invalid state language exit 4, got ' + r.status);
+    assert((r.stdout + r.stderr).includes('invalid language: fr'), 'invalid state language error was not clear');
   } finally { cleanTarget(target); fs.rmSync(tmpRepo, { recursive: true, force: true }); }
 }
 

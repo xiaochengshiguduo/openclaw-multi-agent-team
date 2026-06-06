@@ -1,0 +1,440 @@
+{
+  "version": "1.2.0",
+  "description": "Add runtime localization source maps for English and Simplified Chinese managed role workspaces, team protocol, and task templates.",
+  "files": [
+    {
+      "source": "roles/main/AGENTS.md",
+      "sources": {
+        "en": "roles/main/AGENTS.md",
+        "zh-CN": "roles/main/AGENTS.zh-CN.md"
+      },
+      "target": "workspace/AGENTS.md",
+      "strategy": "managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/main/SOUL.md",
+      "sources": {
+        "en": "roles/main/SOUL.md",
+        "zh-CN": "roles/main/SOUL.zh-CN.md"
+      },
+      "target": "workspace/SOUL.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/pm/AGENTS.md",
+      "sources": {
+        "en": "roles/pm/AGENTS.md",
+        "zh-CN": "roles/pm/AGENTS.zh-CN.md"
+      },
+      "target": "workspace-pm/AGENTS.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/pm/SOUL.md",
+      "sources": {
+        "en": "roles/pm/SOUL.md",
+        "zh-CN": "roles/pm/SOUL.zh-CN.md"
+      },
+      "target": "workspace-pm/SOUL.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/architect/AGENTS.md",
+      "sources": {
+        "en": "roles/architect/AGENTS.md",
+        "zh-CN": "roles/architect/AGENTS.zh-CN.md"
+      },
+      "target": "workspace-architect/AGENTS.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/architect/SOUL.md",
+      "sources": {
+        "en": "roles/architect/SOUL.md",
+        "zh-CN": "roles/architect/SOUL.zh-CN.md"
+      },
+      "target": "workspace-architect/SOUL.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/backend/AGENTS.md",
+      "sources": {
+        "en": "roles/backend/AGENTS.md",
+        "zh-CN": "roles/backend/AGENTS.zh-CN.md"
+      },
+      "target": "workspace-backend/AGENTS.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/backend/SOUL.md",
+      "sources": {
+        "en": "roles/backend/SOUL.md",
+        "zh-CN": "roles/backend/SOUL.zh-CN.md"
+      },
+      "target": "workspace-backend/SOUL.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/frontend/AGENTS.md",
+      "sources": {
+        "en": "roles/frontend/AGENTS.md",
+        "zh-CN": "roles/frontend/AGENTS.zh-CN.md"
+      },
+      "target": "workspace-frontend/AGENTS.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/frontend/SOUL.md",
+      "sources": {
+        "en": "roles/frontend/SOUL.md",
+        "zh-CN": "roles/frontend/SOUL.zh-CN.md"
+      },
+      "target": "workspace-frontend/SOUL.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/qa/AGENTS.md",
+      "sources": {
+        "en": "roles/qa/AGENTS.md",
+        "zh-CN": "roles/qa/AGENTS.zh-CN.md"
+      },
+      "target": "workspace-qa/AGENTS.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/qa/SOUL.md",
+      "sources": {
+        "en": "roles/qa/SOUL.md",
+        "zh-CN": "roles/qa/SOUL.zh-CN.md"
+      },
+      "target": "workspace-qa/SOUL.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/reviewer/AGENTS.md",
+      "sources": {
+        "en": "roles/reviewer/AGENTS.md",
+        "zh-CN": "roles/reviewer/AGENTS.zh-CN.md"
+      },
+      "target": "workspace-reviewer/AGENTS.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/reviewer/SOUL.md",
+      "sources": {
+        "en": "roles/reviewer/SOUL.md",
+        "zh-CN": "roles/reviewer/SOUL.zh-CN.md"
+      },
+      "target": "workspace-reviewer/SOUL.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/security/AGENTS.md",
+      "sources": {
+        "en": "roles/security/AGENTS.md",
+        "zh-CN": "roles/security/AGENTS.zh-CN.md"
+      },
+      "target": "workspace-security/AGENTS.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/security/SOUL.md",
+      "sources": {
+        "en": "roles/security/SOUL.md",
+        "zh-CN": "roles/security/SOUL.zh-CN.md"
+      },
+      "target": "workspace-security/SOUL.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/devops/AGENTS.md",
+      "sources": {
+        "en": "roles/devops/AGENTS.md",
+        "zh-CN": "roles/devops/AGENTS.zh-CN.md"
+      },
+      "target": "workspace-devops/AGENTS.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/devops/SOUL.md",
+      "sources": {
+        "en": "roles/devops/SOUL.md",
+        "zh-CN": "roles/devops/SOUL.zh-CN.md"
+      },
+      "target": "workspace-devops/SOUL.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/docs/AGENTS.md",
+      "sources": {
+        "en": "roles/docs/AGENTS.md",
+        "zh-CN": "roles/docs/AGENTS.zh-CN.md"
+      },
+      "target": "workspace-docs/AGENTS.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/docs/SOUL.md",
+      "sources": {
+        "en": "roles/docs/SOUL.md",
+        "zh-CN": "roles/docs/SOUL.zh-CN.md"
+      },
+      "target": "workspace-docs/SOUL.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/research/AGENTS.md",
+      "sources": {
+        "en": "roles/research/AGENTS.md",
+        "zh-CN": "roles/research/AGENTS.zh-CN.md"
+      },
+      "target": "workspace-research/AGENTS.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "roles/research/SOUL.md",
+      "sources": {
+        "en": "roles/research/SOUL.md",
+        "zh-CN": "roles/research/SOUL.zh-CN.md"
+      },
+      "target": "workspace-research/SOUL.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "workspace-template/TEAM.md",
+      "sources": {
+        "en": "workspace-template/TEAM.md",
+        "zh-CN": "workspace-template/TEAM.zh-CN.md"
+      },
+      "target": "workspace/TEAM.md",
+      "strategy": "managed-overwrite",
+      "kind": "workspace"
+    },
+    {
+      "source": "task-templates/_template/metadata.md",
+      "sources": {
+        "en": "task-templates/_template/metadata.md",
+        "zh-CN": "task-templates/_template/metadata.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/metadata.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/routing.md",
+      "sources": {
+        "en": "task-templates/_template/routing.md",
+        "zh-CN": "task-templates/_template/routing.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/routing.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/status.md",
+      "sources": {
+        "en": "task-templates/_template/status.md",
+        "zh-CN": "task-templates/_template/status.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/status.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/brief.md",
+      "sources": {
+        "en": "task-templates/_template/brief.md",
+        "zh-CN": "task-templates/_template/brief.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/brief.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/plan.md",
+      "sources": {
+        "en": "task-templates/_template/plan.md",
+        "zh-CN": "task-templates/_template/plan.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/plan.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/subagents.md",
+      "sources": {
+        "en": "task-templates/_template/subagents.md",
+        "zh-CN": "task-templates/_template/subagents.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/subagents.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/agent-output.md",
+      "sources": {
+        "en": "task-templates/_template/agent-output.md",
+        "zh-CN": "task-templates/_template/agent-output.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/agent-output.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/requirements-package.md",
+      "sources": {
+        "en": "task-templates/_template/requirements-package.md",
+        "zh-CN": "task-templates/_template/requirements-package.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/requirements-package.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/main-supervisor-sop.md",
+      "sources": {
+        "en": "task-templates/_template/main-supervisor-sop.md",
+        "zh-CN": "task-templates/_template/main-supervisor-sop.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/main-supervisor-sop.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/pm.md",
+      "sources": {
+        "en": "task-templates/_template/pm.md",
+        "zh-CN": "task-templates/_template/pm.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/pm.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/architecture.md",
+      "sources": {
+        "en": "task-templates/_template/architecture.md",
+        "zh-CN": "task-templates/_template/architecture.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/architecture.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/backend.md",
+      "sources": {
+        "en": "task-templates/_template/backend.md",
+        "zh-CN": "task-templates/_template/backend.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/backend.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/frontend.md",
+      "sources": {
+        "en": "task-templates/_template/frontend.md",
+        "zh-CN": "task-templates/_template/frontend.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/frontend.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/qa.md",
+      "sources": {
+        "en": "task-templates/_template/qa.md",
+        "zh-CN": "task-templates/_template/qa.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/qa.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/review.md",
+      "sources": {
+        "en": "task-templates/_template/review.md",
+        "zh-CN": "task-templates/_template/review.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/review.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/security.md",
+      "sources": {
+        "en": "task-templates/_template/security.md",
+        "zh-CN": "task-templates/_template/security.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/security.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/devops.md",
+      "sources": {
+        "en": "task-templates/_template/devops.md",
+        "zh-CN": "task-templates/_template/devops.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/devops.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/docs.md",
+      "sources": {
+        "en": "task-templates/_template/docs.md",
+        "zh-CN": "task-templates/_template/docs.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/docs.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/research.md",
+      "sources": {
+        "en": "task-templates/_template/research.md",
+        "zh-CN": "task-templates/_template/research.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/research.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    },
+    {
+      "source": "task-templates/_template/final.md",
+      "sources": {
+        "en": "task-templates/_template/final.md",
+        "zh-CN": "task-templates/_template/final.zh-CN.md"
+      },
+      "target": "workspace/shared/tasks/_template/final.md",
+      "strategy": "create-or-managed-overwrite",
+      "kind": "task-templates"
+    }
+  ],
+  "restart": {
+    "default": true,
+    "reason": "Reload localized workspace instructions and task templates."
+  }
+}

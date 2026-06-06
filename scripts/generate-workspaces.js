@@ -8,9 +8,10 @@ const { ROLES } = require('./lib/constants');
 const { assertRoleName } = require('./lib/slug');
 const { ensureDir, copyFile, symlink, applyActions } = require('./lib/fs-safe');
 const { printPlan, printResults } = require('./lib/report');
+const { DEFAULT_RUNTIME_LANGUAGE, normalizeRuntimeLanguage } = require('./lib/runtime-localization');
 
 const HELP = `
-Usage: node scripts/generate-workspaces.js [--target ~/.openclaw] [--roles pm,docs] [--apply] [--preserve-existing]
+Usage: node scripts/generate-workspaces.js [--target ~/.openclaw] [--roles pm,docs] [--language en|zh-CN] [--lang en|zh-CN] [--apply] [--preserve-existing]
 
 Generate OpenClaw Agent workspace directories. Default is dry-run.
 
@@ -26,32 +27,43 @@ if (args.help) { printHelp(HELP); process.exit(0); }
 const root = projectRoot();
 const target = resolvePath(args.target || '~/.openclaw');
 const selected = args.roles ? String(args.roles).split(',').map(s => s.trim()).filter(Boolean) : ROLES;
+const language = normalizeRuntimeLanguage(args.language || args.lang || DEFAULT_RUNTIME_LANGUAGE);
 for (const r of selected) assertRoleName(r);
+function localizedSource(rel) {
+  if (language === DEFAULT_RUNTIME_LANGUAGE) return rel;
+  return rel.replace(/\.md$/, `.${language}.md`);
+}
+
+function copyLocalized(rel, dest, actions) {
+  copyFile(path.join(root, localizedSource(rel)), dest, actions);
+}
+
 const mainWorkspace = path.join(target, 'workspace');
 const sharedTarget = path.join(mainWorkspace, 'shared');
 const actions = [];
 ensureDir(mainWorkspace, actions);
 ensureDir(path.join(sharedTarget, 'tasks', '_template'), actions);
-for (const file of ['TEAM.md']) copyFile(path.join(root, 'workspace-template', file), path.join(mainWorkspace, file), actions);
+for (const file of ['TEAM.md']) copyLocalized(path.join('workspace-template', file), path.join(mainWorkspace, file), actions);
 for (const role of selected) {
   const workspace = role === 'main' ? mainWorkspace : path.join(target, `workspace-${role}`);
   ensureDir(workspace, actions);
   ensureDir(path.join(workspace, 'memory'), actions);
-  copyFile(path.join(root, 'workspace-template', 'TEAM.md'), path.join(workspace, 'TEAM.md'), actions);
-  copyFile(path.join(root, 'roles', role, 'AGENTS.md'), path.join(workspace, 'AGENTS.md'), actions);
-  copyFile(path.join(root, 'roles', role, 'SOUL.md'), path.join(workspace, 'SOUL.md'), actions);
+  copyLocalized('workspace-template/TEAM.md', path.join(workspace, 'TEAM.md'), actions);
+  copyLocalized(path.join('roles', role, 'AGENTS.md'), path.join(workspace, 'AGENTS.md'), actions);
+  copyLocalized(path.join('roles', role, 'SOUL.md'), path.join(workspace, 'SOUL.md'), actions);
   for (const [src, dest] of [
     ['USER.template.md', 'USER.md'], ['TOOLS.template.md', 'TOOLS.md'], ['MEMORY.template.md', 'MEMORY.md'],
     ['HEARTBEAT.template.md', 'HEARTBEAT.md'], ['IDENTITY.template.md', 'IDENTITY.md']
-  ]) copyFile(path.join(root, 'workspace-template', src), path.join(workspace, dest), actions);
+  ]) copyLocalized(path.join('workspace-template', src), path.join(workspace, dest), actions);
   if (role !== 'main') symlink(sharedTarget, path.join(workspace, 'shared'), actions);
 }
-for (const name of require('fs').readdirSync(path.join(root, 'task-templates', '_template')).filter(f => f.endsWith('.md'))) {
-  copyFile(path.join(root, 'task-templates', '_template', name), path.join(sharedTarget, 'tasks', '_template', name), actions);
+for (const name of require('fs').readdirSync(path.join(root, 'task-templates', '_template')).filter(f => f.endsWith('.md') && !f.endsWith('.zh-CN.md'))) {
+  copyLocalized(path.join('task-templates', '_template', name), path.join(sharedTarget, 'tasks', '_template', name), actions);
 }
 if (isApply(args) && args['preserve-existing'] !== true) {
   console.log('# Overwrite mode: existing repository-managed workspace template files and role shared links will be replaced.');
 }
+console.log(`# Runtime workspace language: ${language}`);
 printPlan(actions, { apply: isApply(args) });
 if (isApply(args)) {
   const overwrite = args['preserve-existing'] !== true;
