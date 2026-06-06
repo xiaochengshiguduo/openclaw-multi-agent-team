@@ -9,25 +9,16 @@
 - 在 `sessions_yield` 前，将 `status.md` 更新为 `waiting-agent`，并在下方列出 taskNames。
 - runtime event / compact 之后，main 必须执行 recovery lookup，不要直接假设 child result 不可用。
 - 只有在输出已归档且 final integration 完成后，才清理 child sessions。
-- 默认：在 sessions_spawn 中省略 `model`，依赖 OpenClaw config/agent defaults。
-- 只有在显式覆盖模型时才记录 model + reason（用户要求、任务/协议要求，或 incident mitigation）。
-
 ## Agent Registry
 
-| taskName | role | label/session hint | model | model reason | cleanup | status | spawned at | expected output | result path |
-|---|---|---|---|---|---|---|---|---|---|
-| example_review | reviewer | label: example-review | (default) | - | keep | planned | YYYY-MM-DD HH:mm TZ | review risks and evidence | review.md |
+| taskName | role | label/session hint | cleanup | status | spawned at | expected output | result path |
+|---|---|---|---|---|---|---|---|
+| example_review | reviewer | label: example-review | keep | planned | YYYY-MM-DD HH:mm TZ | review risks and evidence | review.md |
 
 Status values:
 
 ```text
 planned | running | waiting | completed | recovered | failed | archived | cancelled
-```
-
-Model reason examples:
-
-```text
-- | user requested ddgpt | task protocol requires gpt-5 | fallback: default model rate-limited
 ```
 
 ## Recovery Log

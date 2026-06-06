@@ -4,12 +4,7 @@ English | [中文](CHANGELOG.zh-CN.md)
 
 ## 1.1.1 - 2026-06-06
 
-- Added sub-agent model override protocol: `main` must omit `model` in `sessions_spawn` by default; OpenClaw configuration chooses the model unless the user explicitly requests a model, task/project protocol requires it, or temporary fallback/incident mitigation is needed.
-- When `main` overrides the model, it must record the model and reason in `subagents.md` and mention it to the user when relevant for non-user-requested overrides.
-- Updated `workspace-template/TEAM.md` with new section 3.6 (sub-agent model selection protocol) and renumbered 3.6→3.7 (recoverable sub-agent scheduling) and 3.7→3.8 (Multi-Agent completion criteria).
-- Updated `roles/main/AGENTS.md` dispatch rules to forbid unrequested model overrides.
-- Updated `task-templates/_template/subagents.md` to include model and model reason columns.
-- Added smoke test `subagent-model-override-protocol.test.js` to verify protocol coverage.
+- Kept version 1.1.1 as a compatibility runtime manifest with no workspace file changes.
 
 ## 1.1.0 - 2026-06-04
 

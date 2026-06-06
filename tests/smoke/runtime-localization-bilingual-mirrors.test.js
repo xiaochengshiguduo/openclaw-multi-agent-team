@@ -68,7 +68,6 @@ containsAll(read('roles/main/AGENTS.zh-CN.md'), [
   'Multi-Agent'
 ], 'roles/main/AGENTS.zh-CN.md');
 containsAll(read('workspace-template/TEAM.zh-CN.md'), [
-  '子 Agent 模型选择协议',
   '子 Agent 可恢复调度协议',
   '权限矩阵',
   '任务档案'
@@ -76,7 +75,6 @@ containsAll(read('workspace-template/TEAM.zh-CN.md'), [
 containsAll(read('task-templates/_template/subagents.zh-CN.md'), [
   'Recovery Log',
   'cleanup',
-  'model reason',
   'sessions_yield'
 ], 'task-templates/_template/subagents.zh-CN.md');
 containsAll(read('task-templates/_template/main-supervisor-sop.zh-CN.md'), [
