@@ -68,6 +68,7 @@
 - [OpenClaw 版本策略](reference/openclaw-version-policy.zh-CN.md)
 - [兼容性矩阵](reference/compatibility.zh-CN.md)
 - [环境变量](reference/environment-variables.zh-CN.md)
+- [Runtime localization 设计](reference/runtime-localization.zh-CN.md)
 - [角色模板参考](reference/role-template.zh-CN.md)
 - [Workspace 模板参考](reference/workspace-template.zh-CN.md)
 - [任务模板参考](reference/task-template.zh-CN.md)

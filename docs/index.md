@@ -68,6 +68,7 @@ Use these when checking details, scripts, compatibility, or release readiness.
 - [OpenClaw version policy](reference/openclaw-version-policy.md)
 - [Compatibility matrix](reference/compatibility.md)
 - [Environment variables](reference/environment-variables.md)
+- [Runtime localization design](reference/runtime-localization.md)
 - [Role template reference](reference/role-template.md)
 - [Workspace template reference](reference/workspace-template.md)
 - [Task template reference](reference/task-template.md)
