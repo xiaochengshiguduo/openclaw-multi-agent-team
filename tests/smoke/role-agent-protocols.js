@@ -27,41 +27,41 @@ for (const role of roles) {
   if (!text.includes('SOUL.md')) {
     fail(`AGENTS.md for role ${role} does not reference SOUL.md`);
   }
-  if (!text.includes('## 2. 岗位焦点')) {
+  if (!text.includes('## 2. Role Focus')) {
     fail(`AGENTS.md for role ${role} is missing role focus section`);
   }
   if (!text.includes(`${role} Checklist`)) {
     fail(`AGENTS.md for role ${role} is missing role checklist`);
   }
-  if (!text.includes('至少检查')) {
+  if (!text.includes('check at least')) {
     fail(`AGENTS.md for role ${role} checklist should include check items`);
   }
-  if (!text.includes('## 6. 输出格式') && !text.includes('## 7. 对用户输出')) {
+  if (!text.includes('## 6. Output Format') && !text.includes('## 7. User-facing Output')) {
     fail(`AGENTS.md for role ${role} is missing output guidance`);
   }
 }
 
 const mainText = fs.readFileSync(path.join(rolesRoot, 'main', 'AGENTS.md'), 'utf8');
 for (const forbidden of [
-  '用户默认不直接与你沟通',
-  '你也不直接对用户输出',
-  '请按以下格式回复 main',
-  '未经 main 明确授权'
+  'By default, the user does not talk to you directly',
+  'you do not output directly to the user',
+  'Reply to main in this format',
+  'Without explicit authorization from main'
 ]) {
   if (mainText.includes(forbidden)) fail(`main AGENTS.md contains child-agent-only phrase: ${forbidden}`);
 }
-if (!mainText.includes('你直接面向用户')) fail('main AGENTS.md does not say it directly faces the user');
+if (!mainText.includes('You face the user directly')) fail('main AGENTS.md does not say it directly faces the user');
 if (!mainText.includes('Telegram')) fail('main AGENTS.md should include Telegram-facing guidance');
 
 for (const role of roles.filter((name) => name !== 'main')) {
   const text = fs.readFileSync(path.join(rolesRoot, role, 'AGENTS.md'), 'utf8');
-  if (!text.includes('用户默认不直接与你沟通；你也不直接对用户输出。')) {
+  if (!text.includes('By default, the user does not talk to you directly, and you do not output directly to the user.')) {
     fail(`${role} AGENTS.md is missing child-agent user boundary`);
   }
-  if (!text.includes('请按以下格式回复 main：')) {
+  if (!text.includes('Reply to main in this format:')) {
     fail(`${role} AGENTS.md is missing child-agent output format`);
   }
-  if (!text.includes(`## 1. 基本关系`)) {
+  if (!text.includes(`## 1. Basic Relationship`)) {
     fail(`${role} AGENTS.md is missing basic relationship section`);
   }
 }

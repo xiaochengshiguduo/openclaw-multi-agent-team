@@ -89,7 +89,7 @@ for (const needle of ['## Decision', '## Reasoning', '## Direct handling allowed
 }
 
 const mainAgents = read('roles/main/AGENTS.md');
-for (const needle of ['## 3.1 main 自处理边界', '聊天、只读、非持久、低风险', '必须进入 Multi-Agent 流程', '由 TEAM.md 决定具体岗位路由']) {
+for (const needle of ['## 3.1 main Self-handling Boundary', 'chat, read-only, non-durable, and low-risk', 'must enter Multi-Agent flow', 'TEAM.md decide the specific roles']) {
   assert(mainAgents.includes(needle), `roles/main/AGENTS.md missing: ${needle}`);
 }
 

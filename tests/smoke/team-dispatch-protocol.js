@@ -15,38 +15,37 @@ function assert(condition, message) {
 }
 
 for (const needle of [
-  '## 3. 进入 Multi-Agent 后的调度协议',
-  '本节只适用于已经根据 `AGENTS.md` / `routing.md` 判定必须进入 Multi-Agent 流程的任务',
-  '`TEAM.md` 只负责进入后的岗位选择、协作顺序、权限控制、恢复和完成标准',
-  '目标不是人数最少',
-  '### 3.2 调度模式',
-  '调度模式只描述 Multi-Agent 内部协作形态',
-  '### 3.3 串行 / 并行判断',
-  '### 3.4 冲突处理协议',
-  '证据优先',
-  '### 3.5 Agent 权限矩阵',
-  '外部写操作、发送消息、评论、PR、push、release',
-  '部署、重启服务、修改系统配置',
-  '### 3.6 子 Agent 可恢复调度协议',
-  '### 3.7 Multi-Agent 完成定义',
+  '## 3. Dispatch Protocol After Entering Multi-Agent Flow',
+  'This section applies only after a task has already been judged by `AGENTS.md` / `routing.md` as requiring Multi-Agent flow',
+  '`TEAM.md` only chooses roles, collaboration order, permissions, recovery, and completion standards after entry',
+  'The goal is not to minimize headcount',
+  '### 3.2 Dispatch Modes',
+  'Dispatch modes describe collaboration within Multi-Agent flow',
+  '### 3.3 Serial / Parallel Judgment',
+  '### 3.4 Conflict Handling Protocol',
+  'Evidence first',
+  '### 3.5 Agent Permission Matrix',
+  'External writes, messages, comments, PR, push, release',
+  'Deploy, restart services, modify system config',
+  '### 3.6 Recoverable Sub-Agent Dispatch Protocol',
+  '### 3.7 Multi-Agent Completion Definition',
   '## Dispatch Mode',
   '## Dependencies',
   '## Completion Criteria',
   'Permission level:',
-  '### 4.1 功能实现类',
-  '### 4.2 缺陷、事故和环境类',
-  '### 4.3 审查、验证和发布类',
-  '### 4.4 文档、调研和长期规则类',
-  '发布就绪判断',
-  '新增可复用 SOP / 模板 / skill',
-  '`routing.md` 记录 main 入口判断以及进入 Multi-Agent 后的路由备注'
+  '### 4.1 Feature Implementation',
+  '### 4.2 Bug, Incident, and Environment',
+  '### 4.3 Review, Verification, and Release',
+  '### 4.4 Documentation, Research, and Long-term Rules',
+  'Release readiness judgment',
+  'Add a reusable SOP / template / skill',
+  '`routing.md` records main\'s entry judgment and routing notes after Multi-Agent entry'
 ]) {
   assert(team.includes(needle), `TEAM.md missing: ${needle}`);
 }
 
 for (const forbidden of [
   'main-only',
-  'direct handling',
   '默认尽量少拉人',
   '最少岗位优先',
   '最小团队原则'

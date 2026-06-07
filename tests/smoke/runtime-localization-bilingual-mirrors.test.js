@@ -31,6 +31,13 @@ function hasCjk(text) {
   return /[\u3400-\u9fff]/.test(text);
 }
 
+function cjkRatio(text) {
+  const chars = Array.from(text).filter((ch) => /\S/.test(ch));
+  if (chars.length === 0) return 0;
+  const cjk = chars.filter((ch) => /[\u3400-\u9fff]/.test(ch)).length;
+  return cjk / chars.length;
+}
+
 function containsAll(text, phrases, rel) {
   for (const phrase of phrases) {
     assert(text.includes(phrase), `${rel} missing critical protocol anchor: ${phrase}`);
@@ -50,6 +57,7 @@ for (const item of inventory.sourceFiles) {
 
   const en = read(item.path);
   const zh = read(mirror);
+  assert(cjkRatio(en) < 0.02, `English runtime source contains too much CJK text: ${item.path}`);
   assert(zh.trim().length > 0, `empty zh-CN mirror: ${mirror}`);
   assert(hasCjk(zh), `zh-CN mirror must contain Chinese text: ${mirror}`);
 

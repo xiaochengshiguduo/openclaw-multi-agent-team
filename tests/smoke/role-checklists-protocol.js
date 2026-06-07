@@ -7,27 +7,27 @@ const root = path.resolve(__dirname, '..', '..');
 const rolesRoot = path.join(root, 'roles');
 
 const expected = {
-  pm: ['目标用户', '范围', '验收标准', '用户原话'],
-  architect: ['模块边界', '接口契约', '迁移路径', '回滚点'],
-  backend: ['接口契约', '数据模型', '权限边界', '验证结果'],
-  frontend: ['加载态', '空态', '错误态', '可访问性'],
-  qa: ['测试用例', '自动化已跑', '手工已验', '严重度'],
-  reviewer: ['审查范围', 'blocking issue', 'non-blocking suggestion', '审查范围限制'],
-  security: ['信任边界', '攻击面', '敏感值', '用户明确授权'],
-  devops: ['目标环境', '只读诊断', 'dry-run', '回滚'],
-  docs: ['目标读者', '已验证事实', '中英文配对', '不要编造'],
-  research: ['决策标准', '交叉验证', '事实', '来源']
+  pm: ['target users', 'scope', 'acceptance criteria', 'user statements'],
+  architect: ['module boundaries', 'interface', 'migration', 'rollback'],
+  backend: ['interface', 'data', 'permission', 'verification'],
+  frontend: ['loading', 'empty', 'error', 'accessibility'],
+  qa: ['test', 'automated', 'manual', 'severity'],
+  reviewer: ['review scope', 'blocking issue', 'non-blocking suggestion', 'scope limitations'],
+  security: ['trust boundaries', 'attack surface', 'secret values', 'user authorization'],
+  devops: ['target environment', 'read-only', 'dry-run', 'rollback'],
+  docs: ['reader', 'verified facts', 'bilingual', 'invented'],
+  research: ['decision criteria', 'cross-check', 'facts', 'sources']
 };
 
 const forbiddenChildRolePhrases = [
-  '直接问用户',
-  '自行决定调用其他 Agent',
-  '决定是否进入 Multi-Agent',
-  '默认可修改相关所有文件',
-  '可直接重启',
-  '可直接部署',
-  '主动扫描、爆破、利用',
-  '补齐未知事实'
+  'ask the user directly',
+  'decide on your own to call other Agents',
+  'decide whether to enter Multi-Agent',
+  'may modify all related files by default',
+  'may restart directly',
+  'may deploy directly',
+  'proactively scan, brute-force, or exploit',
+  'fill in unknown facts'
 ];
 
 let failures = 0;
@@ -39,33 +39,34 @@ function fail(message) {
 for (const [role, requiredPhrases] of Object.entries(expected)) {
   const file = path.join(rolesRoot, role, 'AGENTS.md');
   const text = fs.readFileSync(file, 'utf8');
+  const lower = text.toLowerCase();
   const checklistHeading = `## 8. ${role} Checklist`;
 
   if (!text.includes(checklistHeading)) {
     fail(`${role} AGENTS.md missing checklist heading: ${checklistHeading}`);
   }
-  if (!text.includes('接手')) {
+  if (!lower.includes('when taking')) {
     fail(`${role} checklist should frame checks around receiving a task`);
   }
-  if (!text.includes('至少检查')) {
+  if (!lower.includes('check at least')) {
     fail(`${role} checklist should include explicit check guidance`);
   }
 
   for (const phrase of requiredPhrases) {
-    if (!text.includes(phrase)) {
+    if (!lower.includes(phrase.toLowerCase())) {
       fail(`${role} checklist missing role-specific phrase: ${phrase}`);
     }
   }
 
   for (const phrase of forbiddenChildRolePhrases) {
-    if (text.includes(phrase)) {
+    if (lower.includes(phrase.toLowerCase())) {
       fail(`${role} AGENTS.md contains forbidden routing/permission phrase: ${phrase}`);
     }
   }
 }
 
 const mainText = fs.readFileSync(path.join(rolesRoot, 'main', 'AGENTS.md'), 'utf8');
-if (!mainText.includes('main 只能直接完成同时满足以下条件的任务：聊天、只读、非持久、低风险。')) {
+if (!mainText.includes('main may directly complete only tasks that are simultaneously chat, read-only, non-durable, and low-risk.')) {
   fail('main self-handling boundary changed or missing');
 }
 if (!mainText.includes('## 9. main Checklist')) {
