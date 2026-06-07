@@ -278,6 +278,16 @@ function makeTempRepo() {
   return tmpRepo;
 }
 
+function initGitRepo(repo) {
+  spawnSync('git', ['init'], { cwd: repo, encoding: 'utf8' });
+  spawnSync('git', ['config', 'user.email', 'test@example.invalid'], { cwd: repo, encoding: 'utf8' });
+  spawnSync('git', ['config', 'user.name', 'Test User'], { cwd: repo, encoding: 'utf8' });
+  spawnSync('git', ['add', '.'], { cwd: repo, encoding: 'utf8' });
+  const r = spawnSync('git', ['commit', '-m', 'fixture'], { cwd: repo, encoding: 'utf8' });
+  assert(r.status === 0, 'failed to initialize git fixture repo: ' + r.stderr);
+  return spawnSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: repo, encoding: 'utf8' }).stdout.trim();
+}
+
 function writeCumulativeManifestFixture(tmpRepo, opts = {}) {
   const updatesDir = path.join(tmpRepo, 'updates', 'runtime');
   const fixtureDir = path.join(tmpRepo, 'updates', 'runtime-fixtures');
@@ -309,10 +319,10 @@ function writeCumulativeManifestFixture(tmpRepo, opts = {}) {
   return { sourceA, sourceB, sourceC, bodyA, bodyB, bodyC, contentA, contentB, contentC };
 }
 
-function writeUpdaterState(target, version, files) {
+function writeUpdaterState(target, version, files, extra = {}) {
   const stateDir = path.join(target, 'state', 'openclaw-multi-agent-team');
   fs.mkdirSync(stateDir, { recursive: true });
-  fs.writeFileSync(path.join(stateDir, 'update-state.json'), JSON.stringify({ version, appliedAt: new Date(0).toISOString(), sourceCommit: 'test', files }, null, 2) + '\n');
+  fs.writeFileSync(path.join(stateDir, 'update-state.json'), JSON.stringify({ version, appliedAt: new Date(0).toISOString(), sourceCommit: 'test', files, ...extra }, null, 2) + '\n');
 }
 
 function writeLocalizationManifestFixture(tmpRepo, opts = {}) {
@@ -511,6 +521,35 @@ function writeLocalizationManifestFixture(tmpRepo, opts = {}) {
     const plan = JSON.parse(r.stdout);
     assert(plan.language === 'zh-CN', 'dry-run plan did not preserve state zh-CN language');
     assert(plan.actions[0].source.endsWith('team-zh-CN.md'), 'state zh-CN did not resolve Chinese source in plan');
+  } finally { cleanTarget(target); fs.rmSync(tmpRepo, { recursive: true, force: true }); }
+}
+
+// apply with no file actions should still refresh updater metadata when the
+// source commit/version/language state is stale, but it must not restart.
+{
+  const target = makeTarget();
+  const tmpRepo = makeTempRepo();
+  const restartMarker = path.join(target, 'restart-marker');
+  try {
+    const fx = writeLocalizationManifestFixture(tmpRepo);
+    const expectedCommit = initGitRepo(tmpRepo);
+    const teamPath = path.join(target, 'workspace', 'TEAM.md');
+    fs.mkdirSync(path.dirname(teamPath), { recursive: true });
+    const desired = managedContent(fx.sourceZh, '9.9.9', '# Team Chinese\n');
+    fs.writeFileSync(teamPath, desired);
+    writeUpdaterState(target, '9.9.9', {
+      'workspace/TEAM.md': { sha256: sha256Text(desired), source: fx.sourceZh, version: '9.9.9' }
+    }, { language: 'zh-CN', sourceCommit: 'old-commit' });
+    const r = spawnSync(process.execPath, [path.join(tmpRepo, 'scripts', 'update-runtime-workspace.js'), '--target', target, '--apply', '--language', 'zh-CN', '--to', '9.9.9', '--restart-command', `touch ${restartMarker}`], { encoding: 'utf8' });
+    assert(r.status === 0, 'expected metadata-only refresh success, got ' + r.status + '\nstdout=' + r.stdout + '\nstderr=' + r.stderr);
+    assert(r.stdout.includes('state metadata refreshed'), 'metadata-only apply did not report state refresh');
+    assert(!fs.existsSync(restartMarker), 'metadata-only refresh should not restart');
+    assert(fs.readFileSync(teamPath, 'utf8') === desired, 'metadata-only refresh changed managed file content');
+    const state = readJson(path.join(target, 'state', 'openclaw-multi-agent-team', 'update-state.json'));
+    assert(state.version === '9.9.9', 'metadata refresh changed version incorrectly');
+    assert(state.language === 'zh-CN', 'metadata refresh did not preserve language');
+    assert(state.sourceCommit === expectedCommit, 'metadata refresh did not update sourceCommit');
+    assert(state.files['workspace/TEAM.md'].source === fx.sourceZh, 'metadata refresh changed file source');
   } finally { cleanTarget(target); fs.rmSync(tmpRepo, { recursive: true, force: true }); }
 }
 

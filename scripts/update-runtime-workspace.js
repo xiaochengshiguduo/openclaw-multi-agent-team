@@ -570,6 +570,28 @@ function applyPlan(plan, targetRoot, statePath, previousState = {}) {
   }
 }
 
+function stateNeedsMetadataRefresh(plan, previousState = {}) {
+  return previousState.version !== plan.toVersion ||
+    (previousState.language || DEFAULT_RUNTIME_LANGUAGE) !== (plan.language || DEFAULT_RUNTIME_LANGUAGE) ||
+    previousState.sourceCommit !== plan.sourceCommit;
+}
+
+function refreshStateMetadata(plan, targetRoot, statePath, previousState = {}) {
+  const release = acquireLock(targetRoot);
+  try {
+    const newState = {
+      version: plan.toVersion,
+      language: plan.language || DEFAULT_RUNTIME_LANGUAGE,
+      appliedAt: nowIso(),
+      sourceCommit: plan.sourceCommit,
+      files: { ...((previousState && previousState.files) || {}) }
+    };
+    writeJsonAtomic(statePath, newState);
+  } finally {
+    release();
+  }
+}
+
 function restartGateway(command) {
   const cmd = command || 'openclaw gateway restart';
   const r = spawnSync(cmd, { shell: true, stdio: 'inherit', encoding: 'utf8' });
@@ -628,7 +650,16 @@ function restartGateway(command) {
   }
   if (!args.apply) process.exit(EXIT.OK);
   if (plan.actions.length === 0) {
-    if (!args.json) console.log('No changes applied; restart skipped.');
+    if (stateNeedsMetadataRefresh(plan, state)) {
+      try {
+        refreshStateMetadata(plan, targetRoot, statePath, state);
+      } catch (err) {
+        fail(err.message, err.code || EXIT.RUNTIME);
+      }
+      if (!args.json) console.log('No file changes applied; state metadata refreshed; restart skipped.');
+    } else if (!args.json) {
+      console.log('No changes applied; restart skipped.');
+    }
     process.exit(EXIT.OK);
   }
   let result;
