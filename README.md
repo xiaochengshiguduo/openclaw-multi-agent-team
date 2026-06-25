@@ -138,15 +138,6 @@ openclaw agent --skill skills/multi-agent-team-installer \
   --task "将多 agent 团队安装到我的 OpenClaw"
 ```
 
-或手动分步安装：
-
-```bash
-node scripts/install-wizard.js            # 预览合并计划（不写入）
-node scripts/install-wizard.js --apply    # 审查后应用（先备份）
-node scripts/generate-workspaces.js --preserve-existing   # 仅添加缺失的 workspace 文件
-node scripts/register-agents.js --apply   # 注册角色 agents（跳过已存在的）
-```
-
 安装器会合并进你现有的配置，而不覆盖你的 API keys、现有 agents 或 workspace 文件。
 详见上方 [安装](#安装) 章节和 [子 Agent 架构](docs/concepts/subagent-architecture.md)。
 
