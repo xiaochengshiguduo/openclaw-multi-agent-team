@@ -150,31 +150,30 @@ node scripts/healthcheck-local.js
 node tests/smoke/run.js
 ```
 
-Preview complete new-machine reproduction:
+Install the team with the guided installer (recommended):
 
 ```bash
-node scripts/reproduce-new-machine.js --target "$HOME/.openclaw"
+# Let OpenClaw install it for you, with full guidance
+openclaw agent --skill skills/multi-agent-team-installer \
+  --task "Install the multi-agent team into my OpenClaw"
 ```
 
-Remote one-command bootstrap after review:
+Or install manually, step by step:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/bootstrap-new-machine.sh)" -- --apply
+node scripts/install-wizard.js            # preview merge plan (writes nothing)
+node scripts/install-wizard.js --apply    # apply after review (backs up first)
+node scripts/generate-workspaces.js --preserve-existing   # add missing workspace files only
+node scripts/register-agents.js --apply   # register role agents (skips existing)
 ```
 
-Run the interactive complete reproduction from a local checkout after review:
-
-```bash
-node scripts/reproduce-new-machine.js --target "$HOME/.openclaw" --apply
-```
-
-For phased/debug workflows, you can still run `generate-workspaces.js`, `register-agents.js`, and `configure-agent-routing.js` separately.
-
-For a complete new-machine walkthrough, see the [new-machine reproduction guide](docs/getting-started/reproduce-on-new-machine.md).
+The installer merges into your existing config without overwriting your API keys,
+existing agents, or workspace files. See the [Installation](#installation) section
+above and [subagent architecture](docs/concepts/subagent-architecture.md) for details.
 
 ## Updating an already-used runtime workspace
 
-Use `bootstrap-new-machine.sh` / `reproduce-new-machine.js` for new machines or full reproduction. For an OpenClaw runtime that has already been used, prefer the incremental runtime workspace updater:
+Use the guided installer (above) for new machines or fresh installs. For an OpenClaw runtime that has already been used, prefer the incremental runtime workspace updater:
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" --
@@ -261,7 +260,7 @@ See the [directory structure reference](docs/reference/directory-structure.md).
 Start here:
 
 - [Documentation index](docs/index.md)
-- [New-machine reproduction guide](docs/getting-started/reproduce-on-new-machine.md)
+- [Subagent architecture](docs/concepts/subagent-architecture.md)
 - [Project overview](docs/concepts/overview.md)
 - [Routing decision](docs/concepts/routing-decision.md)
 - [Security model](docs/security/security-model.md)

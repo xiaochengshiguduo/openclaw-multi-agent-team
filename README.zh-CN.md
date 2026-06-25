@@ -150,31 +150,29 @@ node scripts/healthcheck-local.js
 node tests/smoke/run.js
 ```
 
-预览完整新机器复现：
+使用引导式安装器安装团队（推荐）：
 
 ```bash
-node scripts/reproduce-new-machine.js --target "$HOME/.openclaw"
+# 让 OpenClaw 帮你装，全程引导
+openclaw agent --skill skills/multi-agent-team-installer \
+  --task "将多 agent 团队安装到我的 OpenClaw"
 ```
 
-审查后的远程一键 bootstrap：
+或手动分步安装：
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/bootstrap-new-machine.sh)" -- --apply
+node scripts/install-wizard.js            # 预览合并计划（不写入）
+node scripts/install-wizard.js --apply    # 审查后应用（先备份）
+node scripts/generate-workspaces.js --preserve-existing   # 仅添加缺失的 workspace 文件
+node scripts/register-agents.js --apply   # 注册角色 agents（跳过已存在的）
 ```
 
-从本地 checkout 审查后交互式执行完整复现：
-
-```bash
-node scripts/reproduce-new-machine.js --target "$HOME/.openclaw" --apply
-```
-
-分阶段/调试流程仍可单独使用 `generate-workspaces.js`、`register-agents.js` 和 `configure-agent-routing.js`。
-
-完整新机器复现流程见[新机器复现指南](docs/getting-started/reproduce-on-new-machine.zh-CN.md)。
+安装器会合并进你现有的配置，而不覆盖你的 API keys、现有 agents 或 workspace 文件。
+详见上方 [安装](#安装) 章节和 [子 Agent 架构](docs/concepts/subagent-architecture.zh-CN.md)。
 
 ## 更新已经使用过的 runtime workspace
 
-`bootstrap-new-machine.sh` / `reproduce-new-machine.js` 适合新机器或完整复现。对于已经使用过一段时间的 OpenClaw runtime，优先使用增量 runtime workspace updater：
+新机器或全新安装使用上方的引导式安装器。对于已经使用过一段时间的 OpenClaw runtime，优先使用增量 runtime workspace updater：
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" --
@@ -261,7 +259,7 @@ openclaw-multi-agent-team/
 建议从这里开始：
 
 - [文档导航页](docs/index.zh-CN.md)
-- [新机器复现指南](docs/getting-started/reproduce-on-new-machine.zh-CN.md)
+- [子 Agent 架构](docs/concepts/subagent-architecture.zh-CN.md)
 - [项目概览](docs/concepts/overview.zh-CN.md)
 - [路由决策](docs/concepts/routing-decision.zh-CN.md)
 - [安全模型](docs/security/security-model.zh-CN.md)

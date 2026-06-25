@@ -26,7 +26,6 @@ for (const f of ['README.md', 'README.zh-CN.md', 'SECURITY.md', 'package.json'])
 for (const f of [
   'scripts/healthcheck-runtime.js',
   'scripts/healthcheck-runtime.md',
-  'scripts/reproduce-new-machine.js',
   'scripts/update-runtime-workspace.js',
   'scripts/update-runtime-workspace.sh',
   'scripts/generate-workspaces.js',

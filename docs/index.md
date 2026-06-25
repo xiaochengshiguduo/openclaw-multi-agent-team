@@ -11,7 +11,7 @@ Choose the path that matches what you are trying to do.
 | Goal | Read |
 |---|---|
 | Understand the project quickly | [Project overview](concepts/overview.md) |
-| Reproduce the team on a new Linux machine | [New-machine reproduction guide](getting-started/reproduce-on-new-machine.md) |
+| Reproduce the team on a new Linux machine | [Installation guide](../README.md#installation) and [Subagent architecture](concepts/subagent-architecture.md) |
 | Create a team from templates | [Team creation guide](guides/create-a-new-team.md) |
 | Create and manage task archives | [Task archive guide](guides/create-a-task.md) |
 | Run local/runtime checks | [Healthcheck guide](guides/run-healthchecks.md) and [runtime healthcheck automation](guides/runtime-healthcheck-automation.md) |
@@ -19,18 +19,19 @@ Choose the path that matches what you are trying to do.
 | Maintain this repository | [Development guidelines](reference/development-guidelines.md) |
 | Prepare a release | [Release checklist](reference/release-checklist.md) |
 
-## New-machine reproduction path
+## Installation path
 
 If OpenClaw is already installed and configured through the official onboarding flow, use this path:
 
 1. [Prerequisites](getting-started/prerequisites.md)
-2. [New-machine reproduction guide](getting-started/reproduce-on-new-machine.md)
-3. [OpenClaw version policy](reference/openclaw-version-policy.md)
-4. [Script reference](reference/scripts.md)
-5. [Healthcheck guide](guides/run-healthchecks.md)
-6. [E2E drill guide](guides/run-an-e2e-drill.md)
+2. [Installation guide](../README.md#installation) — guided AI-assisted merge installer
+3. [Subagent architecture](concepts/subagent-architecture.md)
+4. [OpenClaw version policy](reference/openclaw-version-policy.md)
+5. [Script reference](reference/scripts.md)
+6. [Healthcheck guide](guides/run-healthchecks.md)
+7. [E2E drill guide](guides/run-an-e2e-drill.md)
 
-Important boundary: this project does **not** install, upgrade, downgrade, or pin OpenClaw. It starts after OpenClaw exists. Dedicated reproduction/update workflows may restart Gateway after explicit `--apply` so generated multi-agent config or managed runtime updates are loaded; use `--no-restart` where supported to defer restart. Ordinary lower-level helpers remain preview-first and do not restart Gateway.
+Important boundary: this project does **not** install, upgrade, downgrade, or pin OpenClaw. It starts after OpenClaw exists. The guided installer merges the team configuration into your existing OpenClaw setup without overwriting your API keys, existing agents, or workspace files.
 
 ## Concept map
 

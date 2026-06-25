@@ -11,7 +11,7 @@
 | 目标 | 阅读 |
 |---|---|
 | 快速理解项目 | [项目概览](concepts/overview.zh-CN.md) |
-| 在新的 Linux 机器上复现团队 | [新机器复现指南](getting-started/reproduce-on-new-machine.zh-CN.md) |
+| 在新的 Linux 机器上复现团队 | [安装指南](../README.zh-CN.md#安装) 和 [子 Agent 架构](concepts/subagent-architecture.zh-CN.md) |
 | 从模板创建团队 | [团队创建指南](guides/create-a-new-team.zh-CN.md) |
 | 创建和管理任务档案 | [任务档案指南](guides/create-a-task.zh-CN.md) |
 | 运行本地/runtime 检查 | [健康检查指南](guides/run-healthchecks.zh-CN.md) 和 [runtime healthcheck 自动化](guides/runtime-healthcheck-automation.zh-CN.md) |
@@ -19,18 +19,19 @@
 | 维护本仓库 | [开发规范](reference/development-guidelines.zh-CN.md) |
 | 准备发布 | [发布检查清单](reference/release-checklist.zh-CN.md) |
 
-## 新机器复现路径
+## 安装路径
 
 如果 OpenClaw 已经通过官方引导流程安装并配置好，建议按这个顺序阅读：
 
 1. [前置要求](getting-started/prerequisites.zh-CN.md)
-2. [新机器复现指南](getting-started/reproduce-on-new-machine.zh-CN.md)
-3. [OpenClaw 版本策略](reference/openclaw-version-policy.zh-CN.md)
-4. [脚本参考](reference/scripts.zh-CN.md)
-5. [健康检查指南](guides/run-healthchecks.zh-CN.md)
-6. [E2E 演练指南](guides/run-an-e2e-drill.zh-CN.md)
+2. [安装指南](../README.zh-CN.md#安装) — 引导式 AI 辅助合并安装器
+3. [子 Agent 架构](concepts/subagent-architecture.zh-CN.md)
+4. [OpenClaw 版本策略](reference/openclaw-version-policy.zh-CN.md)
+5. [脚本参考](reference/scripts.zh-CN.md)
+6. [健康检查指南](guides/run-healthchecks.zh-CN.md)
+7. [E2E 演练指南](guides/run-an-e2e-drill.zh-CN.md)
 
-重要边界：本项目**不安装、不升级、不降级、不固定** OpenClaw。它从 OpenClaw 已经存在之后开始工作。专用复现/更新流程可以在显式 `--apply` 后重启 Gateway，让生成的多 Agent 配置或托管 runtime 更新生效；需要延后重启时，在支持的位置使用 `--no-restart`。普通低层辅助脚本仍保持 preview-first，且不重启 Gateway。
+重要边界：本项目**不安装、不升级、不降级、不固定** OpenClaw。它从 OpenClaw 已经存在之后开始工作。引导式安装器将团队配置合并进你现有的 OpenClaw 设置，而不覆盖你的 API keys、现有 agents 或 workspace 文件。
 
 ## 概念地图
 
