@@ -1,9 +1,9 @@
-# IDENTITY.md
+# 身份文件
 
 本地身份信息占位文件。
 
-- Name:
-- Creature:
-- Vibe:
-- Emoji:
-- Avatar:
+- 名称：
+- 类型：
+- 风格：
+- Emoji：
+- 头像：
