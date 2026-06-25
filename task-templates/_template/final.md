@@ -1,4 +1,4 @@
-# Final Delivery
+# 最终交付
 
 ## 结论
 <最终结论，先说用户关心的结果>
@@ -21,7 +21,7 @@
 ## 建议下一步
 - ...
 
-## Agent Contributions
+## 岗位贡献
 - pm：...
 - architect：...
 - backend：...

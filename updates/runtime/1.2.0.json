@@ -1,6 +1,6 @@
 {
   "version": "1.2.0",
-  "description": "Add runtime localization source maps for English and Simplified Chinese managed role workspaces, team protocol, and task templates.",
+  "description": "添加运行时本地化源文件映射（中文角色工作空间、团队协议和任务模板）。",
   "files": [
     {
       "source": "roles/main/AGENTS.md",

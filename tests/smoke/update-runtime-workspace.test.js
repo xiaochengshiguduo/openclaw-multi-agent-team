@@ -212,7 +212,7 @@ const templateSop = fs.readFileSync(path.join(root, 'task-templates', '_template
     const r = must(['--target', target, '--apply', '--no-restart', '--overwrite-conflicts']);
     const after = fs.readFileSync(routingPath, 'utf8');
     assert(after.includes('managed-by: openclaw-multi-agent-team'), 'adopted template missing managed header');
-    assert(after.includes('# Routing Decision'), 'adopted template missing repository content');
+    assert(after.includes('# 路由决策'), 'adopted template missing repository content');
     const match = r.stdout.match(/Backup: (.+)/);
     assert(match, 'backup path missing from adopt output');
     assert(fs.readFileSync(path.join(match[1].trim(), 'workspace', 'shared', 'tasks', '_template', 'routing.md'), 'utf8') === before, 'backup does not contain pre-adopt template');

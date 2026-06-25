@@ -1,4 +1,4 @@
-# Main Supervisor SOP
+# Main Supervisor 标准流程
 
 > main 是用户唯一入口，也是技术合伙人 / CTO / 交付负责人。目标不是把消息转发给岗位 Agent，而是把需求变成可交付结果。
 

@@ -1,30 +1,30 @@
-# Task Brief
+# 任务简报
 
-## Task ID
-TASK-YYYYMMDD-HHMM-short-name
+## 任务 ID
+TASK-YYYYMMDD-HHMM-简短名称
 
-## User Goal
+## 用户目标
 <用户真正想达成的目标>
 
-## Background
+## 背景
 <必要背景，不放无关聊天噪音>
 
-## Scope
+## 范围
 
-### In Scope
+### 范围内
 - ...
 
-### Out of Scope
+### 范围外
 - ...
 
-## Constraints
+## 约束
 - 时间：...
 - 技术栈：...
 - 权限：...
 - 安全：...
 - 用户偏好：...
 
-## Agents Involved
+## 参与岗位
 - main：...
 - pm：...
 - architect：...
@@ -37,8 +37,8 @@ TASK-YYYYMMDD-HHMM-short-name
 - docs：...
 - research：...
 
-## Acceptance Criteria
+## 验收标准
 - ...
 
-## Confirmation Needed
+## 待确认项
 - ...

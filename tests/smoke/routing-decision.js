@@ -57,7 +57,7 @@ assert(constants.includes('routing.md'), 'TASK_TEMPLATE_FILES must include routi
 assert(constants.includes('subagents.md'), 'TASK_TEMPLATE_FILES must include subagents.md');
 
 const template = read('task-templates/_template/routing.md');
-for (const needle of ['## Decision', '## Reasoning', '## Re-routing log']) {
+for (const needle of ['## 决策', '## 推理', '## 重路由日志']) {
   assert(template.includes(needle), `task routing template missing: ${needle}`);
 }
 

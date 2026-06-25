@@ -1,15 +1,15 @@
-# Requirements Package
+# 需求包
 
 > PM 输出给 architect / backend / frontend / qa 的需求包模板。目标是让后续岗位不用重新猜需求边界。
 
 ## 1. 需求摘要
 
-- Task ID：...
-- Source / 上游来源：...
-- Owner / 当前负责人：pm
-- Last updated：YYYY-MM-DD HH:mm TZ
-- Workspace visibility note：本需求包应存放在 `shared/tasks/<task-id>/`；如果下游 Agent 无法读取共享路径，main 必须在 brief 中内联本文件关键内容。
-- Required downstream context：下游 Agent 至少需要读取本需求包、上游结论摘要、验收标准和待确认问题。
+- 任务 ID：...
+- 来源 / 上游来源：...
+- 负责人 / 当前负责人：pm
+- 最后更新：YYYY-MM-DD HH:mm TZ
+- 工作空间可见性说明：本需求包应存放在 `shared/tasks/<task-id>/`；如果下游 Agent 无法读取共享路径，main 必须在 brief 中内联本文件关键内容。
+- 下游必需上下文：下游 Agent 至少需要读取本需求包、上游结论摘要、验收标准和待确认问题。
 
 一句话说明用户要达成什么。
 
@@ -33,11 +33,11 @@
 
 ## 4. 范围
 
-### In Scope
+### 范围内
 
 - ...
 
-### Out of Scope
+### 范围外
 
 - ...
 
@@ -49,9 +49,9 @@
 以便 <价值/结果>。
 ```
 
-- Story 1：...
-- Story 2：...
-- Story 3：...
+- 故事 1：...
+- 故事 2：...
+- 故事 3：...
 
 ## 6. 功能需求
 
