@@ -53,7 +53,7 @@ node scripts/reproduce-new-machine.js --target "$HOME/.openclaw" --apply --keep-
 默认模式是 dry-run，会打印完整计划。使用 `--apply` 后，它会：
 
 - 覆盖本仓库管理的 workspaces/templates
-- 覆盖 OpenClaw 中本项目管理的 model/provider/A2A routing 配置
+- 覆盖 OpenClaw 中本项目管理的 model/provider/subagent 策略配置
 - 通过 `register-agents.js --apply`（OpenClaw 原生 `agents add` 流程）注册 role agents
 - 通过 `openclaw config patch --dry-run` 和 `openclaw config validate` 验证配置
 - 默认重启 Gateway，使复现出的团队立刻可用
@@ -110,7 +110,7 @@ node scripts/update-runtime-workspace.js --target "$HOME/.openclaw" --only task-
 6 = 更新成功后 Gateway restart failed
 ```
 
-这个 updater 的范围故意比 `reproduce-new-machine.js` 窄：它不会修改 `openclaw.json`、模型/provider 设置、凭证、A2A routing、memory、sessions、state 或 Gateway 配置。
+这个 updater 的范围故意比 `install-wizard.js` 窄：它不会修改 `openclaw.json`、模型/provider 设置、凭证、subagent 策略、memory、sessions、state 或 Gateway 配置。
 
 
 ## `update-runtime-workspace.sh`

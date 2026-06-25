@@ -39,9 +39,4 @@ function subagentPolicyPatch(roles) {
   };
 }
 
-// Legacy export name for compatibility during migration
-function agentToAgentPatch(roles) {
-  return subagentPolicyPatch(roles);
-}
-
-module.exports = { subagentPolicyPatch, agentToAgentPatch };
+module.exports = { subagentPolicyPatch };

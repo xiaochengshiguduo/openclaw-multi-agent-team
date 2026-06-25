@@ -18,7 +18,6 @@
 | [完整软件团队](full-software-team/) | 完整的 11 个 Agent 团队布局 |
 | [任务生命周期](task-lifecycle/) | 示例任务归档流程 |
 | [E2E 演练](e2e-drill/) | 虚构的多智能体演练归档 |
-| [Agent 到 Agent](agent-to-agent/) | 预期的只读 Agent 交互输出 |
 | [健康检查](healthcheck/) | 本地/运行时健康检查输出示例 |
 | [命令](commands/) | 可复制的 dry-run/apply 命令示例 |
 | [配置](config/) | 脱敏的配置补丁示例 |
