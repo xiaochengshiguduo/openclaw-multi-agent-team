@@ -19,7 +19,6 @@ const scripts = [
   'install-wizard.js',
   'preflight.js',
   'repro-check.js',
-  'sync-team-docs.js',
   'healthcheck-local.js'
 ];
 

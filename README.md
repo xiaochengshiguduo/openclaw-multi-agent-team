@@ -171,18 +171,17 @@ AI agent 会：
 
 | 脚本 | 用途 | 默认写入吗？ |
 |---|---|---|
-| `scripts/bootstrap-new-machine.sh` | 公开 clone/update 后调用 `reproduce-new-machine.js` | 否，除非透传 `--apply` |
-| `scripts/reproduce-new-machine.js` | 一条命令新机器复现 | 否，除非 `--apply` |
-| `scripts/update-runtime-workspace.sh` | 公开 clone/update 后调用 `update-runtime-workspace.js` | 只写 plan，完整更新需 `--apply` |
-| `scripts/update-runtime-workspace.js` | 已使用 runtime workspace 的安全增量更新 | 只写 plan，完整更新需 `--apply` |
-| `scripts/doctor-local.js` | 前置条件检查 | 否 |
+| `scripts/install-wizard.js` | 引导式安装器（合并配置、生成 workspace、注册 agents） | 否，除非 `--apply` |
+| `scripts/generate-workspaces.js` | 生成 workspace 和 shared symlink | 否，除非 `--apply` |
+| `scripts/register-agents.js` | 预览/执行 `openclaw agents add` | 否，除非 `--apply` |
+| `scripts/update-runtime-workspace.sh` | 增量更新 runtime workspace | 只写 plan，完整更新需 `--apply` |
+| `scripts/update-runtime-workspace.js` | 增量更新核心逻辑 | 只写 plan，完整更新需 `--apply` |
 | `scripts/healthcheck-local.js` | 仓库/模板检查 | 否 |
 | `scripts/healthcheck-runtime.js` | 真实 OpenClaw runtime 形状检查 | 否 |
+| `scripts/doctor-local.js` | 前置条件检查 | 否 |
+| `scripts/configure-subagent-policy.js` | 输出 subagent 策略补丁 | 不写真实配置 |
 | `scripts/repro-check.js` | 新机器复现 readiness 检查 | 否 |
-| `scripts/generate-workspaces.js` | 生成 workspace 和 shared symlink | 否，除非 `--apply` |
 | `scripts/create-task-archive.js` | 从模板创建任务档案 | 否，除非 `--apply` |
-| `scripts/register-agents.js` | 预览/执行 `openclaw agents add` | 否，除非 `--apply` |
-| `scripts/configure-agent-routing.js` | 输出 routing config patch | 不写真实配置 |
 | `scripts/preflight.js` | 发布前 preflight 检查 | 否 |
 
 详见[脚本参考](docs/reference/scripts.md)。

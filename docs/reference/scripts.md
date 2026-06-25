@@ -265,17 +265,6 @@ node scripts/preflight.js --target /tmp/oc-mat-preflight-repro
 
 运行 doctor、本地健康检查、复现检查、冒烟测试和小型危险文件扫描。它不会暂存、提交、推送、更改 OpenClaw 配置或重启 Gateway。
 
-## `sync-team-docs.js`
-
-计划中的预览优先同步辅助工具。
-
-它不得覆盖私有文件：
-
-- `MEMORY.md`
-- `USER.md`
-- `TOOLS.md`
-- `IDENTITY.md`
-
 ## `healthcheck-local.js`
 
 检查仓库模板和结构。不写入，也不进行外部调用。

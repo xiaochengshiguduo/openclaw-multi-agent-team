@@ -54,7 +54,6 @@
 - [Runtime healthcheck 自动化](guides/runtime-healthcheck-automation.md)
 - [运行 E2E 演练](guides/run-an-e2e-drill.md)
 - [添加岗位 Agent](guides/add-a-role-agent.md)
-- [同步团队文档](guides/sync-team-docs.md)
 - [迁移已有 workspace](guides/migrate-existing-workspace.md)
 
 ## 参考资料
