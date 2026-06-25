@@ -198,34 +198,67 @@ main 和岗位 Agent 都应区分“可以合理假设继续”和“必须追�
 | 部署、重启服务、修改系统配置、cron、systemd、nginx、shell rc、网络路由/DNS | 需 main 向用户确认 | 未确认前禁止执行 |
 | 读取、复制、暴露或长期保存凭证、token、私钥 | 禁止，除非用户明确给出受限处理授权 | 不得在输出中打印敏感值 |
 
-### 3.6 子 Agent 可恢复调度协议
+### 3.6 子 Agent 深度架构
 
-当 main 使用子 Agent 且任务可能跨 turn、触发 `sessions_yield`、runtime event、会话压缩或后台完成事件时，必须启用可恢复调度协议，避免只依赖一次性的等待链。
+本团队使用 OpenClaw 原生的 subagent announce 链实现稳定、可扩展的编排。结果通过内部注入流转，而非 agent 之间的消息传递。
 
-启用条件：
+**架构层级：**
 
-- 需要 1 个以上子 Agent。
-- 任务进入 `waiting-agent` 状态。
-- main 使用 `sessions_yield` 等待子 Agent。
-- 任务涉及发布、安全、系统配置、部署、代码审查、QA 或其他需要可追溯输出的工作。
-- 用户明确要求“继续”“后台”“多 Agent”“审查”“正式方案”等可能跨回合的任务。
+- **Depth 0 (main)：** 唯一面向用户的入口。派生编排者或直接派生工作者（简单任务）。
+- **Depth 1 (orchestrator/编排者)：** 可以派生 depth-2 工作者。在向 main 汇报前综合工作者结果。例如：tech-lead agent 协调 backend + frontend + QA。
+- **Depth 2 (worker/工作者)：** 专业角色 agent。结果使用 `deliver=false` 内部注入给其编排者，防止刷屏 Telegram。
 
-要求：
+**结果流向：**
 
-1. **spawn 前建档或更新任务档案**：在 `shared/tasks/<task-id>/` 中记录目标、状态和参与岗位。
-2. **登记子 Agent**：每个子 Agent 必须记录 `taskName`、role、label、cleanup 策略、状态、期望输出和结果路径。
-3. **重要任务默认 `cleanup: keep`**：只有轻量、一次性、结果已被 main 捕获且不需要恢复的子任务，才允许 `cleanup: delete`。
-4. **yield 前记录等待对象**：`status.md` 必须列出正在等待的 `taskName`，并标记 `Recovery required on runtime event: yes`。
-5. **runtime event / compact 恢复后先 recovery**：main 不得直接判定子 Agent 丢失或自行跳过；必须先查任务档案、`subagents list`、必要时 `sessions_list` / `sessions_history`。
-6. **归档后再清理**：只有当 main 已读取子 Agent 输出、写入任务档案并完成整合后，才允许清理子 Agent 会话。
-
-推荐新增任务档案文件：
-
-```text
-subagents.md
+```
+用户 ↔ main (depth-0)
+         ↓ spawn
+    编排者 (depth-1, 可选)
+         ↓ spawn
+    工作者 (depth-2) → 内部注入 → 编排者 → announce → main → 用户
 ```
 
-用于记录子 Agent 生命周期、等待状态、恢复线索和结果归档路径。模板见 `task-templates/_template/subagents.md`。
+**关键行为：**
+
+- 工作者（depth-2）的结果不会直接出现在用户的 Telegram 中。
+- 编排者（depth-1）通过内部注入接收工作者结果，综合后 announce 给 main。
+- main 接收综合结果并交付给用户。
+- 如果 main 直接派生工作者（无编排者），工作者处于 depth-1，直接 announce 给 main，然后 main 交付给用户。
+
+**何时使用编排者模式：**
+
+- 复杂任务需要 3+ 个并行工作者
+- 工作者需要协调或冲突解决才能交付
+- 结果需要综合或排序（例如："后端说 X，前端说 Y，这是整合方案"）
+
+**何时从 main 直接派生：**
+
+- 简单的 1-2 工作者任务
+- 工作者产出独立、无冲突的输出
+- 无需综合即可交付用户
+
+**配置：**
+
+```json5
+{
+  agents: {
+    defaults: {
+      subagents: {
+        maxSpawnDepth: 2,
+        maxChildrenPerAgent: 6,
+        maxConcurrent: 8
+      }
+    }
+  }
+}
+```
+
+**与旧版 agent-to-agent (A2A) 方式的对比：**
+
+本架构替换了旧版 A2A `sessions_send` ping-pong 模式，后者存在稳定性问题：
+- A2A 依赖 `maxPingPongTurns` 限制；超出轮数限制会导致结果丢失。
+- Subagent announce 链无轮数限制；结果通过运行时管理的内部注入流转。
+- A2A 需要手动恢复协议；subagent announce 是推送式的，天然可靠。
 
 ### 3.7 Multi-Agent 完成定义
 

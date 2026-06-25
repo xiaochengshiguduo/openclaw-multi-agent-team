@@ -73,7 +73,7 @@ for (const smokeTest of [
   'bash-remote-command-shape.test.js',
   'generate-agent-workspaces.test.js',
   'register-agents.dry-run.test.js',
-  'configure-agent-to-agent.dry-run.test.js',
+  'configure-subagent-policy.dry-run.test.js',
   'healthcheck-local.test.js',
   'create-task-archive.test.js',
   'runtime-localization-inventory.test.js',

@@ -1,34 +1,45 @@
 # Subagents
 
-Track every child agent used by this task so main can recover after runtime events, compacting, or missed completion callbacks.
+Track child agents spawned during this task for coordination, depth management, and result flow visibility.
 
-## Policy
+## Architecture
 
-- Important or cross-turn tasks default to `cleanup: keep`.
-- Use `cleanup: delete` only for lightweight child work whose result is already captured or not needed for recovery.
-- Before `sessions_yield`, update `status.md` to `waiting-agent` and list the taskNames below.
-- After runtime event / compact, main must run recovery lookup before assuming a child result is unavailable.
-- Clean up child sessions only after outputs are archived and final integration is complete.
-## Agent Registry
+This task uses OpenClaw's subagent announce chain:
 
-| taskName | role | label/session hint | cleanup | status | spawned at | expected output | result path |
-|---|---|---|---|---|---|---|---|
-| example_review | reviewer | label: example-review | keep | planned | YYYY-MM-DD HH:mm TZ | review risks and evidence | review.md |
+- **Depth 0 (main):** Task owner, only user-facing agent
+- **Depth 1:** Direct children of main (orchestrators or workers)
+- **Depth 2:** Workers spawned by depth-1 orchestrators
 
-Status values:
+Depth-2 worker results flow via internal injection (`deliver=false`) to their depth-1 parent, preventing Telegram spam.
 
-```text
-planned | running | waiting | completed | recovered | failed | archived | cancelled
-```
+## Spawned Agents
 
-## Recovery Log
+| taskName | role | depth | parent | status | spawned at | output location |
+|---|---|---|---|---|---|---|
+| backend_api | backend | 2 | tech_lead_coord | completed | YYYY-MM-DD HH:mm TZ | backend.md |
+| frontend_ui | frontend | 2 | tech_lead_coord | completed | YYYY-MM-DD HH:mm TZ | frontend.md |
+| tech_lead_coord | architect | 1 | main | completed | YYYY-MM-DD HH:mm TZ | architecture.md |
 
-| Time | taskName | lookup method | outcome | archived path | notes |
-|---|---|---|---|---|---|
-| YYYY-MM-DD HH:mm TZ | example_review | subagents list / sessions_list / sessions_history | recovered | review.md | ... |
+Status values: `planned | running | completed | failed | cancelled`
 
-## Cleanup Log
+**Depth management:**
 
-| Time | taskName | cleanup action | reason |
-|---|---|---|---|
-| YYYY-MM-DD HH:mm TZ | example_review | kept / removed | output archived and no longer needed |
+- If main spawns workers directly → depth-1, announce to main
+- If main spawns orchestrator → orchestrator is depth-1, spawns depth-2 workers
+- Workers receive task via `[Subagent Task]` in their first message
+- Results flow: worker → (orchestrator) → main → user
+
+## Completion Flow
+
+When all expected children complete:
+
+1. Depth-2 workers announce to their depth-1 orchestrator (internal injection)
+2. Orchestrator synthesizes results, announces to main
+3. main integrates orchestrator output, delivers to user
+
+## Notes
+
+- Use `sessions_yield` after spawning to wait for completion events
+- Completion events arrive as runtime messages, not via polling
+- `subagents list` shows active/recent children for this session
+- Child outputs are in task archive under role-specific files

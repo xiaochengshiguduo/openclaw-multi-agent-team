@@ -1,6 +1,69 @@
 English | [中文](CHANGELOG.zh-CN.md)
 
-# Changelog
+
+## 2.0.0 - 2026-06-25
+
+**Major architecture migration: Agent-to-Agent → Subagent Announce Chain**
+
+This release completely replaces the legacy agent-to-agent (A2A) `sessions_send` ping-pong pattern with OpenClaw's native subagent announce chain architecture. This eliminates the stability issues caused by `maxPingPongTurns` limits.
+
+**Breaking changes:**
+
+- Removed `session.agentToAgent.maxPingPongTurns` configuration (no longer needed)
+- Removed `tools.agentToAgent` configuration block
+- Removed section 3.6 "Recoverable Sub-Agent Dispatch Protocol" from `TEAM.md` (replaced with depth architecture)
+- Removed `configure-agent-routing.js` script (replaced with `configure-subagent-policy.js`)
+- Removed `docs/concepts/agent-to-agent-routing.md` (replaced with `subagent-architecture.md`)
+
+**New architecture:**
+
+- Added `agents.defaults.subagents.maxSpawnDepth: 2` for nested orchestrator pattern
+- Added `agents.defaults.subagents.maxChildrenPerAgent` and `maxConcurrent` controls
+- Depth-0 (main): only user-facing entry point
+- Depth-1 (orchestrator): optional coordinator, spawns depth-2 workers
+- Depth-2 (worker): specialized roles, results use `deliver=false` internal injection
+- Worker results flow via announce chain, preventing Telegram spam
+
+**Core changes:**
+
+- Rewrote `scripts/lib/openclaw-config.js` to generate subagent policy instead of A2A routing
+- Added `scripts/configure-subagent-policy.js` with depth architecture documentation
+- Replaced `TEAM.md` section 3.6 with "Subagent Depth Architecture" explanation
+- Updated `task-templates/_template/subagents.md` from recovery tracking to depth coordination
+- Added `docs/concepts/subagent-architecture.md` with usage patterns and comparison table
+- Updated `scripts/reproduce-new-machine.js` to use `subagentPolicyPatch`
+- Rewrote `tests/smoke/configure-subagent-policy.dry-run.test.js` with depth assertions
+
+**Benefits:**
+
+- Eliminates "only 4-5 out of 10 agents return results" instability
+- No turn-limit constraints on agent communication
+- Push-based completion events, no manual recovery needed
+- Worker results never spam user's Telegram
+- Clearer orchestration semantics (depth-based)
+
+**Migration guide:**
+
+1. Update `~/.openclaw/openclaw.json`:
+   - Remove `session.agentToAgent`
+   - Remove `tools.agentToAgent`
+   - Add `agents.defaults.subagents.maxSpawnDepth: 2`
+   - Add `agents.defaults.subagents.maxChildrenPerAgent: 6`
+   - Add `agents.defaults.subagents.maxConcurrent: 8`
+
+2. Update workspace protocols:
+   - Review and update any A2A `sessions_send` patterns to use `sessions_spawn`
+   - Use `sessions_yield` after spawning to wait for completion events
+   - For complex tasks, spawn an orchestrator agent to coordinate workers
+
+3. Re-test multi-agent workflows to confirm stable result delivery
+
+**Compatibility:**
+
+- Requires OpenClaw 2026.6.10 or later for stable subagent announce behavior
+- Role agent workspaces remain compatible
+- Task archive format remains compatible
+
 
 ## 1.1.1 - 2026-06-06
 

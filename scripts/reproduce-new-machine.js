@@ -9,7 +9,7 @@ const { spawnSync } = require('child_process');
 const { parseArgs, printHelp, isApply } = require('./lib/cli');
 const { resolvePath } = require('./lib/paths');
 const { ROLE_AGENTS, ROLES } = require('./lib/constants');
-const { agentToAgentPatch } = require('./lib/openclaw-config');
+const { subagentPolicyPatch } = require('./lib/openclaw-config');
 const { DEFAULT_RUNTIME_LANGUAGE, normalizeRuntimeLanguage } = require('./lib/runtime-localization');
 
 const HELP = `
@@ -216,7 +216,7 @@ function buildConfigPatch({ providerId, modelId, baseUrl, api, alias, apiKey, ap
   if (apiKeyEnv) provider.apiKey = { source: 'env', provider: 'default', id: apiKeyEnv };
   else if (apiKey) provider.apiKey = apiKey;
 
-  const routingPatch = agentToAgentPatch(ROLES);
+  const routingPatch = subagentPolicyPatch(ROLES);
   return {
     models: { mode: 'merge', providers: { [providerId]: provider } },
     agents: {

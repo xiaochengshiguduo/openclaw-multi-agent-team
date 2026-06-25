@@ -1,6 +1,69 @@
 [English](CHANGELOG.md) | 中文
 
-# 更新日志
+
+## 2.0.0 - 2026-06-25
+
+**重大架构迁移：Agent-to-Agent → Subagent Announce 链**
+
+本版本完全替换了旧版 agent-to-agent (A2A) `sessions_send` ping-pong 模式，改用 OpenClaw 原生的 subagent announce 链架构。这消除了 `maxPingPongTurns` 限制导致的稳定性问题。
+
+**破坏性变更：**
+
+- 移除 `session.agentToAgent.maxPingPongTurns` 配置（不再需要）
+- 移除 `tools.agentToAgent` 配置块
+- 从 `TEAM.md` 中移除 3.6 节"子 Agent 可恢复调度协议"（替换为深度架构）
+- 移除 `configure-agent-routing.js` 脚本（替换为 `configure-subagent-policy.js`）
+- 移除 `docs/concepts/agent-to-agent-routing.md`（替换为 `subagent-architecture.md`）
+
+**新架构：**
+
+- 添加 `agents.defaults.subagents.maxSpawnDepth: 2` 支持嵌套编排者模式
+- 添加 `agents.defaults.subagents.maxChildrenPerAgent` 和 `maxConcurrent` 控制
+- Depth-0 (main)：唯一面向用户的入口
+- Depth-1 (编排者)：可选协调者，派生 depth-2 工作者
+- Depth-2 (工作者)：专业角色，结果使用 `deliver=false` 内部注入
+- 工作者结果通过 announce 链流转，防止刷屏 Telegram
+
+**核心变更：**
+
+- 重写 `scripts/lib/openclaw-config.js` 生成 subagent 策略而非 A2A 路由
+- 添加 `scripts/configure-subagent-policy.js` 及深度架构文档
+- 替换 `TEAM.md` 3.6 节为"子 Agent 深度架构"说明
+- 更新 `task-templates/_template/subagents.md` 从恢复追踪改为深度协调
+- 添加 `docs/concepts/subagent-architecture.md` 含使用模式和对比表
+- 更新 `scripts/reproduce-new-machine.js` 使用 `subagentPolicyPatch`
+- 重写 `tests/smoke/configure-subagent-policy.dry-run.test.js` 含深度断言
+
+**优势：**
+
+- 消除"10个agent只有4-5个返回结果"的不稳定现象
+- agent 通信无轮数限制
+- 推送式完成事件，无需手动恢复
+- 工作者结果不会刷屏用户 Telegram
+- 更清晰的编排语义（基于深度）
+
+**迁移指南：**
+
+1. 更新 `~/.openclaw/openclaw.json`：
+   - 移除 `session.agentToAgent`
+   - 移除 `tools.agentToAgent`
+   - 添加 `agents.defaults.subagents.maxSpawnDepth: 2`
+   - 添加 `agents.defaults.subagents.maxChildrenPerAgent: 6`
+   - 添加 `agents.defaults.subagents.maxConcurrent: 8`
+
+2. 更新 workspace 协议：
+   - 检查并更新任何 A2A `sessions_send` 模式改用 `sessions_spawn`
+   - 派生后使用 `sessions_yield` 等待完成事件
+   - 复杂任务时，派生编排者 agent 来协调工作者
+
+3. 重新测试多 agent 工作流，确认结果稳定交付
+
+**兼容性：**
+
+- 需要 OpenClaw 2026.6.10 或更高版本以获得稳定的 subagent announce 行为
+- 角色 agent workspace 保持兼容
+- 任务归档格式保持兼容
+
 
 ## 1.1.1 - 2026-06-06
 

@@ -198,34 +198,67 @@ Order of handling:
 | Deploy, restart services, modify system config, cron, systemd, nginx, shell rc, network route/DNS | Requires main to confirm with user | Prohibited before confirmation |
 | Read, copy, expose, or persist credentials, tokens, private keys | Prohibited unless the user explicitly grants limited handling authorization | Sensitive values must not be printed in output |
 
-### 3.6 Recoverable Sub-Agent Dispatch Protocol
+### 3.6 Subagent Depth Architecture
 
-When main uses sub-Agents and the task may cross turns, trigger `sessions_yield`, runtime events, compaction, or background completion events, main must enable the recoverable dispatch protocol rather than relying only on one-time wait chains.
+This team uses OpenClaw's native subagent announce chain for stable, scalable orchestration. Results flow through internal injection rather than agent-to-agent messaging.
 
-Enable when:
+**Architecture levels:**
 
-- More than one sub-Agent is needed.
-- The task enters `waiting-agent` status.
-- main uses `sessions_yield` to wait for sub-Agents.
-- The task involves release, security, system configuration, deployment, code review, QA, or other work requiring traceable output.
-- The user explicitly says “continue”, “background”, “multi-Agent”, “review”, “formal plan”, or other cross-turn wording.
+- **Depth 0 (main):** Only user-facing entry point. Spawns orchestrators or directly spawns workers for simple tasks.
+- **Depth 1 (orchestrator):** Can spawn depth-2 workers. Synthesizes worker results before announcing to main. Example: a tech-lead agent coordinating backend + frontend + QA.
+- **Depth 2 (worker):** Specialized role agents. Results use `deliver=false` internal injection to their orchestrator, preventing Telegram spam.
 
-Requirements:
+**Result flow:**
 
-1. **Create or update a task archive before spawning**: record objective, status, and participating roles under `shared/tasks/<task-id>/`.
-2. **Register sub-Agents**: record each sub-Agent's `taskName`, role, label, cleanup policy, status, expected output, and result path.
-3. **Default important tasks to `cleanup: keep`**: use `cleanup: delete` only for lightweight one-off subtasks whose result main has already captured and which do not need recovery.
-4. **Record waiting objects before yielding**: `status.md` must list the awaited `taskName` values and mark `Recovery required on runtime event: yes`.
-5. **Recover first after runtime event / compaction**: main must not immediately declare a sub-Agent lost or skip it. Check the task archive, `subagents list`, and if needed `sessions_list` / `sessions_history` first.
-6. **Clean up only after archiving**: clean sub-Agent sessions only after main has read the output, written it into the task archive, and completed integration.
-
-Recommended additional task archive file:
-
-```text
-subagents.md
+```
+User ↔ main (depth-0)
+         ↓ spawn
+    orchestrator (depth-1, optional)
+         ↓ spawn
+    workers (depth-2) → internal injection → orchestrator → announce → main → user
 ```
 
-It records sub-Agent lifecycle, waiting state, recovery clues, and result archive paths. Template: `task-templates/_template/subagents.md`.
+**Key behaviors:**
+
+- Worker (depth-2) results never appear in user's Telegram directly.
+- Orchestrator (depth-1) receives worker results via internal injection, synthesizes them, then announces to main.
+- main receives the synthesized result and delivers to user.
+- If main spawns workers directly (no orchestrator), workers are depth-1 and announce directly to main, then main delivers to user.
+
+**When to use orchestrator pattern:**
+
+- Complex tasks requiring 3+ parallel workers
+- Workers need coordination or conflict resolution before delivery
+- Results need synthesis or ranking (e.g., "backend says X, frontend says Y, here's the integrated plan")
+
+**When to spawn directly from main:**
+
+- Simple 1-2 worker tasks
+- Workers produce independent, non-conflicting outputs
+- No synthesis needed before user delivery
+
+**Configuration:**
+
+```json5
+{
+  agents: {
+    defaults: {
+      subagents: {
+        maxSpawnDepth: 2,
+        maxChildrenPerAgent: 6,
+        maxConcurrent: 8
+      }
+    }
+  }
+}
+```
+
+**Comparison with legacy agent-to-agent (A2A) approach:**
+
+This architecture replaces the legacy A2A `sessions_send` ping-pong pattern, which had stability issues:
+- A2A relied on `maxPingPongTurns` limits; exceeding the limit dropped results.
+- Subagent announce chain has no turn limits; results flow via runtime-managed internal injection.
+- A2A required manual recovery protocols; subagent announce is push-based and reliable.
 
 ### 3.7 Multi-Agent Completion Definition
 
