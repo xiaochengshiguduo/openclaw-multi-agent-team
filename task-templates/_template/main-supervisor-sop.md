@@ -34,7 +34,7 @@
 - `brief.md` — 任务目标、范围、约束、验收标准。
 - `plan.md` — 路由、步骤、当前 next action。
 - `subagents.md` — 子 Agent 登记、等待状态、恢复日志和清理记录。
-- `<role>.md` — 岗位输出，如 `pm.md`、`architecture.md`。
+- `agent-output.md` / `architecture.md` — 岗位输出模板。
 - `final.md` — main 的最终整合和用户交付。
 
 ## 4. 状态流转

@@ -195,62 +195,8 @@
       "kind": "task-templates"
     },
     {
-      "source": "task-templates/_template/pm.md",
-      "target": "workspace/shared/tasks/_template/pm.md",
-      "strategy": "create-or-managed-overwrite",
-      "kind": "task-templates"
-    },
-    {
       "source": "task-templates/_template/architecture.md",
       "target": "workspace/shared/tasks/_template/architecture.md",
-      "strategy": "create-or-managed-overwrite",
-      "kind": "task-templates"
-    },
-    {
-      "source": "task-templates/_template/backend.md",
-      "target": "workspace/shared/tasks/_template/backend.md",
-      "strategy": "create-or-managed-overwrite",
-      "kind": "task-templates"
-    },
-    {
-      "source": "task-templates/_template/frontend.md",
-      "target": "workspace/shared/tasks/_template/frontend.md",
-      "strategy": "create-or-managed-overwrite",
-      "kind": "task-templates"
-    },
-    {
-      "source": "task-templates/_template/qa.md",
-      "target": "workspace/shared/tasks/_template/qa.md",
-      "strategy": "create-or-managed-overwrite",
-      "kind": "task-templates"
-    },
-    {
-      "source": "task-templates/_template/review.md",
-      "target": "workspace/shared/tasks/_template/review.md",
-      "strategy": "create-or-managed-overwrite",
-      "kind": "task-templates"
-    },
-    {
-      "source": "task-templates/_template/security.md",
-      "target": "workspace/shared/tasks/_template/security.md",
-      "strategy": "create-or-managed-overwrite",
-      "kind": "task-templates"
-    },
-    {
-      "source": "task-templates/_template/devops.md",
-      "target": "workspace/shared/tasks/_template/devops.md",
-      "strategy": "create-or-managed-overwrite",
-      "kind": "task-templates"
-    },
-    {
-      "source": "task-templates/_template/docs.md",
-      "target": "workspace/shared/tasks/_template/docs.md",
-      "strategy": "create-or-managed-overwrite",
-      "kind": "task-templates"
-    },
-    {
-      "source": "task-templates/_template/research.md",
-      "target": "workspace/shared/tasks/_template/research.md",
       "strategy": "create-or-managed-overwrite",
       "kind": "task-templates"
     },

@@ -224,54 +224,9 @@
       "target": "workspace/shared/tasks/_template/main-supervisor-sop.md"
     },
     {
-      "path": "task-templates/_template/pm.md",
-      "kind": "task-template",
-      "target": "workspace/shared/tasks/_template/pm.md"
-    },
-    {
       "path": "task-templates/_template/architecture.md",
       "kind": "task-template",
       "target": "workspace/shared/tasks/_template/architecture.md"
-    },
-    {
-      "path": "task-templates/_template/backend.md",
-      "kind": "task-template",
-      "target": "workspace/shared/tasks/_template/backend.md"
-    },
-    {
-      "path": "task-templates/_template/frontend.md",
-      "kind": "task-template",
-      "target": "workspace/shared/tasks/_template/frontend.md"
-    },
-    {
-      "path": "task-templates/_template/qa.md",
-      "kind": "task-template",
-      "target": "workspace/shared/tasks/_template/qa.md"
-    },
-    {
-      "path": "task-templates/_template/review.md",
-      "kind": "task-template",
-      "target": "workspace/shared/tasks/_template/review.md"
-    },
-    {
-      "path": "task-templates/_template/security.md",
-      "kind": "task-template",
-      "target": "workspace/shared/tasks/_template/security.md"
-    },
-    {
-      "path": "task-templates/_template/devops.md",
-      "kind": "task-template",
-      "target": "workspace/shared/tasks/_template/devops.md"
-    },
-    {
-      "path": "task-templates/_template/docs.md",
-      "kind": "task-template",
-      "target": "workspace/shared/tasks/_template/docs.md"
-    },
-    {
-      "path": "task-templates/_template/research.md",
-      "kind": "task-template",
-      "target": "workspace/shared/tasks/_template/research.md"
     },
     {
       "path": "task-templates/_template/final.md",

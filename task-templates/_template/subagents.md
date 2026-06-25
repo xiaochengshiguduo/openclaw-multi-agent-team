@@ -16,8 +16,8 @@ Depth-2 工作者的结果通过内部注入（`deliver=false`）流向其 depth
 
 | taskName | role | depth | parent | status | spawned at | output location |
 |---|---|---|---|---|---|---|
-| backend_api | backend | 2 | tech_lead_coord | completed | YYYY-MM-DD HH:mm TZ | backend.md |
-| frontend_ui | frontend | 2 | tech_lead_coord | completed | YYYY-MM-DD HH:mm TZ | frontend.md |
+| backend_api | backend | 2 | tech_lead_coord | completed | YYYY-MM-DD HH:mm TZ | agent-output.md |
+| frontend_ui | frontend | 2 | tech_lead_coord | completed | YYYY-MM-DD HH:mm TZ | agent-output.md |
 | tech_lead_coord | architect | 1 | main | completed | YYYY-MM-DD HH:mm TZ | architecture.md |
 
 状态值：`planned | running | completed | failed | cancelled`

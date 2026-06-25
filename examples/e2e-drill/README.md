@@ -14,8 +14,7 @@
 
 - `brief.md`：虚构用户请求。
 - `plan.md`：main 的路由计划。
-- `pm.md`：PM 输出。
-- `reviewer.md`：reviewer 输出。
+- `agent-output.md`：岗位输出示例。
 - `final.md`：最终汇总。
 
 ## 安全

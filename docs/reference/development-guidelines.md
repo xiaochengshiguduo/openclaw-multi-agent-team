@@ -151,17 +151,9 @@ metadata.md
 status.md
 brief.md
 plan.md
-pm.md
 requirements-package.md
 architecture.md
-backend.md
-frontend.md
-qa.md
-review.md
-security.md
-devops.md
-docs.md
-research.md
+agent-output.md
 final.md
 ```
 

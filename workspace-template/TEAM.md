@@ -402,18 +402,10 @@ shared/tasks/TASK-YYYYMMDD-HHMM-short-name/
 - `brief.md`
 - `plan.md`
 - `subagents.md`
-- `pm.md`
 - `requirements-package.md`
 - `architecture.md`
-- `backend.md`
-- `frontend.md`
-- `qa.md`
-- `review.md`
-- `security.md`
-- `devops.md`
-- `docs.md`
-- `research.md`
 - `final.md`
+- `agent-output.md`
 
 ## 9. 任务状态流转
 
