@@ -93,24 +93,6 @@ AI agent 会：
 - 注册角色 agents（跳过已存在的）
 - 生成包含回滚指令的安装报告
 
-### 手动安装（分步执行）
-
-```bash
-# 1. 预览合并（dry-run，不写入任何东西）
-node scripts/install-wizard.js
-
-# 2. 检查计划后应用
-node scripts/install-wizard.js --apply
-
-# 3. 生成 worker workspaces（保留现有文件）
-node scripts/generate-workspaces.js --preserve-existing
-
-# 4. 注册角色 agents
-node scripts/register-agents.js --apply
-
-# 5. 验证配置后手动重启 Gateway
-```
-
 ### 安全特性
 
 - **默认 dry-run**：所有工具在写入前预览变更
