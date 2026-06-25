@@ -76,19 +76,19 @@ containsAll(read('roles/main/AGENTS.zh-CN.md'), [
   'Multi-Agent'
 ], 'roles/main/AGENTS.zh-CN.md');
 containsAll(read('workspace-template/TEAM.zh-CN.md'), [
-  '子 Agent 可恢复调度协议',
+  '子 Agent 深度架构',
   '权限矩阵',
   '任务档案'
 ], 'workspace-template/TEAM.zh-CN.md');
 containsAll(read('task-templates/_template/subagents.zh-CN.md'), [
-  'Recovery Log',
-  'cleanup',
+  '完成流程',
+  'depth',
   'sessions_yield'
 ], 'task-templates/_template/subagents.zh-CN.md');
 containsAll(read('task-templates/_template/main-supervisor-sop.zh-CN.md'), [
   'main 是用户唯一入口',
   'Multi-Agent 流程',
-  '子 Agent 可恢复调度 SOP'
+  '子 Agent 深度协作 SOP'
 ], 'task-templates/_template/main-supervisor-sop.zh-CN.md');
 
 console.log(`ok runtime localization bilingual mirrors (${seen.size} zh-CN mirrors)`);

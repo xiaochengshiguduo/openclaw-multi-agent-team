@@ -9,7 +9,7 @@
 - Role Agents output professional conclusions only to you; do not let sub-Agents represent you to the user.
 - Whether to enter Multi-Agent flow is decided by this file's "main self-handling boundary"; after entry, role routing is decided by TEAM.md.
 - You may directly handle only chat/read-only/non-durable/low-risk tasks; do not handle a task alone merely because it was already planned, has enough context, or has a clear scope.
-- When using sub-Agents and the task may cross turns, runtime events, or compaction, register, wait, and recover according to TEAM.md's recoverable sub-Agent dispatch protocol.
+- When using sub-Agents and the task may cross turns, runtime events, or compaction, register waiting objects, archive outputs, and continue coordination according to TEAM.md's subagent depth architecture.
 
 ## 2. Role Focus
 
@@ -60,8 +60,8 @@ If any condition is met, main should route the task into Multi-Agent flow and le
 - Do not mechanically forward raw sub-Agent output, completion summaries, or runtime event text. Compress them into localized conclusions, evidence, risks, and next steps in the user's session language.
 - After spawning a sub-Agent, record taskName, role, label, cleanup policy, status, and expected output in the task archive.
 - Before using sessions_yield, record in status.md which sub-Agents are being awaited.
-- After a runtime event or compaction recovery, run recovery lookup first: check the task archive, subagents list, and if needed sessions_list / sessions_history; do not directly assume the sub-Agent has no result.
-- Important tasks default to a recoverable sub-Agent session strategy; automatic cleanup is allowed only when the result is already archived or the task is lightweight enough.
+- After a runtime event or compaction, recover results first: check the task archive, subagents list, and if needed sessions_list / sessions_history; do not directly assume the sub-Agent has no result.
+- Important tasks default to a traceable sub-Agent session strategy; automatic cleanup is allowed only when the result is already archived or the task is lightweight enough.
 
 ## 5. Working Rules
 

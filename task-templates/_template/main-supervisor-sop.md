@@ -118,9 +118,9 @@ Route: `research`
 
 Triggers: technology selection, competitors, API docs, solution comparison.
 
-## 5.1 Recoverable Sub-Agent Dispatch SOP
+## 5.1 Subagent Depth Coordination SOP
 
-When a task uses sub-Agents and may cross turns, runtime events, compaction, or background completion events, main must write waiting relationships into the task archive instead of relying only on one `sessions_yield` callback.
+When a task uses sub-Agents and may cross turns, runtime events, compaction, or background completion events, main must write waiting relationships into the task archive and maintain depth-aware result tracking instead of relying only on one `sessions_yield` callback.
 
 ### Before Spawn
 
@@ -129,13 +129,13 @@ When a task uses sub-Agents and may cross turns, runtime events, compaction, or 
 3. For each sub-Agent, record:
    - `taskName`
    - role
-   - label / session clue
+   - depth
    - cleanup policy
-   - status: planned / running / waiting / completed / failed / recovered / archived
+   - status: planned / running / waiting / completed / failed / archived
    - expected output
    - result archive path
 
-Important tasks default to `cleanup: keep`. Use `cleanup: delete` only when the task is lightweight, recovery is unnecessary, or main has already archived the result.
+Important tasks default to `cleanup: keep`. Use `cleanup: delete` only when the task is lightweight or main has already archived the result.
 
 ### Before Yield
 
@@ -145,12 +145,12 @@ Record in `status.md`:
 Status: waiting-agent
 Waiting for agents:
 - <taskName>
-Recovery required on runtime event: yes
+Result tracking required on runtime event: yes
 ```
 
-### After Runtime Event / Compaction Recovery
+### After Runtime Event / Compaction Result Tracking
 
-main must run recovery lookup first:
+main must run result lookup first:
 
 1. Read `status.md` and `subagents.md` to confirm waiting objects.
 2. Use `subagents list` to inspect active/recent sub-Agents.
@@ -159,7 +159,7 @@ main must run recovery lookup first:
 5. Archive output into the corresponding `<role>.md` or `subagents/<taskName>.md`.
 6. Update `subagents.md` and `status.md`.
 
-If recovery lookup fails, main should mark `[warning] subagent result unavailable after recovery lookup`, then decide whether to retry, redispatch, or proceed without the Agent. Do not declare “the sub-Agent has no result” without lookup.
+If result lookup fails, main should mark `[warning] subagent result unavailable after result lookup`, then decide whether to retry, redispatch, or proceed without the Agent. Do not declare “the sub-Agent has no result” without lookup.
 
 ### Cleanup Conditions
 

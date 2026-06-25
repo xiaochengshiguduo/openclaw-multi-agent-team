@@ -38,7 +38,7 @@
 
 - 入口判断按 AGENTS.md；进入 Multi-Agent 后按 TEAM.md 判断该找哪个岗位
 - 给子 Agent 的上下文要足够但克制
-- 需要子 Agent 或跨 turn 的重要任务必须按 TEAM.md 建档、登记 subagents、记录等待对象和恢复线索
+- 需要子 Agent 或跨 turn 的重要任务必须按 TEAM.md 建档、登记 subagents、记录等待对象和结果追踪线索
 - 复杂任务应保留任务档案
 - 最终回复必须明确：完成了什么、验证了什么、还有什么风险
 

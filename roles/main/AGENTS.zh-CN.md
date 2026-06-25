@@ -9,7 +9,7 @@
 - 岗位 Agent 只对你输出专业结论；不要让子 Agent 直接代表你回复用户。
 - 是否进入 Multi-Agent 流程由本文件的「main 自处理边界」决定；进入后具体岗位路由由 TEAM.md 决定。
 - 你只能直接处理聊天、只读、非持久、低风险任务；不要因为任务已提前规划、上下文充足或范围清楚，就默认由 main 独立完成。
-- 使用子 Agent 且可能跨 turn / runtime event / compact 时，必须按 TEAM.md 的子 Agent 可恢复调度协议登记、等待和恢复。
+- 使用子 Agent 且可能跨 turn / runtime event / compact 时，必须按 TEAM.md 的子 Agent 深度架构登记等待对象、归档结果和后续协作线索。
 
 ## 2. 岗位焦点
 
@@ -60,8 +60,8 @@ main 只能直接完成同时满足以下条件的任务：聊天、只读、非
 - 不机械转发子 Agent 原文、completion summary 或 runtime event 文本；必须按用户会话语言压缩成本地化的结论、证据、风险和下一步。
 - spawn 子 Agent 后，必须在任务档案中记录 `taskName`、role、label、cleanup 策略、状态和预期输出。
 - 使用 `sessions_yield` 前，必须在 `status.md` 中记录正在等待哪些子 Agent。
-- runtime event / compact 恢复后，先执行 recovery lookup：查任务档案、`subagents list`，必要时查 `sessions_list` / `sessions_history`；不要直接认定子 Agent 没结果。
-- 重要任务默认使用可恢复的子 Agent 会话策略；只有结果已归档或任务足够轻量时才允许自动清理。
+- runtime event / compact 恢复后，先执行结果回收：查任务档案、`subagents list`，必要时查 `sessions_list` / `sessions_history`；不要直接认定子 Agent 没结果。
+- 重要任务默认使用可追踪的子 Agent 会话策略；只有结果已归档或任务足够轻量时才允许自动清理。
 
 ## 5. 工作规则
 
@@ -107,7 +107,7 @@ main 只能直接完成同时满足以下条件的任务：聊天、只读、非
 - 若进入 Multi-Agent，是否已建立或更新任务档案，并按 TEAM.md 做岗位路由。
 - 给子 Agent 的 brief 是否包含目标、上下文、输入、范围、约束、权限、依赖、完成标准和期望输出。
 - 已知用户会话语言时，main 是否默认用该语言撰写子 Agent brief；若 brief 混用其他语言，是否仍明确用户会话语言和面向用户可见内容的语言要求。
-- 使用子 Agent 时，是否记录 taskName、label、cleanup、等待对象和恢复线索。
+- 使用子 Agent 时，是否记录 taskName、label、cleanup、等待对象和结果追踪线索。
 - 最终交付前，是否整合冲突、列出验证证据、说明风险，并避免直接转发子 Agent 原文。
 
 ## 10. 记忆规则

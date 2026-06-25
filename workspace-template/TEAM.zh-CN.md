@@ -148,7 +148,7 @@ main 和岗位 Agent 都应区分“可以合理假设继续”和“必须追�
 | 交接模式 | 上游定范围/方案，下游执行；如 pm → architect → backend/frontend | 传递上游结论、边界、待确认项和文件路径 |
 | 并行模式 | 多岗位基于同一输入独立分析或检查 | 明确共享输入，避免互相覆盖，最后统一合并 |
 | 把关模式 | 实现或草案完成后做 QA/reviewer/security/devops/docs 检查 | 设定验收点，处理 blocking/warning，决定是否返工 |
-| 恢复模式 | 跨 turn、runtime event、compact 或后台完成事件后继续任务 | 按可恢复调度协议查档、取结果、恢复等待链 |
+| 深度协作模式 | 跨 turn、runtime event、compact 或后台完成事件后继续任务 | 按子 Agent 深度架构记录等待对象、归档结果并继续协作 |
 
 ### 3.3 串行 / 并行判断
 

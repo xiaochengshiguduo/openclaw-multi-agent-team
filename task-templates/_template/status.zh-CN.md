@@ -93,14 +93,14 @@ Exit criteria:
 |---|---|---|---|---|
 |  |  |  |  |  |
 
-## Recovery Checklist
+## 结果追踪清单
 
-main 在 runtime event、compact 或等待子 Agent 后恢复时：
+main 在 runtime event、compact 或等待子 Agent 后继续时：
 
 - [ ] 读取本 status.md 确认 stage/status/owner。
 - [ ] 读取 subagents.md 确认 taskNames、session hints、cleanup policy。
 - [ ] 查找未归档的子 Agent 输出或 session history。
-- [ ] 将恢复结果写入 subagents.md Recovery Log。
+- [ ] 将结果写入 subagents.md 结果记录。
 - [ ] 继续下一步前更新 Current State。
 
 ## Next Action
