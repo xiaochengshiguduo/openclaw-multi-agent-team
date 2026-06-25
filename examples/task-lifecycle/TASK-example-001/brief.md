@@ -1,5 +1,3 @@
-English | [中文](brief.zh-CN.md)
+# 简报
 
-# Brief
-
-Build a fake no-op healthcheck example for documentation.
+为文档构建一个虚构的空操作健康检查示例。

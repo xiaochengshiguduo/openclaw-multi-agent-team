@@ -1,10 +1,8 @@
-English | [中文](CONTRIBUTING.zh-CN.md)
+# 贡献指南
 
-# Contributing
+欢迎贡献，但请不要包含私有的 OpenClaw 运行时状态、密钥、真实用户记忆、会话或日志。
 
-Contributions are welcome, but do not include private OpenClaw runtime state, secrets, real user memory, sessions, or logs.
-
-Before submitting changes, run:
+提交更改前，请运行：
 
 ```bash
 node scripts/healthcheck-local.js

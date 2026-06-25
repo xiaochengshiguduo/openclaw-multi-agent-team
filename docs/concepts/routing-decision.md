@@ -1,54 +1,52 @@
-English | [中文](routing-decision.zh-CN.md)
+# 路由决策
 
-# Routing Decision
+路由决策只定义一个入口问题：
 
-Routing decisions define only one entry question:
+> `main` 是否可以直接完成这个任务，还是必须进入 Multi-Agent 流程？
 
-> May `main` complete this task directly, or must the task enter the Multi-Agent workflow?
+进入 Multi-Agent 流程之后，具体岗位路由由 `TEAM.md` 负责。本文件不决定具体召唤哪些 Agent。
 
-Concrete role routing after entry is owned by `TEAM.md`. This document does not decide which specific Agents should be summoned.
+## main 自处理边界
 
-## Main self-handling boundary
-
-`main` may directly complete only tasks that are all of the following:
+`main` 只能直接完成同时满足以下条件的任务：
 
 ```text
-chat + read-only + non-durable + low-risk
+聊天 + 只读 + 非持久 + 低风险
 ```
 
-Typical direct tasks:
+允许直接处理的典型任务：
 
-- casual conversation, greetings, explanations, idea discussion, or advice
-- summarizing existing context or existing results
-- reading files, checking status, searching information, or other read-only inspection
-- non-durable planning, tradeoff discussion, or recommendations that do not modify files, commit, publish, or change the runtime environment
-- quick/direct answers requested by the user, only when the task remains read-only, non-durable, and low-risk
+- 日常聊天、问候、解释概念、讨论想法或纯建议
+- 总结已有上下文或整理已有结果
+- 读取文件、查看状态、检索信息或其他只读检查
+- 非持久性的计划、取舍分析或方案建议，但不修改文件、不提交、不发布、不改变 runtime 环境
+- 用户明确要求快速/直接回答，且任务仍然保持只读、非持久、低风险
 
-Direct tasks do not require a shared task archive or routing record unless the scope grows.
+直接处理的任务不需要 shared task archive 或 routing record，除非范围扩大。
 
-## Mandatory Multi-Agent entry
+## 必须进入 Multi-Agent 的条件
 
-`main` must not complete a task independently if any condition below matches. The task must enter the Multi-Agent workflow, then `TEAM.md` decides concrete role routing.
+只要命中以下任一条件，`main` 不得独立完成任务。任务必须进入 Multi-Agent 流程，然后由 `TEAM.md` 决定具体岗位路由。
 
-Mandatory entry triggers:
+必须进入的触发条件：
 
-- modifies durable artifacts, including code, docs, scripts, tests, templates, configs, workflows, or project protocols
-- creates formal project outcomes, including commits, tags, releases, pushes, PRs, changelog entries, or version changes
-- affects runtime state or environment, including OpenClaw runtime, Gateway, agent workspaces, memory, sessions, state, cron, services, shell rc files, routing, DNS, or network behavior
-- is primarily review, testing, verification, audit, risk assessment, or release readiness
-- produces reusable procedures, templates, skills, SOPs, or long-term rules
+- 修改持久产物，包括代码、文档、脚本、测试、模板、配置、workflow 或项目协议
+- 产生正式项目结果，包括 commit、tag、release、push、PR、changelog 或版本变更
+- 影响 runtime 状态或运行环境，包括 OpenClaw runtime、Gateway、agent workspace、memory、sessions、state、cron、service、shell rc、路由、DNS 或网络行为
+- 任务本身以审查、测试、验证、审计、风险评估或发布就绪判断为主要目标
+- 产生可复用流程、模板、skill、SOP 或长期规则
 
-If any trigger matches, `main` should hand the work into the Multi-Agent workflow instead of completing it alone.
+只要命中任一触发条件，`main` 应把任务交给 Multi-Agent 流程，而不是自己独立完成。
 
-## User override rule
+## 用户 override 规则
 
-A user request for a quick or direct answer may bypass Multi-Agent only when the task still remains read-only, non-durable, and low-risk.
+用户要求快速或直接回答时，只有任务仍然保持只读、非持久、低风险，才允许跳过 Multi-Agent。
 
-A user request cannot bypass mandatory entry for durable artifacts, formal project outcomes, runtime/environment changes, review/testing/verification/audit/risk assessment, or reusable long-term procedures.
+用户要求不能绕过持久产物、正式项目结果、runtime/环境变更、审查/测试/验证/审计/风险评估，或可复用长期流程的强制进入条件。
 
-## Required routing decision record
+## 必需路由决策记录
 
-When a task enters the Multi-Agent workflow and creates a shared task archive, create or update `routing.md` with the entry decision:
+当任务进入 Multi-Agent 流程并创建 shared task archive 时，创建或更新 `routing.md`，记录入口判断：
 
 ```text
 Decision: direct | multi-agent
@@ -59,16 +57,16 @@ User override:
 Notes for TEAM.md routing:
 ```
 
-For direct chat/read-only/non-durable work, a routing record is not required.
+直接处理的聊天、只读、非持久任务不需要 routing record。
 
-## Re-routing
+## 重新路由
 
-Re-route from direct handling into Multi-Agent workflow when:
+出现以下情况时，从 main 直接处理重新路由到 Multi-Agent 流程：
 
-- the user asks for a durable artifact, commit, push, release, or reusable procedure
-- the work changes from advice/read-only inspection into implementation
-- review, testing, verification, audit, risk assessment, or release readiness becomes the main goal
-- runtime/environment state may be affected
-- new risk or uncertainty appears
+- 用户要求产出持久产物、commit、push、release 或可复用流程
+- 工作从建议/只读检查变成实现
+- 审查、测试、验证、审计、风险评估或发布就绪判断成为主要目标
+- 可能影响 runtime 或环境状态
+- 出现新风险或不确定性
 
-Once re-routed, let `TEAM.md` decide concrete role routing.
+重新路由后，由 `TEAM.md` 决定具体岗位路由。

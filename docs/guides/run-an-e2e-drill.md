@@ -1,5 +1,3 @@
-English | [中文](run-an-e2e-drill.zh-CN.md)
+# 运行 E2E 演练
 
-# Run an E2E Drill
-
-Use `examples/e2e-drill/` as a fake, no-external-side-effect walkthrough.
+使用 `examples/e2e-drill/` 作为一个没有外部副作用的模拟演练流程。

@@ -1,14 +1,12 @@
-English | [中文](dry-run-and-apply.zh-CN.md)
+# Dry-run 和 Apply
 
-# Dry-run and Apply
-
-Default:
+默认：
 
 ```bash
 node scripts/example.js
 ```
 
-Write:
+写入：
 
 ```bash
 node scripts/example.js --apply

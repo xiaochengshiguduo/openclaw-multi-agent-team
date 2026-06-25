@@ -1,6 +1,4 @@
-English | [中文](expected-outputs.zh-CN.md)
-
-# Expected Role Output
+# 预期角色输出
 
 ```markdown
 ## Conclusion

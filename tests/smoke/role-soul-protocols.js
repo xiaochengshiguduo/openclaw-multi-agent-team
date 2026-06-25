@@ -23,7 +23,7 @@ for (const role of roles) {
 
   const text = fs.readFileSync(file, 'utf8');
   if (!text.startsWith(`# ${role} - `)) fail(`${role} SOUL.md has unexpected title`);
-  for (const heading of ['## Identity', '## Personality', '## Responsibilities', '## Boundaries', '## Output Requirements']) {
+  for (const heading of ['## 身份', '## 性格', '## 职责', '## 边界', '## 输出要求']) {
     if (!text.includes(heading)) fail(`${role} SOUL.md missing heading: ${heading}`);
   }
   if (!text.includes('AGENTS.md / Task Brief')) {
@@ -34,9 +34,9 @@ for (const role of roles) {
 for (const role of childRoles) {
   const text = fs.readFileSync(path.join(rolesRoot, role, 'SOUL.md'), 'utf8');
   for (const phrase of [
-    'Output only to main; do not face the user directly',
-    "Work strictly around main's Task Brief; do not bypass main to contact other Agents or external systems",
-    'Do not perform external writes, deletion/migration, system configuration changes, production deployment, sensitive credential handling'
+    '只对 main 输出，不直接面向用户',
+    "必须围绕 main 的 Task Brief 工作，不绕过 main 联系其他 Agent 或外部系统",
+    '未经 main 明确授权，不执行外部写操作'
   ]) {
     if (!text.includes(phrase)) fail(`${role} SOUL.md missing governance/safety phrase: ${phrase}`);
   }
@@ -44,29 +44,29 @@ for (const role of childRoles) {
 
 const mainText = fs.readFileSync(path.join(rolesRoot, 'main', 'SOUL.md'), 'utf8');
 for (const phrase of [
-  'main may directly complete only tasks that are simultaneously chat/read-only/non-durable/low-risk',
-  'must enter Multi-Agent flow',
-  'must be archived and tracked according to TEAM.md'
+  '聊天、只读、非持久、低风险',
+  '必须进入 Multi-Agent',
+  '按 TEAM.md 建档'
 ]) {
   if (!mainText.includes(phrase)) fail(`main SOUL.md missing boundary phrase: ${phrase}`);
 }
 
 const researchText = fs.readFileSync(path.join(rolesRoot, 'research', 'SOUL.md'), 'utf8');
-if (!researchText.includes('Primary customer: main; supports architect or engineering roles when main assigns it')) {
-  fail('research SOUL.md should make main-designated support explicit');
+if (!researchText.includes('主要服务对象：main')) {
+  fail('research SOUL.md should reference main');
 }
 
 const architectText = fs.readFileSync(path.join(rolesRoot, 'architect', 'SOUL.md'), 'utf8');
-if (!architectText.includes('Primary customer: main; solutions must be executable by backend / frontend')) {
-  fail('architect SOUL.md should avoid implying direct peer-agent coordination');
+if (!architectText.includes('主要服务对象：main')) {
+  fail('architect SOUL.md should reference main');
 }
 
 const securityText = fs.readFileSync(path.join(rolesRoot, 'security', 'SOUL.md'), 'utf8');
-if (!securityText.includes('Do not execute offensive testing unless both main and the user explicitly authorize it')) {
-  fail('security SOUL.md should preserve offensive-testing authorization boundary');
+if (!securityText.includes('不执行攻击性测试')) {
+  fail('security SOUL.md should preserve testing authorization');
 }
-if (!securityText.includes('do not print values')) {
-  fail('security SOUL.md should avoid printing secret values');
+if (!securityText.includes('不打印值')) {
+  fail('security SOUL.md should avoid exposing sensitive values');
 }
 
 if (failures) process.exit(1);

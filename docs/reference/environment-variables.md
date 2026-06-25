@@ -1,14 +1,12 @@
-English | [中文](environment-variables.zh-CN.md)
+# 环境变量
 
-# Environment Variables
+初始脚本不需要环境变量。
 
-The initial scripts do not require environment variables.
-
-Recommended conceptual variables for documentation/examples:
+文档 / 示例中推荐使用的概念性变量：
 
 ```bash
 export OPENCLAW_HOME="$HOME/.openclaw"
 export OPENCLAW_TEAM_MODEL="gpt/gpt-5.5"
 ```
 
-Do not store tokens in this repository.
+不要在此仓库中存储 token。

@@ -1,5 +1,3 @@
-English | [中文](minimal-team.zh-CN.md)
+# 最小团队
 
-# minimal team
-
-See `examples/minimal-team/` or the nearest matching example directory.
+参见 `examples/minimal-team/` 或最接近的示例目录。

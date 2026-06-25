@@ -1,20 +1,18 @@
-English | [中文](brief.zh-CN.md)
+# 简报
 
-# Brief
+## 用户请求
 
-## User request
+创建一个安全的辅助脚本，用于根据模板创建新的任务归档。
 
-Create a safe helper script that creates a new task archive from templates.
+## 需求
 
-## Requirements
+- 默认 dry-run。
+- 写入必须要求 `--apply`。
+- 严格校验 slug。
+- 不进行网络调用。
+- 不更改 OpenClaw 配置。
+- 不覆盖文件。
 
-- Default dry-run.
-- `--apply` required for writes.
-- Strict slug validation.
-- No network calls.
-- No OpenClaw config changes.
-- No overwrites.
+## 预期输出
 
-## Expected output
-
-A script plan and acceptance criteria.
+脚本方案和验收标准。

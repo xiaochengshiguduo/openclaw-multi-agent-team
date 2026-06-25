@@ -1,14 +1,12 @@
-English | [中文](final.zh-CN.md)
+# 最终结果
 
-# Final
+辅助脚本应实现为一个仅使用 Node.js 标准库的脚本，并具备：
 
-The helper script should be implemented as a Node.js standard-library script with:
+- 默认 dry-run
+- 显式 `--apply`
+- 严格 slug 校验
+- 固定模板列表
+- 不包含网络/配置相关行为
+- 不覆盖文件
 
-- dry-run by default
-- explicit `--apply`
-- strict slug validation
-- fixed template list
-- no network/config behavior
-- no overwrite behavior
-
-This fake example demonstrates main-owned synthesis after role outputs.
+这个虚构示例展示了在角色输出之后，由 main 负责的汇总。

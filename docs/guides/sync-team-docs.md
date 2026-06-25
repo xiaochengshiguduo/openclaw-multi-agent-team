@@ -1,5 +1,3 @@
-English | [中文](sync-team-docs.zh-CN.md)
+# 同步团队文档
 
-# Sync Team Docs
-
-`sync-team-docs` is preview-first and must not overwrite private `MEMORY.md`, `USER.md`, or `TOOLS.md`.
+`sync-team-docs` 采用“先预览”的方式，并且不得覆盖私有的 `MEMORY.md`、`USER.md` 或 `TOOLS.md`。

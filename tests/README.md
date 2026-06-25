@@ -1,18 +1,16 @@
-English | [中文](README.zh-CN.md)
+# 测试
 
-# Tests
-
-Run all smoke tests from the repository root:
+在仓库根目录运行全部 smoke tests：
 
 ```bash
 node tests/smoke/run.js
 ```
 
-The smoke suite covers documentation structure and local workflow contracts, including:
+smoke suite 覆盖文档结构和本地工作流约定，包括：
 
-- Markdown links and English/Chinese page pairing.
-- Role protocol, checklist, routing-decision, and team-dispatch conventions.
-- Dry-run/apply fixtures for workspace generation, agent registration, task archive creation, bootstrap, and runtime workspace updates.
-- Local healthcheck and command-shape checks that keep helpers preview-first and safe for CI.
+- Markdown links 与中英文页面配对。
+- 角色协议、检查清单、路由决策和团队分发约定。
+- workspace 生成、Agent 注册、任务档案创建、bootstrap、runtime workspace 更新的 dry-run/apply fixture。
+- 本地健康检查与命令形状检查，确保辅助脚本保持 preview-first，并适合 CI 运行。
 
-These tests do not call external services, change real OpenClaw runtime config, or restart Gateway.
+这些测试不会调用外部服务、修改真实 OpenClaw runtime config，也不会重启 Gateway。

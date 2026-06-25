@@ -1,7 +1,5 @@
-English | [中文](migrate-existing-workspace.zh-CN.md)
+# 迁移现有工作区
 
-# Migrate Existing Workspace
+不要将真实运行时工作区数据直接复制到此仓库中。
 
-Do not copy real runtime workspace data directly into this repository.
-
-Extract only sanitized role templates, task templates, and docs. Exclude config, tokens, memory, sessions, logs, and private user notes.
+只提取经过脱敏的角色模板、任务模板和文档。排除配置、令牌、记忆、会话、日志以及用户私人笔记。

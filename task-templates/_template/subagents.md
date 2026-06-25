@@ -1,34 +1,45 @@
-# Subagents
+# 子 Agent
 
-Track every child agent used by this task so main can recover after runtime events, compacting, or missed completion callbacks.
+追踪本任务派生的子 agent，用于协调、深度管理和结果流向可视化。
 
-## Policy
+## 架构
 
-- Important or cross-turn tasks default to `cleanup: keep`.
-- Use `cleanup: delete` only for lightweight child work whose result is already captured or not needed for recovery.
-- Before `sessions_yield`, update `status.md` to `waiting-agent` and list the taskNames below.
-- After runtime event / compact, main must run recovery lookup before assuming a child result is unavailable.
-- Clean up child sessions only after outputs are archived and final integration is complete.
-## Agent Registry
+本任务使用 OpenClaw 的 subagent announce 链：
 
-| taskName | role | label/session hint | cleanup | status | spawned at | expected output | result path |
-|---|---|---|---|---|---|---|---|
-| example_review | reviewer | label: example-review | keep | planned | YYYY-MM-DD HH:mm TZ | review risks and evidence | review.md |
+- **Depth 0 (main)：** 任务所有者，唯一面向用户的 agent
+- **Depth 1：** main 的直接子级（编排者或工作者）
+- **Depth 2：** depth-1 编排者派生的工作者
 
-Status values:
+Depth-2 工作者的结果通过内部注入（`deliver=false`）流向其 depth-1 父级，防止刷屏 Telegram。
 
-```text
-planned | running | waiting | completed | recovered | failed | archived | cancelled
-```
+## 已派生 Agent
 
-## Recovery Log
+| taskName | role | depth | parent | status | spawned at | output location |
+|---|---|---|---|---|---|---|
+| backend_api | backend | 2 | tech_lead_coord | completed | YYYY-MM-DD HH:mm TZ | agent-output.md |
+| frontend_ui | frontend | 2 | tech_lead_coord | completed | YYYY-MM-DD HH:mm TZ | agent-output.md |
+| tech_lead_coord | architect | 1 | main | completed | YYYY-MM-DD HH:mm TZ | architecture.md |
 
-| Time | taskName | lookup method | outcome | archived path | notes |
-|---|---|---|---|---|---|
-| YYYY-MM-DD HH:mm TZ | example_review | subagents list / sessions_list / sessions_history | recovered | review.md | ... |
+状态值：`planned | running | completed | failed | cancelled`
 
-## Cleanup Log
+**深度管理：**
 
-| Time | taskName | cleanup action | reason |
-|---|---|---|---|
-| YYYY-MM-DD HH:mm TZ | example_review | kept / removed | output archived and no longer needed |
+- 如果 main 直接派生工作者 → depth-1，announce 给 main
+- 如果 main 派生编排者 → 编排者处于 depth-1，派生 depth-2 工作者
+- 工作者通过第一条消息中的 `[Subagent Task]` 接收任务
+- 结果流向：工作者 → （编排者） → main → 用户
+
+## 完成流程
+
+所有预期子级完成后：
+
+1. Depth-2 工作者 announce 给其 depth-1 编排者（内部注入）
+2. 编排者综合结果，announce 给 main
+3. main 整合编排者输出，交付给用户
+
+## 备注
+
+- 派生后使用 `sessions_yield` 等待完成事件
+- 完成事件作为运行时消息到达，无需轮询
+- `subagents list` 显示本会话的活跃/最近子级
+- 子级输出在任务归档中，按角色对应的文件存放

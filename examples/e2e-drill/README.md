@@ -1,25 +1,22 @@
-English | [中文](README.zh-CN.md)
+# E2E 演练示例
 
-# E2E Drill Example
+这是一个虚构且已脱敏的多智能体任务演练。它展示了预期的协作模式，不包含真实用户数据、令牌、会话或外部副作用。
 
-This is a fake, sanitized multi-agent task rehearsal. It demonstrates the intended collaboration pattern without real user data, tokens, sessions, or external side effects.
+## 流程
 
-## Flow
+1. `main` 创建任务归档。
+2. `main` 写入 `brief.md` 和 `plan.md`。
+3. `main` 请求 `pm` 澄清需求。
+4. `main` 请求 `reviewer` 审查风险。
+5. `main` 汇总生成 `final.md`。
 
-1. `main` creates a task archive.
-2. `main` writes `brief.md` and `plan.md`.
-3. `main` asks `pm` to clarify requirements.
-4. `main` asks `reviewer` to review risks.
-5. `main` synthesizes `final.md`.
+## 文件
 
-## Files
+- `brief.md`：虚构用户请求。
+- `plan.md`：main 的路由计划。
+- `agent-output.md`：岗位输出示例。
+- `final.md`：最终汇总。
 
-- `brief.md`: fake user request.
-- `plan.md`: main's routing plan.
-- `pm.md`: PM output.
-- `reviewer.md`: reviewer output.
-- `final.md`: final synthesis.
+## 安全
 
-## Safety
-
-No real Telegram IDs, session IDs, paths, tokens, private memory, or runtime config are included.
+不包含真实 Telegram ID、会话 ID、路径、令牌、私有记忆或运行时配置。

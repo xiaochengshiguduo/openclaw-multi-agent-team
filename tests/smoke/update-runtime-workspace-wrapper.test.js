@@ -50,12 +50,12 @@ try {
   must('git', ['-c', 'user.name=Smoke', '-c', 'user.email=smoke@example.invalid', 'commit', '-m', 'fixture'], { cwd: dest });
 
   fs.mkdirSync(path.join(target, 'workspace', 'shared', 'tasks', '_template'), { recursive: true });
-  fs.writeFileSync(path.join(target, 'workspace', 'AGENTS.md'), managedContent('roles/main/AGENTS.zh-CN.md', '1.1.1', fs.readFileSync(path.join(root, 'roles', 'main', 'AGENTS.zh-CN.md'), 'utf8')));
-  fs.writeFileSync(path.join(target, 'workspace', 'TEAM.md'), managedContent('workspace-template/TEAM.zh-CN.md', '1.1.1', fs.readFileSync(path.join(root, 'workspace-template', 'TEAM.zh-CN.md'), 'utf8')));
-  fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'main-supervisor-sop.md'), managedContent('task-templates/_template/main-supervisor-sop.zh-CN.md', '1.1.1', fs.readFileSync(path.join(root, 'task-templates', '_template', 'main-supervisor-sop.zh-CN.md'), 'utf8')));
-  fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'status.md'), managedContent('task-templates/_template/status.zh-CN.md', '1.1.1', fs.readFileSync(path.join(root, 'task-templates', '_template', 'status.zh-CN.md'), 'utf8')));
+  fs.writeFileSync(path.join(target, 'workspace', 'AGENTS.md'), managedContent('roles/main/AGENTS.md', '1.1.1', fs.readFileSync(path.join(root, 'roles', 'main', 'AGENTS.md'), 'utf8')));
+  fs.writeFileSync(path.join(target, 'workspace', 'TEAM.md'), managedContent('workspace-template/TEAM.md', '1.1.1', fs.readFileSync(path.join(root, 'workspace-template', 'TEAM.md'), 'utf8')));
+  fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'main-supervisor-sop.md'), managedContent('task-templates/_template/main-supervisor-sop.md', '1.1.1', fs.readFileSync(path.join(root, 'task-templates', '_template', 'main-supervisor-sop.md'), 'utf8')));
+  fs.writeFileSync(path.join(target, 'workspace', 'shared', 'tasks', '_template', 'status.md'), managedContent('task-templates/_template/status.md', '1.1.1', fs.readFileSync(path.join(root, 'task-templates', '_template', 'status.md'), 'utf8')));
 
-  const r = must('bash', [path.join(root, 'scripts', 'update-runtime-workspace.sh'), '--dest', dest, '--target', target, '--lang', 'zh-CN', '--no-restart']);
+  const r = must('bash', [path.join(root, 'scripts', 'update-runtime-workspace.sh'), '--dest', dest, '--target', target, '--no-restart']);
   if (!r.stdout.includes('# Running runtime workspace updater')) throw new Error('wrapper did not invoke updater');
   if (!r.stdout.includes('language: zh-CN')) throw new Error('wrapper did not forward --lang to updater');
   if (!fs.existsSync(path.join(target, 'state', 'openclaw-multi-agent-team', 'last-plan.json'))) throw new Error('wrapper dry-run did not write audit plan');

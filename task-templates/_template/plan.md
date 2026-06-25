@@ -1,18 +1,18 @@
-# Task Plan
+# 任务计划
 
-## Task ID
-TASK-YYYYMMDD-HHMM-short-name
+## 任务 ID
+TASK-YYYYMMDD-HHMM-简短名称
 
-## Current Status
+## 当前状态
 - [ ] intake
 - [ ] planning
 - [ ] execution
 - [ ] review
 - [ ] delivery
 
-## Routing
+## 路由
 
-| Step | Agent | Objective | Input | Expected Output | Status |
+| 步骤 | 岗位 | 目标 | 输入 | 期望输出 | 状态 |
 |---|---|---|---|---|---|
 | 1 | pm | ... | ... | ... | pending |
 | 2 | architect | ... | ... | ... | pending |
@@ -20,11 +20,11 @@ TASK-YYYYMMDD-HHMM-short-name
 | 4 | frontend | ... | ... | ... | pending |
 | 5 | qa | ... | ... | ... | pending |
 
-## Decisions
+## 决策
 - ...
 
-## Blockers
+## 阻塞项
 - ...
 
-## Next Action
+## 下一步动作
 - ...

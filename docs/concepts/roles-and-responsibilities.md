@@ -1,36 +1,34 @@
-English | [中文](roles-and-responsibilities.zh-CN.md)
+# 角色与职责
 
-# Roles and Responsibilities
+默认团队：
 
-Default team:
-
-| Agent | Responsibility |
+| Agent | 职责 |
 |---|---|
-| `main` | User-facing Supervisor, CTO, delivery owner |
-| `pm` | Requirements, scope, acceptance boundaries |
-| `architect` | Technical architecture and tradeoffs |
-| `backend` | Server/API/data logic |
-| `frontend` | UI/client interaction/state |
-| `qa` | Test strategy, acceptance, regressions |
-| `reviewer` | Maintainability and code review |
-| `security` | Secrets, auth, file/command/network risk |
-| `devops` | Runtime, CI, services, healthchecks |
-| `docs` | Documentation and handoff |
-| `research` | External research and option comparison |
+| `main` | 面向用户的 Supervisor、CTO、交付负责人 |
+| `pm` | 需求、范围、验收边界 |
+| `architect` | 技术架构与权衡 |
+| `backend` | 服务端/API/数据逻辑 |
+| `frontend` | UI/客户端交互/状态 |
+| `qa` | 测试策略、验收、回归 |
+| `reviewer` | 可维护性与代码审查 |
+| `security` | 密钥、认证、文件/命令/网络风险 |
+| `devops` | 运行时、CI、服务、健康检查 |
+| `docs` | 文档与交接 |
+| `research` | 外部调研与方案比较 |
 
-## Main Supervisor rule
+## Main Supervisor 规则
 
-`main` is the only user-facing entrypoint by default. Role Agents should not bypass `main` to talk to users or perform external writes unless explicitly authorized.
+默认情况下，`main` 是唯一面向用户的入口。除非获得明确授权，角色 Agent 不应绕过 `main` 与用户沟通或执行外部写入。
 
-Before execution, `main` must decide only the entry boundary:
+执行前，`main` 只判断入口边界：
 
 ```text
-Can main complete this directly?
-Or must this enter the Multi-Agent workflow?
+main 是否可以直接完成？
+还是必须进入 Multi-Agent 流程？
 ```
 
-`main` may directly complete only chat, read-only, non-durable, low-risk tasks.
+`main` 只能直接完成聊天、只读、非持久、低风险任务。
 
-`main` must enter the Multi-Agent workflow for any task that modifies durable artifacts, creates formal project outcomes, affects runtime/environment state, is primarily review/testing/verification/audit/risk assessment/release readiness, or produces reusable procedures/templates/long-term rules.
+只要任务会修改持久产物、产生正式项目结果、影响 runtime/环境状态、以审查/测试/验证/审计/风险评估/发布就绪为主要目标，或产生可复用流程/模板/长期规则，`main` 就必须进入 Multi-Agent 流程。
 
-After a task enters the Multi-Agent workflow, `TEAM.md` decides concrete role routing. For archived Multi-Agent work, `main` records the entry decision in `routing.md` and updates it if the task is re-routed. See [Routing decision](routing-decision.md).
+任务进入 Multi-Agent 流程后，由 `TEAM.md` 决定具体岗位路由。对于归档的 Multi-Agent 工作，`main` 在 `routing.md` 记录入口判断，并在重新路由时更新。参见[路由决策](routing-decision.md)。

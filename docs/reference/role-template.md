@@ -1,8 +1,6 @@
-English | [中文](role-template.zh-CN.md)
+# 角色模板
 
-# Role Template
-
-Each role template lives under:
+每个角色模板位于：
 
 ```text
 roles/<role>/
@@ -11,8 +9,8 @@ roles/<role>/
 └── README.md
 ```
 
-- `SOUL.md`: identity, responsibilities, and style.
-- `AGENTS.md`: collaboration protocol, output format, and safety boundaries.
-- `README.md`: role template notes.
+- `SOUL.md`：身份、职责和风格。
+- `AGENTS.md`：协作协议、输出格式和安全边界。
+- `README.md`：角色模板说明。
 
-Do not add real private memory or user context to role templates.
+不要向角色模板添加真实私有记忆或用户上下文。

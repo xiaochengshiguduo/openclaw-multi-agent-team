@@ -1,22 +1,20 @@
-English | [中文](run-healthchecks.zh-CN.md)
+# 运行健康检查
 
-# Run Healthchecks
-
-## Local healthcheck
+## 本地健康检查
 
 ```bash
 node scripts/doctor-local.js
 node scripts/healthcheck-local.js
 ```
 
-Local checks do not modify files, call external services, or restart Gateway.
+本地检查不会修改文件、调用外部服务或重启 Gateway。
 
-## Runtime healthcheck
+## 运行时健康检查
 
-After agent registration, routing config, and manual Gateway restart if required, follow:
+在完成 Agent 注册、路由配置，并在需要时手动重启 Gateway 之后，按照以下文档操作：
 
 ```text
 scripts/healthcheck-runtime.md
 ```
 
-Runtime checks validate that `main` can reach role Agents and that role Agents can read shared task archives.
+运行时检查会验证 `main` 能否访问各角色 Agent，以及角色 Agent 能否读取共享任务归档。

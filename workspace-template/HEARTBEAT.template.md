@@ -1,3 +1,3 @@
-# HEARTBEAT.md
+# 心跳检查文件
 
-Keep empty unless you intentionally want periodic heartbeat work.
+除非你明确需要周期性 heartbeat 工作，否则保持为空。

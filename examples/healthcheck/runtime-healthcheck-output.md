@@ -1,6 +1,4 @@
-English | [中文](runtime-healthcheck-output.zh-CN.md)
-
-# Example Runtime Healthcheck Output
+# 运行时健康检查输出示例
 
 ```text
 pm: pass
@@ -15,4 +13,4 @@ docs: pass
 research: pass
 ```
 
-This is fake sanitized output.
+这是虚构的脱敏输出。

@@ -1,11 +1,9 @@
-English | [中文](README.zh-CN.md)
+# 最小团队示例
 
-# Minimal Team Example
-
-A minimal conceptual team:
+一个最小概念团队：
 
 ```text
 main + pm + docs
 ```
 
-Use this to understand the structure before generating the full team.
+在生成完整团队之前，可用此示例理解结构。

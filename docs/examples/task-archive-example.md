@@ -1,5 +1,3 @@
-English | [中文](task-archive-example.zh-CN.md)
+# 任务归档示例
 
-# task archive example
-
-See `examples/task-archive-example/` or the nearest matching example directory.
+参见 `examples/task-archive-example/` 或最接近的示例目录。

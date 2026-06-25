@@ -1,26 +1,24 @@
-English | [中文](pull_request_template.zh-CN.md)
+## 摘要
 
-## Summary
+## 变更类型
 
-## Type of change
+- [ ] 仅文档
+- [ ] Role/template 变更
+- [ ] Script 变更
+- [ ] Test/check 变更
+- [ ] Security/safety boundary 变更
 
-- [ ] Docs only
-- [ ] Role/template change
-- [ ] Script change
-- [ ] Test/check change
-- [ ] Security/safety boundary change
+## 安全检查清单
 
-## Safety checklist
+- [ ] 不包含真实 `openclaw.json` 或备份
+- [ ] 不包含 tokens、API keys、auth profiles、Telegram bot tokens、Gateway tokens
+- [ ] 不包含真实 `MEMORY.md`、私有 `USER.md`、sessions、transcripts 或 logs
+- [ ] 可写脚本默认仍然是 dry-run
+- [ ] 写入必须显式使用 `--apply`
+- [ ] 不自动 Gateway restart
+- [ ] 不自动为 sub-agents 绑定 Telegram
 
-- [ ] No real `openclaw.json` or backups
-- [ ] No tokens, API keys, auth profiles, Telegram bot tokens, Gateway tokens
-- [ ] No real `MEMORY.md`, private `USER.md`, sessions, transcripts, or logs
-- [ ] Write-capable script remains dry-run by default
-- [ ] `--apply` is required for writes
-- [ ] No automatic Gateway restart
-- [ ] No automatic Telegram binding for sub-agents
-
-## Validation
+## 验证
 
 ```bash
 node scripts/doctor-local.js
@@ -29,4 +27,4 @@ node scripts/repro-check.js --target /tmp/oc-mat-repro
 node tests/smoke/run.js
 ```
 
-## Notes
+## 备注

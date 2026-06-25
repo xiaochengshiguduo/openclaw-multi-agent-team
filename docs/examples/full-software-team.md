@@ -1,5 +1,3 @@
-English | [中文](full-software-team.zh-CN.md)
+# 完整软件团队
 
-# full software team
-
-See `examples/full-software-team/` or the nearest matching example directory.
+参见 `examples/full-software-team/` 或最接近的示例目录。

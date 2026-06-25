@@ -1,8 +1,6 @@
-English | [中文](README.zh-CN.md)
+# 完整软件团队示例
 
-# Full Software Team Example
-
-Full default team:
+完整默认团队：
 
 ```text
 main, pm, architect, backend, frontend, qa, reviewer, security, devops, docs, research

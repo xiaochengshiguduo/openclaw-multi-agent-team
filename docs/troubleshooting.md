@@ -1,12 +1,10 @@
-English | [中文](troubleshooting.zh-CN.md)
+# 故障排查
 
-# Troubleshooting
+常见失败原因：
 
-Common failures:
-
-- agent-to-agent disabled
-- allowlist missing `main`
-- sessions visibility not configured
-- shared symlink missing
-- role workspace missing AGENTS.md
-- Gateway restart required
+- agent-to-agent 未启用
+- allowlist 缺少 `main`
+- sessions 可见性未配置
+- 共享 symlink 缺失
+- 角色工作区缺少 AGENTS.md
+- 需要重启 Gateway

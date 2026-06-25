@@ -1,42 +1,40 @@
-English | [中文](compatibility.zh-CN.md)
+# 兼容性
 
-# Compatibility
+## 当前支持矩阵
 
-## Current support matrix
-
-| Component | Support |
+| 组件 | 支持情况 |
 |---|---|
-| OS | Linux only in v1 |
+| OS | v1 仅支持 Linux |
 | Node.js | 24+ |
-| OpenClaw install | external / official setup |
-| OpenClaw verified reference | OpenClaw 2026.5.27 (27ae826) |
-| macOS | not tested / not supported in v1 |
-| WSL | not tested / not supported in v1 |
-| native Windows | not supported in v1 |
-| Telegram binding | `main` only by default |
-| Gateway restart | dedicated reproduction/update workflows may restart after explicit `--apply`; use `--no-restart` where supported; lower-level helpers do not restart |
-| Config patching | preview-first; apply only in explicit reproduction workflows |
+| OpenClaw 安装 | 外部 / 官方安装流程 |
+| OpenClaw 已验证参考版本 | OpenClaw 2026.5.27 (27ae826) |
+| macOS | v1 未测试 / 不支持 |
+| WSL | v1 未测试 / 不支持 |
+| 原生 Windows | v1 不支持 |
+| Telegram 绑定 | 默认仅 `main` |
+| Gateway 重启 | 专用复现/更新流程可在显式 `--apply` 后重启；支持时可用 `--no-restart`；低层辅助脚本不重启 |
+| 配置补丁 | preview-first；仅在显式复现工作流中应用 |
 
-## Compatibility philosophy
+## 兼容性理念
 
-This project avoids controlling the OpenClaw lifecycle. It does not install, update, downgrade, or pin OpenClaw.
+本项目避免控制 OpenClaw 生命周期。它不会安装、更新、降级或锁定 OpenClaw 版本。
 
-The project only manages reusable team artifacts:
+本项目只管理可复用的团队制品：
 
-- role templates
-- workspace generation
-- task templates
-- registration command preview/apply
-- routing config preview/apply in explicit reproduction workflows
-- local/reproduction checks
+- 角色模板
+- 工作区生成
+- 任务模板
+- 注册命令预览 / 应用
+- 显式复现工作流中的路由配置预览 / 应用
+- 本地 / 复现检查
 
-## What to test for new OpenClaw versions
+## 针对新版 OpenClaw 需要测试的内容
 
-When using a different OpenClaw version, verify:
+使用不同 OpenClaw 版本时，请验证：
 
-- `openclaw agents add` flags are compatible
-- role workspace paths are accepted
-- agent-to-agent config fields are still valid
-- session visibility behavior still works
-- Gateway restart and config-apply semantics are unchanged
-- Telegram binding remains isolated to `main`
+- `openclaw agents add` 参数仍然兼容
+- 角色工作区路径可以被接受
+- Agent 到 Agent 的配置字段仍然有效
+- 会话可见性行为仍然正常
+- Gateway 重启和 config apply 语义没有变化
+- Telegram 绑定仍然隔离在 `main`

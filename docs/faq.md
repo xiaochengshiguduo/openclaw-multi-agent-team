@@ -1,7 +1,5 @@
-English | [中文](faq.zh-CN.md)
+# 常见问题
 
-# FAQ
+## 这是某个真实工作区的备份吗？
 
-## Is this a backup of a real workspace?
-
-No. It is a sanitized reproducible template/toolkit.
+不是。它是一个已脱敏、可复现的模板/工具包。

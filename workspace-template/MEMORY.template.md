@@ -1,5 +1,5 @@
-# MEMORY.md
+# 长期记忆文件
 
-Local long-term memory placeholder.
+本地长期记忆占位文件。
 
-Do not commit real private memory.
+不要提交真实私有记忆。

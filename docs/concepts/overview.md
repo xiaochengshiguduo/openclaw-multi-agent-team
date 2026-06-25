@@ -1,31 +1,29 @@
-English | [中文](overview.zh-CN.md)
+# 项目概览
 
-# Overview
-
-`openclaw-multi-agent-team` models a long-lived software team inside OpenClaw.
+`openclaw-multi-agent-team` 在 OpenClaw 内建模一套长期可用的软件团队。
 
 ```text
-User → main Supervisor → role Agents → shared/tasks → final delivery
+用户 → main Supervisor → 岗位 Agents → shared/tasks → 最终交付
 ```
 
-The key design is not simply “many Agents”. The key design is controlled coordination:
+关键设计不是简单地“很多 Agents”，而是受控协作：
 
-- `main` talks to the user.
-- `main` creates and owns task archives.
-- Role Agents read shared task context and return structured outputs.
-- `main` resolves conflicts, verifies results, and delivers final answers.
+- `main` 与用户沟通。
+- `main` 创建并拥有任务档案。
+- 岗位 Agents 读取共享任务上下文，并返回结构化输出。
+- `main` 解决冲突、验证结果，并交付最终答案。
 
-This keeps context, responsibility, and user-facing communication centralized.
+这样可以集中管理上下文、责任边界和用户侧沟通。
 
-## Why shared task archives?
+## 为什么需要 shared task archives？
 
-Long-running multi-agent work needs durable context. Chat history alone is fragile. The shared task archive gives every role a common source of truth:
+长期多 Agent 工作需要持久上下文。只依赖聊天历史很脆弱。共享任务档案为所有角色提供共同的事实来源：
 
 ```text
 shared/tasks/TASK-YYYYMMDD-HHMM-slug/
 ```
 
-A task archive can contain:
+一个任务档案可以包含：
 
 - `brief.md`
 - `plan.md`
@@ -33,6 +31,6 @@ A task archive can contain:
 - review/QA/security notes
 - `final.md`
 
-## Why independent workspaces?
+## 为什么需要独立 workspaces？
 
-Each role Agent can have stable role identity, collaboration protocol, and local notes without mixing responsibilities. A Linux symlink connects each role workspace to the common `shared/` directory.
+每个岗位 Agent 都可以拥有稳定的角色身份、协作协议和本地 notes，而不会混合职责。Linux symlink 会把每个岗位 workspace 连接到共同的 `shared/` 目录。

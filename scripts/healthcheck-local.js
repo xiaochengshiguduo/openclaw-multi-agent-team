@@ -22,16 +22,16 @@ for (const role of ROLES) {
   add(`role.${role}.SOUL`, fs.existsSync(path.join(root, 'roles', role, 'SOUL.md')), `roles/${role}/SOUL.md`);
 }
 for (const f of ALL_TASK_TEMPLATE_FILES) add(`task-template.${f}`, fs.existsSync(path.join(root, 'task-templates', '_template', f)), `task-templates/_template/${f}`);
-for (const f of ['README.md', 'README.zh-CN.md', 'SECURITY.md', 'package.json']) add(`root.${f}`, fs.existsSync(path.join(root, f)), f);
+for (const f of ['README.md', 'SECURITY.md', 'package.json']) add(`root.${f}`, fs.existsSync(path.join(root, f)), f);
 for (const f of [
   'scripts/healthcheck-runtime.js',
   'scripts/healthcheck-runtime.md',
-  'scripts/reproduce-new-machine.js',
   'scripts/update-runtime-workspace.js',
   'scripts/update-runtime-workspace.sh',
   'scripts/generate-workspaces.js',
   'scripts/register-agents.js',
-  'scripts/configure-agent-routing.js',
+  'scripts/configure-subagent-policy.js',
+  'scripts/install-wizard.js',
   'scripts/repro-check.js'
 ]) add(`script.${f}`, fs.existsSync(path.join(root, f)), f);
 const status = checks.some(c => c.status === 'blocking') ? 'blocking' : 'ok';

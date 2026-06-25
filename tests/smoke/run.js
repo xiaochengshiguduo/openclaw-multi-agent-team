@@ -5,16 +5,18 @@ const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
 const root = path.resolve(__dirname, '..', '..');
-const { buildConfigPatch, pruneConfigBackups } = require(path.join(root, 'scripts', 'reproduce-new-machine.js'));
+const { mergeOpenClawConfig } = require(path.join(root, 'scripts', 'lib', 'config-merger.js'));
+const { subagentPolicyPatch } = require(path.join(root, 'scripts', 'lib', 'openclaw-config.js'));
+const { ROLES } = require(path.join(root, 'scripts', 'lib', 'constants.js'));
 
 const scripts = [
   'doctor-local.js',
   'generate-workspaces.js',
-  'reproduce-new-machine.js',
   'update-runtime-workspace.js',
   'create-task-archive.js',
   'register-agents.js',
-  'configure-agent-routing.js',
+  'configure-subagent-policy.js',
+  'install-wizard.js',
   'preflight.js',
   'repro-check.js',
   'sync-team-docs.js',
@@ -22,7 +24,6 @@ const scripts = [
 ];
 
 const shellScripts = [
-  'bootstrap-new-machine.sh',
   'update-runtime-workspace.sh'
 ];
 
@@ -56,8 +57,6 @@ run(process.execPath, [path.join(root, 'scripts', 'repro-check.js'), '--target',
 console.log('ok repro-check');
 run(process.execPath, [path.join(root, 'tests', 'smoke', 'markdown-links.js')]);
 console.log('ok markdown links');
-run(process.execPath, [path.join(root, 'tests', 'smoke', 'markdown-language-pairs.js')]);
-console.log('ok markdown language pairs');
 run(process.execPath, [path.join(root, 'tests', 'smoke', 'routing-decision.js')]);
 console.log('ok routing decision');
 run(process.execPath, [path.join(root, 'tests', 'smoke', 'team-dispatch-protocol.js')]);
@@ -69,15 +68,14 @@ console.log('ok role checklists protocol');
 run(process.execPath, [path.join(root, 'tests', 'smoke', 'role-soul-protocols.js')]);
 console.log('ok role SOUL protocols');
 for (const smokeTest of [
-  'bootstrap-new-machine.test.js',
-  'bash-remote-command-shape.test.js',
   'generate-agent-workspaces.test.js',
   'register-agents.dry-run.test.js',
-  'configure-agent-to-agent.dry-run.test.js',
+  'configure-subagent-policy.dry-run.test.js',
+  'config-merger.test.js',
+  'install-wizard.dry-run.test.js',
   'healthcheck-local.test.js',
   'create-task-archive.test.js',
   'runtime-localization-inventory.test.js',
-  'runtime-localization-bilingual-mirrors.test.js',
   'runtime-localization-source-resolution.test.js',
   'update-runtime-workspace.test.js',
   'update-runtime-workspace-wrapper.test.js'
@@ -107,29 +105,21 @@ try {
       }
     }
   }, null, 2) + '\n');
-  const reproducePreview = run(process.execPath, [path.join(root, 'scripts', 'reproduce-new-machine.js'), '--target', target, '--model', 'custom-smoke/model', '--api-key-env', 'SMOKE_API_KEY', '--skip-restart']);
-  if (!reproducePreview.stdout.includes('openclaw config patch --file')) {
-    throw new Error('reproduce-new-machine dry-run must preview OpenClaw config patch');
-  }
-  const patch = buildConfigPatch({
-    providerId: 'custom-smoke',
-    modelId: 'model',
-    baseUrl: 'https://example.invalid/v1',
-    api: 'openai-completions',
-    alias: 'smoke',
-    apiKeyEnv: 'SMOKE_API_KEY',
-    existingConfig: JSON.parse(fs.readFileSync(path.join(target, 'openclaw.json'), 'utf8'))
-  });
+  const mergeTemplate = subagentPolicyPatch(ROLES);
+  const existingConfig = JSON.parse(fs.readFileSync(path.join(target, 'openclaw.json'), 'utf8'));
+  const { merged: patch } = mergeOpenClawConfig(existingConfig, mergeTemplate);
   const agentIds = patch.agents.list.map((agent) => agent.id);
   if (!agentIds.includes('main') || !agentIds.includes('pm')) {
-    throw new Error('reproduce-new-machine config patch must preserve existing agents.list entries');
+    throw new Error('install-wizard merge must preserve existing agents.list entries');
   }
   const mainAgent = patch.agents.list.find((agent) => agent.id === 'main');
   if (!mainAgent.subagents || !mainAgent.subagents.allowAgents.includes('reviewer')) {
-    throw new Error('reproduce-new-machine config patch must set main.subagents.allowAgents');
+    throw new Error('install-wizard merge must set main.subagents.allowAgents');
   }
-  if (fs.existsSync(path.join(target, 'workspace'))) throw new Error('reproduce-new-machine dry-run wrote workspace files');
-  console.log('ok reproduce-new-machine dry-run no-write');
+  if (patch.models.providers['custom-smoke'].baseUrl !== 'https://example.invalid/v1') {
+    throw new Error('install-wizard merge must preserve existing model provider');
+  }
+  console.log('ok install-wizard merge preserves user config');
 
   run(process.execPath, [path.join(root, 'scripts', 'generate-workspaces.js'), '--target', target, '--apply']);
   for (const required of [
@@ -142,15 +132,10 @@ try {
   }
   console.log('ok generate-workspaces apply fixture');
 
-  const appliedPatch = buildConfigPatch({
-    providerId: 'custom-smoke',
-    modelId: 'model',
-    baseUrl: 'https://example.invalid/v1',
-    api: 'openai-completions',
-    alias: 'smoke',
-    apiKeyEnv: 'SMOKE_API_KEY',
-    existingConfig: JSON.parse(fs.readFileSync(path.join(target, 'openclaw.json'), 'utf8'))
-  });
+  const { merged: appliedPatch } = mergeOpenClawConfig(
+    JSON.parse(fs.readFileSync(path.join(target, 'openclaw.json'), 'utf8')),
+    subagentPolicyPatch(ROLES)
+  );
   fs.writeFileSync(path.join(target, 'openclaw.json'), JSON.stringify(appliedPatch, null, 2) + '\n');
 
   const runtimeCheck = run(process.execPath, [path.join(root, 'scripts', 'healthcheck-runtime.js'), '--target', target, '--skip-openclaw']);
@@ -175,24 +160,6 @@ try {
     throw new Error('generate-workspaces --preserve-existing overwrote existing AGENTS.md');
   }
   console.log('ok generate-workspaces preserve-existing fixture');
-
-  const backupDir = path.join(tmpRoot, 'backup-fixture');
-  fs.mkdirSync(backupDir, { recursive: true });
-  const configFile = path.join(backupDir, 'openclaw.json');
-  fs.writeFileSync(configFile, '{}\n');
-  const backupNames = ['openclaw.json.bak', 'openclaw.json.bak.1', 'openclaw.json.bak.2'];
-  backupNames.forEach((name, index) => {
-    const backupPath = path.join(backupDir, name);
-    fs.writeFileSync(backupPath, `${name}\n`);
-    const ts = new Date(Date.now() + index * 1000);
-    fs.utimesSync(backupPath, ts, ts);
-  });
-  fs.writeFileSync(path.join(backupDir, 'openclaw.json.last-good'), 'last-good\n');
-  const pruneResult = pruneConfigBackups(configFile, 1);
-  if (pruneResult.removed !== 2 || pruneResult.kept !== 1) throw new Error('config backup pruning kept/removed unexpected count');
-  if (!fs.existsSync(path.join(backupDir, 'openclaw.json.bak.2'))) throw new Error('config backup pruning did not keep newest backup');
-  if (!fs.existsSync(path.join(backupDir, 'openclaw.json.last-good'))) throw new Error('config backup pruning removed last-good file');
-  console.log('ok reproduce-new-machine config backup pruning');
 
   const tasksRoot = path.join(tmpRoot, 'tasks');
   run(process.execPath, [path.join(root, 'scripts', 'create-task-archive.js'), '--slug', 'smoke-test', '--tasks-root', tasksRoot]);

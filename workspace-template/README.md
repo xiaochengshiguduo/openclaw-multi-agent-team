@@ -1,4 +1,4 @@
-# Workspace Template
+# 工作空间模板
 
 These files are copied into generated OpenClaw Agent workspaces.
 

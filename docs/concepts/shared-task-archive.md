@@ -1,8 +1,6 @@
-English | [中文](shared-task-archive.zh-CN.md)
+# 共享任务归档
 
-# Shared Task Archive
-
-The shared task archive is the durable source of truth for multi-agent work.
+共享任务归档是多 Agent 工作的持久事实来源。
 
 ```text
 shared/tasks/
@@ -10,9 +8,9 @@ shared/tasks/
 └── TASK-YYYYMMDD-HHMM-slug/
 ```
 
-`main` owns the archive. Role Agents default to read-only access unless a task brief explicitly authorizes writing.
+`main` 负责归档。除非任务简报明确授权写入，否则角色 Agent 默认只有只读访问权限。
 
-Recommended task files:
+推荐的任务文件：
 
 ```text
 metadata.md
@@ -33,4 +31,4 @@ research.md
 final.md
 ```
 
-`routing.md` records whether `main` may complete the task directly or must enter the Multi-Agent workflow. It is required for archived Multi-Agent work. See [Routing decision](routing-decision.md).
+`routing.md` 记录 `main` 是否可以直接完成任务，还是必须进入 Multi-Agent 流程。归档的 Multi-Agent 工作必须包含它。参见[路由决策](routing-decision.md)。

@@ -1,8 +1,6 @@
-English | [中文](plan.zh-CN.md)
+# 计划
 
-# Plan
-
-1. PM clarifies scope.
-2. DevOps defines checks.
-3. QA defines acceptance.
-4. main writes final.
+1. PM 澄清范围。
+2. DevOps 定义检查项。
+3. QA 定义验收标准。
+4. main 编写最终结果。

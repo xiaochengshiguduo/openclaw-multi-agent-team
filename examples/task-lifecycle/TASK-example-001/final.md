@@ -1,5 +1,3 @@
-English | [中文](final.zh-CN.md)
+# 最终结果
 
-# Final
-
-Example completed. This is fake sanitized content.
+示例已完成。这是虚构的脱敏内容。

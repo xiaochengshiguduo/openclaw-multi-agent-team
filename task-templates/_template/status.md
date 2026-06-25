@@ -1,114 +1,107 @@
-# Task Status
+# 任务状态
 
-## State Machine
+## 状态机
 
 ```text
 intake → clarify → plan → execute → review → final → archived
 ```
 
-Alternative terminal states:
+替代终态：
 
 ```text
 cancelled
 blocked
 ```
 
-## Current State
+## 当前状态
 
-- Stage: intake | clarify | plan | execute | review | final | archived | cancelled | blocked
-- Status: active | waiting-user | waiting-agent | blocked | completed | cancelled
-- Owner: main | pm | architect | backend | frontend | qa | reviewer | security | devops | docs | research
-- Updated: YYYY-MM-DD HH:mm TZ
+- 阶段：intake | clarify | plan | execute | review | final | archived | cancelled | blocked
+- 状态：active | waiting-user | waiting-agent | blocked | completed | cancelled
+- 负责人：main | pm | architect | backend | frontend | qa | reviewer | security | devops | docs | research
+- 更新时间：YYYY-MM-DD HH:mm TZ
 
-## Stage Definitions
+## 阶段定义
 
 ### intake
 
-main captures the user's goal, creates the task archive if needed, and records initial constraints.
+main 捕获用户目标，必要时创建任务档案，并记录初始约束。
 
-Exit criteria:
+退出标准：
 
-- User goal is understood enough to route, or blocking questions are identified.
+- 已足够理解用户目标并可路由，或已识别 blocking questions。
 
 ### clarify
 
-pm or main clarifies goal, scope, success criteria, users/scenarios, constraints, and risks.
+pm 或 main 澄清目标、范围、成功标准、用户/场景、约束和风险。
 
-Exit criteria:
+退出标准：
 
-- Requirements package exists, or explicit assumptions/blockers are documented.
+- 已有 requirements package，或明确记录假设/阻塞项。
 
 ### plan
 
-main and relevant specialist Agents decide approach, routing, files, validation, and permissions.
+main 与相关专业 Agent 决定方案、路由、文件、验证方式和权限边界。
 
-Exit criteria:
+退出标准：
 
-- plan.md has routing, expected outputs, and next action.
+- plan.md 已包含路由、预期输出和 next action。
 
 ### execute
 
-Specialist Agents perform scoped work or produce scoped analysis.
+专业 Agent 执行限定范围的工作或产出限定范围的分析。
 
-Exit criteria:
+退出标准：
 
-- Role outputs are returned to main and archived.
+- 角色输出已返回 main 并归档。
 
 ### review
 
-qa/reviewer/security/devops/docs review as appropriate.
+qa/reviewer/security/devops/docs 按需审查。
 
-Exit criteria:
+退出标准：
 
-- Verification results and remaining risks are documented.
+- 已记录验证结果和剩余风险。
 
 ### final
 
-main resolves conflicts, writes final.md, and reports to user.
+main 解决冲突，写 final.md，并向用户汇报。
 
-Exit criteria:
+退出标准：
 
-- User-facing summary delivered.
-- Task archive has final.md.
+- 已交付面向用户的摘要。
+- 任务档案包含 final.md。
 
 ### archived
 
-No active work remains.
+没有剩余活动工作。
 
-## Transition Log
+## 状态变更日志
 
-| Time | From | To | Owner | Reason |
+| 时间 | 从 | 到 | 负责人 | 原因 |
 |---|---|---|---|---|
 | YYYY-MM-DD HH:mm TZ | intake | clarify | main | ... |
 
-## Current Blockers
+## 当前阻塞项
 
+- [info] ...
+- [warning] ...
 - [blocking] ...
 
-## Waiting For Agents
+## 等待中的 Agent
 
-Use this section when status is `waiting-agent` or when main has yielded for sub-agent work.
+| 岗位 | 任务 | 开始时间 | 期望输出 | 备注 |
+|---|---|---|---|---|
+|  |  |  |  |  |
 
-- Recovery required on runtime event: yes | no
-- Waiting for:
-  - taskName: <stable-task-name>
-    role: pm | architect | backend | frontend | qa | reviewer | security | devops | docs | research
-    label: <session label if known>
-    expected output: <short description>
-    result path: <role.md or subagents/taskName.md>
+## 结果追踪清单
 
-## Recovery Checklist
+main 在 runtime event、compact 或等待子 Agent 后继续时：
 
-After runtime event / compact / continuation while waiting for agents:
+- [ ] 读取本 status.md 确认 stage/status/owner。
+- [ ] 读取 subagents.md 确认 taskNames、session hints、cleanup policy。
+- [ ] 查找未归档的子 Agent 输出或 session history。
+- [ ] 将结果写入 subagents.md 结果记录。
+- [ ] 继续下一步前更新当前状态。
 
-- [ ] Read this `status.md` and `subagents.md`.
-- [ ] Check active/recent subagents.
-- [ ] If needed, search sessions by label/taskName.
-- [ ] Pull session history for completed agents.
-- [ ] Archive recovered outputs into task files.
-- [ ] Update agent status and transition log.
-- [ ] Only then decide whether to continue waiting, retry, or proceed without the agent.
-
-## Next Action
-
+## 下一步动作
 - ...

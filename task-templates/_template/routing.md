@@ -1,40 +1,40 @@
-# Routing Decision
+# 路由决策
 
-## Decision
+## 决策
 
-- Decision: direct / multi-agent
-- Created by:
-- Date:
+- 决策：直接处理 / Multi-Agent
+- 创建者：
+- 日期：
 
-## Reasoning
+## 推理
 
-- Is the task chat/read-only/non-durable/low-risk?
-- Why direct handling is allowed or not:
-- User override:
+- 任务是否满足聊天/只读/非持久/低风险？
+- 允许或不允许直接处理的原因：
+- 用户 override：
 
-## Direct handling allowed
+## 允许直接处理
 
-- Chat or explanation:
-- Read-only inspection:
-- Non-durable planning/advice:
-- Low-risk:
+- 聊天或解释：
+- 只读检查：
+- 非持久规划/建议：
+- 低风险：
 
-## Mandatory Multi-Agent entry triggers
+## 必须进入 Multi-Agent 的触发条件
 
-- Durable artifacts: code/docs/scripts/tests/templates/configs/workflows/project protocols:
-- Formal project outcomes: commit/tag/release/push/PR/changelog/version change:
-- Runtime/environment state: OpenClaw runtime/Gateway/agent workspace/memory/sessions/state/cron/service/shell rc/routing/DNS/network:
-- Review/testing/verification/audit/risk assessment/release readiness:
-- Reusable procedures/templates/skills/SOPs/long-term rules:
+- 持久产物：代码/文档/脚本/测试/模板/配置/工作流/项目协议：
+- 正式项目结果：commit/tag/release/push/PR/changelog/版本变更：
+- Runtime/环境状态：OpenClaw runtime/Gateway/agent workspace/memory/sessions/state/cron/service/shell rc/routing/DNS/网络：
+- 审查/测试/验证/审计/风险评估/发布就绪判断：
+- 可复用流程/模板/skill/SOP/长期规则：
 
-## Notes for TEAM.md routing
+## TEAM.md 路由备注
 
-- Context for TEAM.md:
-- Known constraints:
-- User confirmations required:
+- 给 TEAM.md 的上下文：
+- 已知约束：
+- 需要用户确认的事项：
 
-## Re-routing log
+## 重路由日志
 
-| Time | Change | Reason |
+| 时间 | 变更 | 原因 |
 |---|---|---|
 |  |  |  |

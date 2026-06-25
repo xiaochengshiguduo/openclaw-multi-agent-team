@@ -1,37 +1,35 @@
-English | [中文](first-run.zh-CN.md)
+# 首次运行
 
-# First Run
-
-Preview workspace generation:
+预览工作区生成计划：
 
 ```bash
 node scripts/generate-workspaces.js --target "$HOME/.openclaw"
 ```
 
-Apply after reviewing the plan:
+审核计划后再应用：
 
 ```bash
 node scripts/generate-workspaces.js --target "$HOME/.openclaw" --apply
 ```
 
-Run local healthcheck:
+运行本地健康检查：
 
 ```bash
 node scripts/healthcheck-local.js
 ```
 
-Preview agent registration:
+预览 Agent 注册：
 
 ```bash
 node scripts/register-agents.js --target "$HOME/.openclaw" --model gpt/gpt-5.5
 ```
 
-Preview agent-to-agent config patch:
+预览 Agent 到 Agent 的配置补丁：
 
 ```bash
 node scripts/configure-agent-routing.js
 ```
 
-These commands are previews only. Review generated registration/config changes before running the corresponding `--apply` or `openclaw config patch` step.
+这些命令仅用于预览。请先审核生成的注册 / 配置变更，再执行对应的 `--apply` 或 `openclaw config patch` 步骤。
 
-Runtime validation is documented in `scripts/healthcheck-runtime.md`.
+运行时验证见 `scripts/healthcheck-runtime.md`。
