@@ -133,4 +133,3 @@ This architecture replaces the legacy agent-to-agent (A2A) `sessions_send` patte
 
 - [OpenClaw Subagents Documentation](https://docs.openclaw.ai/tools/subagents)
 - [Session Tools](https://docs.openclaw.ai/concepts/session-tool)
-- [Multi-Agent Patterns](/docs/guides/multi-agent-patterns.md)

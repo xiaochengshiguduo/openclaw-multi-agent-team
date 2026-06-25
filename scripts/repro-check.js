@@ -53,7 +53,7 @@ if (oc.status === 0) {
     'openclaw.version.policy',
     ocVersion.includes(VERIFIED_OPENCLAW_VERSION) ? 'ok' : 'warning',
     `installed=${ocVersion}; verified-reference=${VERIFIED_OPENCLAW_VERSION}`,
-    'This project does not install/upgrade OpenClaw; validate routing config against your installed version'
+    'This project does not install/upgrade OpenClaw; validate subagent policy config against your installed version'
   );
 }
 
@@ -64,7 +64,8 @@ for (const rel of [
   'package.json',
   'scripts/generate-workspaces.js',
   'scripts/register-agents.js',
-  'scripts/configure-agent-routing.js',
+  'scripts/configure-subagent-policy.js',
+  'scripts/install-wizard.js',
   'scripts/update-runtime-workspace.js',
   'scripts/update-runtime-workspace.sh',
   'scripts/healthcheck-local.js',

@@ -133,4 +133,3 @@ sessions_spawn({
 
 - [OpenClaw Subagents 文档](https://docs.openclaw.ai/tools/subagents)
 - [Session 工具](https://docs.openclaw.ai/concepts/session-tool)
-- [多 Agent 模式](/docs/guides/multi-agent-patterns.md)

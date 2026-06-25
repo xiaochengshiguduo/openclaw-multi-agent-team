@@ -41,7 +41,7 @@
 - [路由决策](concepts/routing-decision.zh-CN.md) — 判断何时由 `main`、单个专家或完整多 Agent 协作处理
 - [工作区](concepts/workspaces.zh-CN.md) — 独立 workspace 和 shared symlink
 - [共享任务档案](concepts/shared-task-archive.zh-CN.md) — 持久任务档案约定
-- [Agent-to-agent routing](concepts/agent-to-agent-routing.zh-CN.md) — 路由和 session visibility 模型
+- [子 Agent 架构](concepts/subagent-architecture.zh-CN.md) — 基于深度的编排和结果流转
 - [任务生命周期](concepts/task-lifecycle.zh-CN.md) — 从 intake 到 final archive
 - [安全模型](concepts/safety-model.zh-CN.md) — preview-first 和人工风险边界
 

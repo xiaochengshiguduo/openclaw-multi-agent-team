@@ -41,7 +41,7 @@ Read these when you want to understand how the system is designed.
 - [Routing decision](concepts/routing-decision.md) — when to use `main`, one specialist, or full multi-agent collaboration
 - [Workspaces](concepts/workspaces.md) — independent workspaces and shared symlinks
 - [Shared task archive](concepts/shared-task-archive.md) — durable task archive convention
-- [Agent-to-agent routing](concepts/agent-to-agent-routing.md) — routing and session visibility model
+- [Subagent architecture](concepts/subagent-architecture.md) — depth-based orchestration and result flow
 - [Task lifecycle](concepts/task-lifecycle.md) — intake to final archive
 - [Safety model](concepts/safety-model.md) — preview-first and manual-risk boundaries
 

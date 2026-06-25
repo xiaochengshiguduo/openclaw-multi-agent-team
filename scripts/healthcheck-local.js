@@ -31,7 +31,8 @@ for (const f of [
   'scripts/update-runtime-workspace.sh',
   'scripts/generate-workspaces.js',
   'scripts/register-agents.js',
-  'scripts/configure-agent-routing.js',
+  'scripts/configure-subagent-policy.js',
+  'scripts/install-wizard.js',
   'scripts/repro-check.js'
 ]) add(`script.${f}`, fs.existsSync(path.join(root, f)), f);
 const status = checks.some(c => c.status === 'blocking') ? 'blocking' : 'ok';
