@@ -1,5 +1,3 @@
-English | [中文](local-healthcheck-output.zh-CN.md)
-
 # Example Local Healthcheck Output
 
 ```text

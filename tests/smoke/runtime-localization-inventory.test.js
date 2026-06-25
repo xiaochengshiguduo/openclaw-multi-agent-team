@@ -25,7 +25,7 @@ assert(inventory.schemaVersion === 1, 'inventory schemaVersion must be 1');
 assert(Array.isArray(inventory.languages), 'inventory languages must be an array');
 assert(inventory.languages.includes('en'), 'inventory must include en');
 assert(inventory.languages.includes('zh-CN'), 'inventory must include zh-CN');
-assert(inventory.defaultLanguage === 'en', 'inventory defaultLanguage must be en');
+assert(inventory.defaultLanguage === 'zh-CN', 'inventory defaultLanguage must be zh-CN');
 assert(inventory.localizedMirrorSuffix === '.zh-CN.md', 'inventory mirror suffix must be .zh-CN.md');
 assert(Array.isArray(inventory.sourceFiles), 'inventory sourceFiles must be an array');
 

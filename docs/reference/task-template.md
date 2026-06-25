@@ -1,5 +1,3 @@
-English | [中文](task-template.zh-CN.md)
-
 # Task Template
 
 Task templates live in:

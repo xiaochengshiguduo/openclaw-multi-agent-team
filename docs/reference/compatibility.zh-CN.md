@@ -1,5 +1,3 @@
-[English](compatibility.md) | 中文
-
 # 兼容性
 
 ## 当前支持矩阵

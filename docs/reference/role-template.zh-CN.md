@@ -1,5 +1,3 @@
-[English](role-template.md) | 中文
-
 # 角色模板
 
 每个角色模板位于：

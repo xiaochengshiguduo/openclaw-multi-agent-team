@@ -1,5 +1,3 @@
-[English](run-healthchecks.md) | 中文
-
 # 运行健康检查
 
 ## 本地健康检查

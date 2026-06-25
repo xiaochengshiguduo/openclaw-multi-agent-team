@@ -1,5 +1,3 @@
-[English](runtime-localization.md) | 中文
-
 # Runtime Localization 设计
 
 本文定义 OpenClaw multi-agent team 的运行时本地化目标设计。本文件只是设计契约：第 1 步不会新增已翻译的运行时协议文件，也不会改变安装或更新行为。

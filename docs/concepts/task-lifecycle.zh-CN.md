@@ -1,5 +1,3 @@
-[English](task-lifecycle.md) | 中文
-
 # 任务生命周期
 
 标准生命周期：

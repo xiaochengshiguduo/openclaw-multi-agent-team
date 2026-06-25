@@ -1,5 +1,3 @@
-[English](task-template.md) | 中文
-
 # 任务模板
 
 任务模板位于：

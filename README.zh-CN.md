@@ -1,5 +1,3 @@
-[English](README.md) | 中文
-
 # OpenClaw Multi-Agent Team
 
 [![CI](https://github.com/xiaochengshiguduo/openclaw-multi-agent-team/actions/workflows/ci.yml/badge.svg)](https://github.com/xiaochengshiguduo/openclaw-multi-agent-team/actions/workflows/ci.yml)

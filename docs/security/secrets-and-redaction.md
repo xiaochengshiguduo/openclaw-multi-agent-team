@@ -1,5 +1,3 @@
-English | [中文](secrets-and-redaction.zh-CN.md)
-
 # Secrets and Redaction
 
 Before publishing, scan for:

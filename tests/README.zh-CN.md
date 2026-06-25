@@ -1,5 +1,3 @@
-[English](README.md) | 中文
-
 # 测试
 
 在仓库根目录运行全部 smoke tests：

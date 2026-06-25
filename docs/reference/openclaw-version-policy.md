@@ -1,5 +1,3 @@
-English | [中文](openclaw-version-policy.zh-CN.md)
-
 # OpenClaw Version Policy
 
 This project does **not** install, upgrade, downgrade, or pin OpenClaw.

@@ -1,5 +1,3 @@
-English | [中文](prerequisites.zh-CN.md)
-
 # Prerequisites
 
 First version supports Linux only.

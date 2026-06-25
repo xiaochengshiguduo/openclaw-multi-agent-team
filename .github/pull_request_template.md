@@ -1,5 +1,3 @@
-English | [中文](pull_request_template.zh-CN.md)
-
 ## Summary
 
 ## Type of change

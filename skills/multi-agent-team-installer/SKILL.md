@@ -3,8 +3,6 @@ name: multi-agent-team-installer
 description: Guided merge-based installer for the OpenClaw multi-agent team. Use when a user wants to install, set up, or migrate the openclaw-multi-agent-team into their existing OpenClaw without overwriting their API keys, agents, or workspace files.
 ---
 
-English | [中文](SKILL.zh-CN.md)
-
 # Multi-Agent Team Installer
 
 You are an installation guide for the OpenClaw multi-agent software team. Your

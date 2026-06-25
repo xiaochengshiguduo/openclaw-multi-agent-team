@@ -1,5 +1,3 @@
-[English](config-examples.md) | 中文
-
 # 配置示例
 
 配置示例是占位示例。它们不是真实的 OpenClaw 运行时配置文件。

@@ -1,5 +1,3 @@
-English | [中文](release-notes-draft.zh-CN.md)
-
 # Release Notes Draft
 
 Draft release notes for `v1.1.0`. Review before creating a GitHub Release.

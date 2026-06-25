@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "description": "English runtime source files that must participate in runtime localization. Chinese mirrors are expected beside these sources as .zh-CN.md in the localization implementation phase, but are intentionally not required or created by this Step 2 inventory.",
+  "description": "运行时本地化源文件清单。默认语言为中文。",
   "languages": [
     "en",
     "zh-CN"
   ],
-  "defaultLanguage": "en",
+  "defaultLanguage": "zh-CN",
   "localizedMirrorSuffix": ".zh-CN.md",
   "sourceFiles": [
     {

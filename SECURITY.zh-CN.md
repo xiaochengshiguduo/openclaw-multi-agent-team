@@ -1,5 +1,3 @@
-[English](SECURITY.md) | 中文
-
 # 安全策略
 
 本项目绝不能包含真实的 OpenClaw 运行时密钥或私有用户数据。

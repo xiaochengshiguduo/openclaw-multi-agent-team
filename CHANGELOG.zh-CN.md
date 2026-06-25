@@ -1,5 +1,3 @@
-[English](CHANGELOG.md) | 中文
-
 
 ## 2.0.0 - 2026-06-25
 

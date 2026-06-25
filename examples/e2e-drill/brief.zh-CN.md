@@ -1,5 +1,3 @@
-[English](brief.md) | 中文
-
 # 简报
 
 ## 用户请求

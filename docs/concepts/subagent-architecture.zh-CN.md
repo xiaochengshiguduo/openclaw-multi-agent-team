@@ -1,5 +1,3 @@
-[English](subagent-architecture.md) | 中文
-
 # 子 Agent 架构
 
 OpenClaw 原生的 subagent announce 链支持稳定的多 agent 编排，具有嵌套深度层级。

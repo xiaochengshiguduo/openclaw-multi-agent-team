@@ -1,5 +1,3 @@
-English | [中文](role-template.zh-CN.md)
-
 # Role Template
 
 Each role template lives under:

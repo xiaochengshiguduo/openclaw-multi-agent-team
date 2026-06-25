@@ -1,5 +1,3 @@
-English | [中文](shared-task-archive.zh-CN.md)
-
 # Shared Task Archive
 
 The shared task archive is the durable source of truth for multi-agent work.

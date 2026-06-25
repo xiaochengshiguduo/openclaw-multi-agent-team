@@ -1,5 +1,3 @@
-English | [中文](roles-and-responsibilities.zh-CN.md)
-
 # Roles and Responsibilities
 
 Default team:

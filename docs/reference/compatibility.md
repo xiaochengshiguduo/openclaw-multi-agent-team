@@ -1,5 +1,3 @@
-English | [中文](compatibility.zh-CN.md)
-
 # Compatibility
 
 ## Current support matrix

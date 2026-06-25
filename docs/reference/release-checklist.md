@@ -1,5 +1,3 @@
-English | [中文](release-checklist.zh-CN.md)
-
 # Release Checklist
 
 Use this checklist before creating a release tag, GitHub release, or changing repository visibility.

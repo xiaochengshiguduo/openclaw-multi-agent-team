@@ -1,5 +1,3 @@
-[English](routing.md) | 中文
-
 # 路由决策
 
 ## 决策

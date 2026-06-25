@@ -1,5 +1,3 @@
-English | [中文](directory-structure.zh-CN.md)
-
 # Directory Structure
 
 ```text

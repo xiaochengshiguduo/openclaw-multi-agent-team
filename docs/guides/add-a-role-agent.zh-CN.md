@@ -1,5 +1,3 @@
-[English](add-a-role-agent.md) | 中文
-
 # 添加角色 Agent
 
 在 `roles/<role>/` 下添加角色模板，然后将其纳入生成 / 注册计划。

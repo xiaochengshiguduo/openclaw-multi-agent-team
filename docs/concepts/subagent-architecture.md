@@ -1,5 +1,3 @@
-English | [中文](subagent-architecture.zh-CN.md)
-
 # Subagent Architecture
 
 OpenClaw's native subagent announce chain enables stable multi-agent orchestration with nested depth levels.

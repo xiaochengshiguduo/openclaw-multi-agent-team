@@ -1,5 +1,3 @@
-English | [中文](safe-publishing-checklist.zh-CN.md)
-
 # Safe Publishing Checklist
 
 Before git commit or GitHub upload:

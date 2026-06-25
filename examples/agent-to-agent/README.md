@@ -1,5 +1,3 @@
-English | [中文](README.zh-CN.md)
-
 # Agent-to-Agent Example
 
 `main` sends compact task briefs to role Agents. Role Agents return structured output to `main`.

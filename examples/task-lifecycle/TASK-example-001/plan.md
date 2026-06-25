@@ -1,5 +1,3 @@
-English | [中文](plan.zh-CN.md)
-
 # Plan
 
 1. PM clarifies scope.

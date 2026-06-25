@@ -1,5 +1,3 @@
-English | [中文](create-a-task.zh-CN.md)
-
 # Create a Task
 
 Preview first:

@@ -1,5 +1,3 @@
-[English](plan.md) | 中文
-
 # 计划
 
 1. PM 澄清范围。

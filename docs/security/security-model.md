@@ -1,5 +1,3 @@
-English | [中文](security-model.zh-CN.md)
-
 # Security Model
 
 This repository must never contain real OpenClaw runtime state or private user data.

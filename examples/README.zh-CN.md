@@ -1,5 +1,3 @@
-[English](README.md) | 中文
-
 # 示例
 
 用于理解 OpenClaw 多智能体团队应如何生成、检查和使用的脱敏示例。

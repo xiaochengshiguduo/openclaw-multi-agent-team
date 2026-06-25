@@ -1,5 +1,3 @@
-[English](runtime-healthcheck-output.md) | 中文
-
 # 运行时健康检查输出示例
 
 ```text

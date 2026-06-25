@@ -1,5 +1,3 @@
-English | [中文](overview.zh-CN.md)
-
 # Overview
 
 `openclaw-multi-agent-team` models a long-lived software team inside OpenClaw.

@@ -1,5 +1,3 @@
-[English](workspaces.md) | 中文
-
 # Workspaces
 
 每个长期存在的角色 Agent 都有独立的 OpenClaw workspace。

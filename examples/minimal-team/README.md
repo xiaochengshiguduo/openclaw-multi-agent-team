@@ -1,5 +1,3 @@
-English | [中文](README.zh-CN.md)
-
 # Minimal Team Example
 
 A minimal conceptual team:

@@ -1,5 +1,3 @@
-[English](index.md) | 中文
-
 # 文档
 
 用于复现、运行和安全发布 OpenClaw 长期多 Agent 软件团队的文档。

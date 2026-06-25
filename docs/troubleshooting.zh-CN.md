@@ -1,5 +1,3 @@
-[English](troubleshooting.md) | 中文
-
 # 故障排查
 
 常见失败原因：

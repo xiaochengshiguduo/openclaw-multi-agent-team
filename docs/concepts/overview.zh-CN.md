@@ -1,5 +1,3 @@
-[English](overview.md) | 中文
-
 # 项目概览
 
 `openclaw-multi-agent-team` 在 OpenClaw 内建模一套长期可用的软件团队。

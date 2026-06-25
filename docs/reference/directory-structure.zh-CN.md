@@ -1,5 +1,3 @@
-[English](directory-structure.md) | 中文
-
 # 目录结构
 
 ```text

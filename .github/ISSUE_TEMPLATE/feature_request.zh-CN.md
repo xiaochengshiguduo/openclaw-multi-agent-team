@@ -4,8 +4,6 @@ about: 提出一个改进建议
 labels: enhancement
 ---
 
-[English](feature_request.md) | 中文
-
 ## 问题
 
 这个建议要解决什么问题？

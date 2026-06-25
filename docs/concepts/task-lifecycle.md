@@ -1,5 +1,3 @@
-English | [中文](task-lifecycle.zh-CN.md)
-
 # Task Lifecycle
 
 Standard lifecycle:

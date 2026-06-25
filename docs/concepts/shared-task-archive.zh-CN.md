@@ -1,5 +1,3 @@
-[English](shared-task-archive.md) | 中文
-
 # 共享任务归档
 
 共享任务归档是多 Agent 工作的持久事实来源。

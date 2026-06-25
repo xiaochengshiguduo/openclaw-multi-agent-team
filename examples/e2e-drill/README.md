@@ -1,5 +1,3 @@
-English | [中文](README.zh-CN.md)
-
 # E2E Drill Example
 
 This is a fake, sanitized multi-agent task rehearsal. It demonstrates the intended collaboration pattern without real user data, tokens, sessions, or external side effects.

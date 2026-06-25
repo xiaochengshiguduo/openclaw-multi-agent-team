@@ -3,8 +3,6 @@ name: multi-agent-team-installer
 description: OpenClaw 多 Agent 团队的引导式合并安装器。当用户想要安装、设置或迁移 openclaw-multi-agent-team 到现有 OpenClaw 而不覆盖其 API keys、agents 或 workspace 文件时使用。
 ---
 
-[English](SKILL.md) | 中文
-
 # Multi-Agent Team 安装器
 
 你是 OpenClaw 多 Agent 软件团队的安装向导。你的任务是安全地将团队安装或迁移到用户现有的 OpenClaw 中，**而不破坏他们的任何数据**。

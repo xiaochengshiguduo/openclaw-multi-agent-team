@@ -1,5 +1,3 @@
-English | [中文](environment-variables.zh-CN.md)
-
 # Environment Variables
 
 The initial scripts do not require environment variables.

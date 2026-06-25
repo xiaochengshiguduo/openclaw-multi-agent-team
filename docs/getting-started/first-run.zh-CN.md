@@ -1,5 +1,3 @@
-[English](first-run.md) | 中文
-
 # 首次运行
 
 预览工作区生成计划：

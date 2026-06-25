@@ -1,5 +1,3 @@
-[English](healthcheck-runtime.md) | 中文
-
 # 运行时健康检查
 
 此检查清单用于在工作区、Agent 注册和路由配置已应用后，验证真实的 OpenClaw 运行时。

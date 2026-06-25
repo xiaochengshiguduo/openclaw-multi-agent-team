@@ -1,5 +1,3 @@
-[English](local-healthcheck-output.md) | 中文
-
 # 本地健康检查输出示例
 
 ```text

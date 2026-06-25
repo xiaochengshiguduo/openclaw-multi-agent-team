@@ -1,5 +1,3 @@
-English | [中文](pm.zh-CN.md)
-
 # PM Output
 
 ## Scope

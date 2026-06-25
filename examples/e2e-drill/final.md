@@ -1,5 +1,3 @@
-English | [中文](final.zh-CN.md)
-
 # Final
 
 The helper script should be implemented as a Node.js standard-library script with:

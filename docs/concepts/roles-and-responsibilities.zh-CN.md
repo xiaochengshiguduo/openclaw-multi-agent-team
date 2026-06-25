@@ -1,5 +1,3 @@
-[English](roles-and-responsibilities.md) | 中文
-
 # 角色与职责
 
 默认团队：

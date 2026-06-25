@@ -1,5 +1,3 @@
-English | [中文](README.zh-CN.md)
-
 # Examples
 
 Sanitized examples for understanding how the OpenClaw multi-agent team is expected to be generated, checked, and used.

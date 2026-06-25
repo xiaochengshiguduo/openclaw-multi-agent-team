@@ -1,5 +1,3 @@
-English | [中文](scripts.zh-CN.md)
-
 # Scripts Reference
 
 All write-capable scripts are preview-first. Run without `--apply` to inspect the plan.

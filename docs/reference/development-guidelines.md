@@ -1,5 +1,3 @@
-English | [中文](development-guidelines.zh-CN.md)
-
 # Development Guidelines
 
 This document is the maintainer contract for `openclaw-multi-agent-team`.

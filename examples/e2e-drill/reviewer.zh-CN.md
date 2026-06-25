@@ -1,5 +1,3 @@
-[English](reviewer.md) | 中文
-
 # Reviewer 输出
 
 ## 审查

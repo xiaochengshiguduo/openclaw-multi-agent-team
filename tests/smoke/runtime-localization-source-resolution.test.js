@@ -9,26 +9,29 @@ const {
   resolveManifestSource
 } = require('../../scripts/lib/runtime-localization');
 
-assert.strictEqual(DEFAULT_RUNTIME_LANGUAGE, 'en');
+assert.strictEqual(DEFAULT_RUNTIME_LANGUAGE, 'zh-CN');
 assert.deepStrictEqual(SUPPORTED_RUNTIME_LANGUAGES, ['en', 'zh-CN']);
-assert.strictEqual(normalizeRuntimeLanguage(), 'en');
-assert.strictEqual(normalizeRuntimeLanguage(''), 'en');
+assert.strictEqual(normalizeRuntimeLanguage(), 'zh-CN');
+assert.strictEqual(normalizeRuntimeLanguage(''), 'zh-CN');
 assert.strictEqual(normalizeRuntimeLanguage('en'), 'en');
 assert.strictEqual(normalizeRuntimeLanguage('zh-CN'), 'zh-CN');
 assert.throws(() => normalizeRuntimeLanguage('fr'), /invalid language: fr/);
 
+// Legacy source (no sources map) resolves for default language zh-CN
 assert.strictEqual(
-  resolveManifestSource({ source: 'roles/main/AGENTS.md' }, 'en'),
+  resolveManifestSource({ source: 'roles/main/AGENTS.md' }, 'zh-CN'),
   'roles/main/AGENTS.md',
-  'legacy source should resolve for English'
+  'legacy source should resolve for default language zh-CN'
 );
 
+// Legacy source fails for non-default language en
 assert.throws(
-  () => resolveManifestSource({ source: 'roles/main/AGENTS.md' }, 'zh-CN'),
-  /source missing for selected language zh-CN/,
-  'legacy source must not silently resolve to English for Chinese'
+  () => resolveManifestSource({ source: 'roles/main/AGENTS.md' }, 'en'),
+  /source missing for selected language en/,
+  'legacy source must not silently resolve to default for English'
 );
 
+// sources map overrides legacy source
 assert.strictEqual(
   resolveManifestSource({ source: 'fallback.md', sources: { en: 'english.md' } }, 'en'),
   'english.md',
@@ -41,16 +44,18 @@ assert.strictEqual(
   'sources.zh-CN should resolve for Chinese'
 );
 
-assert.strictEqual(
-  resolveManifestSource({ source: 'fallback.md', sources: { 'zh-CN': 'chinese.md' } }, 'en'),
-  'fallback.md',
-  'English should fall back to legacy source when sources.en is absent'
+// English fails when sources.en is absent (no fallback to legacy source when sources map exists)
+assert.throws(
+  () => resolveManifestSource({ source: 'fallback.md', sources: { 'zh-CN': 'chinese.md' } }, 'en'),
+  /source missing for selected language en/,
+  'English should fail when sources.en is absent'
 );
 
+// Chinese fails when sources.zh-CN is absent (no fallback when sources map exists)
 assert.throws(
   () => resolveManifestSource({ source: 'fallback.md', sources: { en: 'english.md' } }, 'zh-CN'),
   /source missing for selected language zh-CN/,
-  'Chinese should fail clearly instead of falling back to English'
+  'Chinese should fail when sources.zh-CN is absent'
 );
 
 assert.throws(

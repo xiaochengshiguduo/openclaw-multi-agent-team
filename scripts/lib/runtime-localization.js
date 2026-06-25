@@ -1,7 +1,7 @@
 'use strict';
 
 const SUPPORTED_RUNTIME_LANGUAGES = Object.freeze(['en', 'zh-CN']);
-const DEFAULT_RUNTIME_LANGUAGE = 'en';
+const DEFAULT_RUNTIME_LANGUAGE = 'zh-CN';
 
 function normalizeRuntimeLanguage(language, { defaultLanguage = DEFAULT_RUNTIME_LANGUAGE, field = 'language' } = {}) {
   const value = language === undefined || language === null || language === '' ? defaultLanguage : language;
@@ -31,6 +31,9 @@ function resolveManifestSource(item, language = DEFAULT_RUNTIME_LANGUAGE) {
         throw new Error(`manifest source for ${DEFAULT_RUNTIME_LANGUAGE} must be a non-empty string`);
       }
       return sources[DEFAULT_RUNTIME_LANGUAGE];
+    }
+    if (selectedLanguage === DEFAULT_RUNTIME_LANGUAGE) {
+      throw new Error(`manifest source missing for selected language ${selectedLanguage}`);
     }
     if (selectedLanguage !== DEFAULT_RUNTIME_LANGUAGE) {
       if (!hasOwn(sources, selectedLanguage)) {

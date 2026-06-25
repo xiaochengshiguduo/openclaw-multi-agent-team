@@ -1,5 +1,3 @@
-English | [中文](troubleshooting.zh-CN.md)
-
 # Troubleshooting
 
 Common failures:

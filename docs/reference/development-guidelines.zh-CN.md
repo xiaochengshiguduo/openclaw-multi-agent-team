@@ -1,5 +1,3 @@
-[English](development-guidelines.md) | 中文
-
 # 开发规范
 
 本文档是 `openclaw-multi-agent-team` 的维护者契约。

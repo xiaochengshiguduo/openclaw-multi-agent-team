@@ -1,5 +1,3 @@
-[English](preflight.md) | 中文
-
 # 预检
 
 Preflight 是暂存或发布前的最后一次本地审计。

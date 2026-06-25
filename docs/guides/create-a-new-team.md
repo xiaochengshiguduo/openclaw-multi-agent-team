@@ -1,5 +1,3 @@
-English | [中文](create-a-new-team.zh-CN.md)
-
 # Create a New Team
 
 This guide creates local Linux workspaces only. It does not modify OpenClaw config or restart Gateway.

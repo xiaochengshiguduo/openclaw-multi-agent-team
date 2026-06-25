@@ -4,8 +4,6 @@ about: 报告一个可复现的问题
 labels: bug
 ---
 
-[English](bug_report.md) | 中文
-
 ## 摘要
 
 发生了什么？

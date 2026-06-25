@@ -1,5 +1,3 @@
-[English](dry-run-and-apply.md) | 中文
-
 # Dry-run 和 Apply
 
 默认：

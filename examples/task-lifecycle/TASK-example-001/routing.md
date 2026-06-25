@@ -1,5 +1,3 @@
-English | [中文](routing.zh-CN.md)
-
 # Routing Decision
 
 ## Decision

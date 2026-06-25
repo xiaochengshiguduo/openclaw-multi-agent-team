@@ -1,5 +1,3 @@
-[English](pull_request_template.md) | 中文
-
 ## 摘要
 
 ## 变更类型

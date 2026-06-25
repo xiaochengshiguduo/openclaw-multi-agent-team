@@ -1,5 +1,3 @@
-[English](troubleshooting-setup.md) | 中文
-
 # 设置故障排查
 
 常见问题：

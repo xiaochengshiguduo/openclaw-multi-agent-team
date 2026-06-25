@@ -1,5 +1,3 @@
-[English](security-model.md) | 中文
-
 # 安全模型
 
 本仓库绝不能包含真实 OpenClaw runtime 状态或私人用户数据。

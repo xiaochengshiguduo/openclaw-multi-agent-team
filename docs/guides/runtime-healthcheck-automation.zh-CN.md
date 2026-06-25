@@ -1,5 +1,3 @@
-[English](runtime-healthcheck-automation.md) | 中文
-
 # 运行时健康检查自动化
 
 `healthcheck-runtime.js` 是一个只读辅助工具，用于验证真实的 OpenClaw 多 Agent 团队安装。

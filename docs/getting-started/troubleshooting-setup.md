@@ -1,5 +1,3 @@
-English | [中文](troubleshooting-setup.zh-CN.md)
-
 # Setup Troubleshooting
 
 Common issues:

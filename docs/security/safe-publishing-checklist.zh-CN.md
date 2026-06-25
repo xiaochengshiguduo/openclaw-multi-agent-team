@@ -1,5 +1,3 @@
-[English](safe-publishing-checklist.md) | 中文
-
 # 安全发布检查清单
 
 在 git commit 或上传到 GitHub 之前：

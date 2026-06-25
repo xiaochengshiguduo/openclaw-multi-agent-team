@@ -1,5 +1,3 @@
-[English](prerequisites.md) | 中文
-
 # 前置条件
 
 首个版本仅支持 Linux。

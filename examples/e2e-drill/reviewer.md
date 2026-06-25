@@ -1,5 +1,3 @@
-English | [中文](reviewer.zh-CN.md)
-
 # Reviewer Output
 
 ## Review

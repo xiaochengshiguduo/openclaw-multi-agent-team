@@ -1,5 +1,3 @@
-English | [中文](faq.zh-CN.md)
-
 # FAQ
 
 ## Is this a backup of a real workspace?

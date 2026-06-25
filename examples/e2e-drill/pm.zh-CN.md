@@ -1,5 +1,3 @@
-[English](pm.md) | 中文
-
 # PM 输出
 
 ## 范围

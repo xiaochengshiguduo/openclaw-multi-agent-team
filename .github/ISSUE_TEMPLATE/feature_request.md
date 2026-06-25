@@ -4,8 +4,6 @@ about: Suggest an improvement
 labels: enhancement
 ---
 
-English | [中文](feature_request.zh-CN.md)
-
 ## Problem
 
 What problem would this solve?

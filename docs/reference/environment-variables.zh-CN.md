@@ -1,5 +1,3 @@
-[English](environment-variables.md) | 中文
-
 # 环境变量
 
 初始脚本不需要环境变量。

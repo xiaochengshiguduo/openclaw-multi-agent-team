@@ -1,5 +1,3 @@
-English | [中文](run-healthchecks.zh-CN.md)
-
 # Run Healthchecks
 
 ## Local healthcheck

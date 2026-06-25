@@ -1,5 +1,3 @@
-English | [中文](routing-decision.zh-CN.md)
-
 # Routing Decision
 
 Routing decisions define only one entry question:

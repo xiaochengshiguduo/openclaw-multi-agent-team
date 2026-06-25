@@ -1,5 +1,3 @@
-English | [中文](workspaces.zh-CN.md)
-
 # Workspaces
 
 Each long-lived role Agent has an independent OpenClaw workspace.

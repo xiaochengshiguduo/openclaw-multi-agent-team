@@ -1,5 +1,3 @@
-[English](release-checklist.md) | 中文
-
 # 发布检查清单
 
 创建 release tag、GitHub release 或修改仓库可见性前使用这个检查清单。

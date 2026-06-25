@@ -1,5 +1,3 @@
-[English](release-notes-draft.md) | 中文
-
 # 发布说明草稿
 
 `v1.1.0` 发布说明草稿。创建 GitHub Release 前请先审查。

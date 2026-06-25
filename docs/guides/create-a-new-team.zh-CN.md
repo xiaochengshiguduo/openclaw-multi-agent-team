@@ -1,5 +1,3 @@
-[English](create-a-new-team.md) | 中文
-
 # 创建新团队
 
 本指南只创建本地 Linux 工作区。它不会修改 OpenClaw 配置，也不会重启 Gateway。

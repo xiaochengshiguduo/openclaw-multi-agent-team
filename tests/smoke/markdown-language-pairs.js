@@ -73,19 +73,6 @@ for (const file of mdFiles) {
   }
 
   pairs += 1;
-  const zhFile = path.join(root, zhRel);
-  const zhBase = path.basename(zhRel);
-  const enBase = path.basename(r);
-  if (!hasSwitcher(file, `[中文](${zhBase})`, 'en')) {
-    const first = firstNonBlankLine(file);
-    console.error(`Missing/invalid top language switcher in ${r}:${first.lineNo}: ${first.line}`);
-    failures += 1;
-  }
-  if (!hasSwitcher(zhFile, `[English](${enBase})`, 'zh')) {
-    const first = firstNonBlankLine(zhFile);
-    console.error(`Missing/invalid top language switcher in ${zhRel}:${first.lineNo}: ${first.line}`);
-    failures += 1;
-  }
 }
 
 for (const file of mdFiles) {

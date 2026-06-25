@@ -1,5 +1,3 @@
-English | [中文](safety-model.zh-CN.md)
-
 # Safety Model
 
 This project is comprehensive, but safety boundaries are strict.

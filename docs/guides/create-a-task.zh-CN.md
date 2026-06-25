@@ -1,5 +1,3 @@
-[English](create-a-task.md) | 中文
-
 # 创建任务
 
 先预览：

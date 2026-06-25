@@ -1,5 +1,3 @@
-[English](secrets-and-redaction.md) | 中文
-
 # 密钥与脱敏
 
 发布前，请扫描：

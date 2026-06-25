@@ -4,8 +4,6 @@ about: Report a reproducible problem
 labels: bug
 ---
 
-English | [中文](bug_report.zh-CN.md)
-
 ## Summary
 
 What happened?

@@ -1,5 +1,3 @@
-English | [中文](preflight.zh-CN.md)
-
 # Preflight
 
 Preflight is the final local audit before staging or publishing.

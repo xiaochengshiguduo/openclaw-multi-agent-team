@@ -1,5 +1,3 @@
-[English](openclaw-version-policy.md) | 中文
-
 # OpenClaw 版本策略
 
 本项目**不会**安装、升级、降级或锁定 OpenClaw 版本。

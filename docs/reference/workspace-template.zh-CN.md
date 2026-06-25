@@ -1,5 +1,3 @@
-[English](workspace-template.md) | 中文
-
 # 工作区模板
 
 `workspace-template/` 包含工作区生成期间使用的通用文件。

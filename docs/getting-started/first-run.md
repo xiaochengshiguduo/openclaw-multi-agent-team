@@ -1,5 +1,3 @@
-English | [中文](first-run.zh-CN.md)
-
 # First Run
 
 Preview workspace generation:

@@ -1,5 +1,3 @@
-[English](migrate-existing-workspace.md) | 中文
-
 # 迁移现有工作区
 
 不要将真实运行时工作区数据直接复制到此仓库中。

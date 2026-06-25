@@ -1,5 +1,3 @@
-[English](plan.md) | 中文
-
 # 计划
 
 ## 路由

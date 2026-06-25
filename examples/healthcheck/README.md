@@ -1,5 +1,3 @@
-English | [中文](README.zh-CN.md)
-
 # Healthcheck Example
 
 This example shows the distinction between local and runtime healthchecks.

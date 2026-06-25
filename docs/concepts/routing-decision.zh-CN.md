@@ -1,5 +1,3 @@
-[English](routing-decision.md) | 中文
-
 # 路由决策
 
 路由决策只定义一个入口问题：

@@ -1,5 +1,3 @@
-English | [中文](runtime-healthcheck-automation.zh-CN.md)
-
 # Runtime Healthcheck Automation
 
 `healthcheck-runtime.js` is a read-only helper for validating a real OpenClaw multi-agent team installation.

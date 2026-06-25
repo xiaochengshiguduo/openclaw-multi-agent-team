@@ -1,5 +1,3 @@
-English | [中文](add-a-role-agent.zh-CN.md)
-
 # Add a Role Agent
 
 Add a role template under `roles/<role>/`, then include it in generation/registration plans.

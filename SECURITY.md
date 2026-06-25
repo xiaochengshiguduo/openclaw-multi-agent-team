@@ -1,5 +1,3 @@
-English | [中文](SECURITY.zh-CN.md)
-
 # Security Policy
 
 This project must never include real OpenClaw runtime secrets or private user data.

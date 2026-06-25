@@ -1,5 +1,3 @@
-English | [中文](healthcheck-runtime.zh-CN.md)
-
 # Runtime Healthcheck
 
 This checklist verifies a real OpenClaw runtime after workspaces, Agent registration, and routing configuration have been applied.

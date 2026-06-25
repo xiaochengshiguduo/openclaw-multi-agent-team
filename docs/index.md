@@ -1,5 +1,3 @@
-English | [中文](index.zh-CN.md)
-
 # Documentation
 
 Documentation for reproducing, operating, and safely publishing an OpenClaw long-lived multi-agent software team.

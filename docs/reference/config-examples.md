@@ -1,5 +1,3 @@
-English | [中文](config-examples.zh-CN.md)
-
 # Config Examples
 
 Configuration examples are placeholders. They are not real OpenClaw runtime config files.

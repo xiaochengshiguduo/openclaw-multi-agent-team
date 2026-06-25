@@ -1,5 +1,3 @@
-[English](install.md) | 中文
-
 # 安装
 
 ```bash

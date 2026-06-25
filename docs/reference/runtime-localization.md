@@ -1,5 +1,3 @@
-English | [中文](runtime-localization.zh-CN.md)
-
 # Runtime Localization Design
 
 This document defines the target design for runtime localization of the OpenClaw multi-agent team. It is a design contract only: Step 1 does not add translated runtime protocol files and does not change install or update behavior.

@@ -1,5 +1,3 @@
-English | [中文](workspace-template.zh-CN.md)
-
 # Workspace Template
 
 `workspace-template/` contains generic files used during workspace generation.
