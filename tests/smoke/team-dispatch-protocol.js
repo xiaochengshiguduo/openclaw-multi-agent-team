@@ -27,7 +27,7 @@ for (const needle of [
   '### 3.5 Agent Permission Matrix',
   'External writes, messages, comments, PR, push, release',
   'Deploy, restart services, modify system config',
-  '### 3.6 Recoverable Sub-Agent Dispatch Protocol',
+  '### 3.6 Subagent Depth Architecture',
   '### 3.7 Multi-Agent Completion Definition',
   '## Dispatch Mode',
   '## Dependencies',
