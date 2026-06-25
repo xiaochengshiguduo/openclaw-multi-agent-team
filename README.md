@@ -143,29 +143,19 @@ openclaw agent --skill skills/multi-agent-team-installer \
 
 ## 更新已经使用过的 runtime workspace
 
-新机器或全新安装使用上方的引导式安装器。对于已经使用过一段时间的 OpenClaw runtime，优先使用增量 runtime workspace updater：
+新机器或全新安装使用上方的引导式安装器。对于已经使用过一段时间的 OpenClaw runtime，使用引导式更新器：
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" --
+openclaw agent --skill skills/multi-agent-team-updater \
+  --task "更新我已安装的多 agent 团队"
 ```
 
-updater 默认只预览，不写入。应用更新：
-
-```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" -- --apply
-```
-
-无冲突成功 apply 后默认重启 Gateway。跳过重启：
-
-```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" -- --apply --no-restart
-```
-
-如果你已经有本地 checkout，等价本地命令是：
-
-```bash
-scripts/update-runtime-workspace.sh --apply
-```
+AI agent 会：
+- 检查你当前安装的版本
+- 预览更新计划（dry-run，不写入）
+- 处理冲突（保留你修改过的文件）
+- 应用更新并生成报告
+- 提醒重启 Gateway
 
 安全边界：
 
