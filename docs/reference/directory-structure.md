@@ -16,8 +16,7 @@ openclaw-multi-agent-team/
 ├── task-templates/
 ├── scripts/
 ├── examples/
-├── tests/
-└── dist/
+└── tests/
 ```
 
 ## `roles/`

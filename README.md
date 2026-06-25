@@ -197,8 +197,7 @@ openclaw-multi-agent-team/
 ├── task-templates/       # shared task archive 模板
 ├── scripts/              # setup/check/reproduction 脚本
 ├── examples/             # 脱敏示例
-├── tests/                # smoke/link 检查
-└── dist/                 # 预留生成产物目录
+└── tests/                # smoke/link 检查
 ```
 
 详见[目录结构参考](docs/reference/directory-structure.md)。
