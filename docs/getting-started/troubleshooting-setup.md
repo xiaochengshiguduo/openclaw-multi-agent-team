@@ -1,9 +1,9 @@
-# Setup Troubleshooting
+# 设置故障排查
 
-Common issues:
+常见问题：
 
-- OpenClaw CLI not found
-- Node.js version too old
-- target directory not writable
-- workspace already exists
-- symlink creation failed
+- 找不到 OpenClaw CLI
+- Node.js 版本过旧
+- 目标目录不可写
+- 工作区已存在
+- 创建符号链接失败

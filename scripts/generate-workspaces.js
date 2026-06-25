@@ -8,10 +8,10 @@ const { ROLES } = require('./lib/constants');
 const { assertRoleName } = require('./lib/slug');
 const { ensureDir, copyFile, symlink, applyActions } = require('./lib/fs-safe');
 const { printPlan, printResults } = require('./lib/report');
-const { DEFAULT_RUNTIME_LANGUAGE, normalizeRuntimeLanguage } = require('./lib/runtime-localization');
+const { DEFAULT_RUNTIME_LANGUAGE } = require('./lib/runtime-localization');
 
 const HELP = `
-Usage: node scripts/generate-workspaces.js [--target ~/.openclaw] [--roles pm,docs] [--language en|zh-CN] [--lang en|zh-CN] [--apply] [--preserve-existing]
+Usage: node scripts/generate-workspaces.js [--target ~/.openclaw] [--roles pm,docs] [--apply] [--preserve-existing]
 
 Generate OpenClaw Agent workspace directories. Default is dry-run.
 
@@ -27,11 +27,10 @@ if (args.help) { printHelp(HELP); process.exit(0); }
 const root = projectRoot();
 const target = resolvePath(args.target || '~/.openclaw');
 const selected = args.roles ? String(args.roles).split(',').map(s => s.trim()).filter(Boolean) : ROLES;
-const language = normalizeRuntimeLanguage(args.language || args.lang || DEFAULT_RUNTIME_LANGUAGE);
+const language = DEFAULT_RUNTIME_LANGUAGE;
 for (const r of selected) assertRoleName(r);
 function localizedSource(rel) {
-  if (language === DEFAULT_RUNTIME_LANGUAGE) return rel;
-  return rel.replace(/\.md$/, `.${language}.md`);
+  return rel;
 }
 
 function copyLocalized(rel, dest, actions) {
@@ -57,7 +56,7 @@ for (const role of selected) {
   ]) copyLocalized(path.join('workspace-template', src), path.join(workspace, dest), actions);
   if (role !== 'main') symlink(sharedTarget, path.join(workspace, 'shared'), actions);
 }
-for (const name of require('fs').readdirSync(path.join(root, 'task-templates', '_template')).filter(f => f.endsWith('.md') && !f.endsWith('.zh-CN.md'))) {
+for (const name of require('fs').readdirSync(path.join(root, 'task-templates', '_template')).filter(f => f.endsWith('.md'))) {
   copyLocalized(path.join('task-templates', '_template', name), path.join(sharedTarget, 'tasks', '_template', name), actions);
 }
 if (isApply(args) && args['preserve-existing'] !== true) {

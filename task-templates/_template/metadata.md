@@ -3,7 +3,7 @@
 ## Identity
 
 - Task ID: TASK-YYYYMMDD-HHMM-short-name
-- Title: <short human-readable title>
+- Title: <简短、可读的标题>
 - Created: YYYY-MM-DD HH:mm TZ
 - Last updated: YYYY-MM-DD HH:mm TZ
 - Owner: main
@@ -12,15 +12,15 @@
 
 ## Source
 
-- User request: <short quote or summary>
+- User request: <简短引用或摘要>
 - Source channel: Telegram / Web / Other
 - Source agent: main
-- Related messages: <optional sanitized references; do not store private Telegram/runtime IDs in committed examples>
+- Related messages: <可选的脱敏引用；不要在提交示例中保存私有 Telegram/runtime ID>
 
 ## Visibility
 
 - Archive path: shared/tasks/TASK-YYYYMMDD-HHMM-short-name/
-- Workspace visibility: shared via `<role-workspace>/shared -> <OPENCLAW_HOME>/workspace/shared`
+- Workspace visibility: 通过 `<role-workspace>/shared -> <OPENCLAW_HOME>/workspace/shared` 共享
 - Sensitive data: none | redacted | present-with-restrictions
 - External action risk: none | low | medium | high
 
@@ -40,7 +40,7 @@
 
 ## Downstream Context Contract
 
-When main asks a role Agent to work on this task, include at minimum:
+当 main 要求某个角色 Agent 处理本任务时，至少包含：
 
 - Task ID
 - Objective

@@ -1,19 +1,19 @@
-# Prerequisites
+# 前置条件
 
-First version supports Linux only.
+首个版本仅支持 Linux。
 
-Required:
+必需：
 
 - Linux
 - Node.js 24+
-- OpenClaw installed separately
-- shell access
-- permission to write the target OpenClaw workspace root
+- 已单独安装 OpenClaw
+- shell 访问权限
+- 对目标 OpenClaw 工作区根目录的写入权限
 
-Optional for runtime steps:
+运行时步骤的可选条件：
 
-- OpenClaw CLI in `PATH`
-- configured model/provider credentials in your own OpenClaw environment
-- Telegram binding on `main` only, if you want Telegram access
+- `PATH` 中可用的 OpenClaw CLI
+- 在你自己的 OpenClaw 环境中已配置模型/提供商凭据
+- 如果需要 Telegram 访问，仅在 `main` 上绑定 Telegram
 
-Standalone setup scripts do not install OpenClaw, generate tokens, bind Telegram, or restart Gateway automatically. Dedicated reproduction/update workflows may restart Gateway only after explicit `--apply`; use `--no-restart` where supported if you need to defer restart.
+独立设置脚本不会安装 OpenClaw、生成令牌、绑定 Telegram，也不会自动重启 Gateway。专用复现/更新流程只能在显式 `--apply` 后重启 Gateway；如需延后重启，在支持的位置使用 `--no-restart`。

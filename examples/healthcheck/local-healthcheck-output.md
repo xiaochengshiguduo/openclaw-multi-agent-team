@@ -1,4 +1,4 @@
-# Example Local Healthcheck Output
+# 本地健康检查输出示例
 
 ```text
 # healthcheck-local: ok

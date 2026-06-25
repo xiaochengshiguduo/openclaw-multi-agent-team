@@ -1,18 +1,18 @@
-# Create a New Team
+# 创建新团队
 
-This guide creates local Linux workspaces only. It does not modify OpenClaw config or restart Gateway.
+本指南只创建本地 Linux 工作区。它不会修改 OpenClaw 配置，也不会重启 Gateway。
 
 ```bash
 node scripts/generate-workspaces.js --target "$HOME/.openclaw"
 ```
 
-Review output. Then:
+查看输出。然后运行：
 
 ```bash
 node scripts/generate-workspaces.js --target "$HOME/.openclaw" --apply
 ```
 
-Generated layout:
+生成的布局：
 
 ```text
 ~/.openclaw/workspace
@@ -21,4 +21,4 @@ Generated layout:
 ...
 ```
 
-Role workspaces contain a `shared` symlink to the main workspace shared directory.
+角色工作区包含一个指向主工作区 shared 目录的 `shared` 符号链接。

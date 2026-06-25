@@ -1,8 +1,8 @@
-# Workspace Template
+# 工作区模板
 
-`workspace-template/` contains generic files used during workspace generation.
+`workspace-template/` 包含工作区生成期间使用的通用文件。
 
-Generated workspaces receive role-specific `AGENTS.md` and `SOUL.md`, plus local placeholders:
+生成的工作区会收到角色专属的 `AGENTS.md` 和 `SOUL.md`，以及本地占位文件：
 
 ```text
 USER.md
@@ -13,4 +13,4 @@ IDENTITY.md
 memory/
 ```
 
-These local files may become private and should not be committed after generation.
+这些本地文件可能变成私有文件，生成后不应提交。

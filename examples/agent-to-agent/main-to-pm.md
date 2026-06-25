@@ -1,3 +1,3 @@
 # main → pm
 
-Please read `shared/tasks/TASK-example/brief.md` and return requirements, assumptions, risks, and acceptance criteria.
+请阅读 `shared/tasks/TASK-example/brief.md`，并返回需求、假设、风险和验收标准。

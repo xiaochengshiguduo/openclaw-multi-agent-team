@@ -1,3 +1,3 @@
-# minimal team
+# 最小团队
 
-See `examples/minimal-team/` or the nearest matching example directory.
+参见 `examples/minimal-team/` 或最接近的示例目录。

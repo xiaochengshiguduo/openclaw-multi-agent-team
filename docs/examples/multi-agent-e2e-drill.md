@@ -1,3 +1,3 @@
-# multi agent e2e drill
+# 多 Agent 端到端演练
 
-See `examples/multi-agent-e2e-drill/` or the nearest matching example directory.
+参见 `examples/multi-agent-e2e-drill/` 或最接近的示例目录。

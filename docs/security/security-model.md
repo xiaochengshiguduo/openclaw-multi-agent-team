@@ -1,26 +1,26 @@
-# Security Model
+# 安全模型
 
-This repository must never contain real OpenClaw runtime state or private user data.
+本仓库绝不能包含真实 OpenClaw runtime 状态或私人用户数据。
 
-## Never commit
+## 永远不要提交
 
-- `openclaw.json` or backups
-- API keys or model provider tokens
+- `openclaw.json` 或备份
+- API keys 或 model provider tokens
 - Telegram bot tokens
 - Gateway tokens
 - auth profiles
-- sessions or transcripts
-- logs containing secrets
-- real `MEMORY.md`
-- private `USER.md`
-- private `TOOLS.md`
-- private task archives
+- sessions 或 transcripts
+- 包含 secrets 的 logs
+- 真实 `MEMORY.md`
+- 私有 `USER.md`
+- 私有 `TOOLS.md`
+- 真实任务档案
 
-## Script rules
+## 脚本规则
 
-- Write-capable scripts default to dry-run.
-- `--apply` is required for writes, command execution, config mutation, or Gateway restart.
-- Config helpers are preview-first.
-- Lower-level helper scripts do not restart Gateway.
-- Dedicated reproduction/update workflows may restart Gateway after explicit `--apply` so validated routing config or managed runtime updates are loaded; use `--no-restart` where supported to defer restart.
-- Sub-agents are not bound to Telegram by default.
+- 可写脚本默认 dry-run。
+- 写入、执行命令、修改配置或重启 Gateway 都必须显式使用 `--apply`。
+- Config helpers 必须 preview-first。
+- 低层辅助脚本不重启 Gateway。
+- 专用复现/更新流程可以在显式 `--apply` 后重启 Gateway，让已验证的路由配置或托管 runtime 更新生效；支持时可用 `--no-restart` 延后重启。
+- 子 Agents 默认不绑定 Telegram。

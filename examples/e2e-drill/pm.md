@@ -1,13 +1,13 @@
-# PM Output
+# PM 输出
 
-## Scope
+## 范围
 
-Build a local-only helper that creates a task archive directory and copies core templates.
+构建一个仅在本地运行的辅助工具，用于创建任务归档目录并复制核心模板。
 
-## Acceptance Criteria
+## 验收标准
 
-- `--help` works.
-- Dry-run does not write.
-- `--apply` creates the target archive.
-- Invalid slugs are rejected.
-- Existing target is not overwritten.
+- `--help` 可用。
+- Dry-run 不会写入。
+- `--apply` 会创建目标归档。
+- 无效 slug 会被拒绝。
+- 不覆盖现有目标。

@@ -1,24 +1,24 @@
-# Security Policy
+# 安全策略
 
-This project must never include real OpenClaw runtime secrets or private user data.
+本项目绝不能包含真实的 OpenClaw 运行时密钥或私有用户数据。
 
-## Do not commit
+## 不要提交
 
-- OpenClaw config files: `openclaw.json`, `openclaw.json.*`
-- API keys, model keys, Telegram bot tokens, Gateway tokens
-- auth profiles, sessions, logs, transcripts
-- real `MEMORY.md`, private `USER.md`, private `TOOLS.md`
-- private task archives
-- SSH keys, cloud credentials, `.env` files
+- OpenClaw 配置文件：`openclaw.json`、`openclaw.json.*`
+- API key、模型 key、Telegram bot token、Gateway token
+- 认证 profile、会话、日志、转录记录
+- 真实的 `MEMORY.md`、私有的 `USER.md`、私有的 `TOOLS.md`
+- 私有任务归档
+- SSH key、云凭据、`.env` 文件
 
-## Script safety rules
+## 脚本安全规则
 
-- Write-capable scripts default to dry-run.
-- `--apply` is required for writes.
-- Gateway restart is never automatic.
-- Agent registration/config helpers must preview changes before applying them.
-- Sub-agents are not bound to Telegram by default.
+- 具备写入能力的脚本默认使用 dry-run。
+- 写入必须显式使用 `--apply`。
+- Gateway 重启绝不会自动执行。
+- Agent 注册/配置辅助工具必须先预览变更，再应用。
+- 子 Agent 默认不绑定到 Telegram。
 
-## Supported platform
+## 支持的平台
 
-First version: Linux only.
+首个版本：仅 Linux。

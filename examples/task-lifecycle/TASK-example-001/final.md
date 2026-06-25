@@ -1,3 +1,3 @@
-# Final
+# 最终结果
 
-Example completed. This is fake sanitized content.
+示例已完成。这是虚构的脱敏内容。

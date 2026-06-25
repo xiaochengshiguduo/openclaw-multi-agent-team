@@ -1,13 +1,13 @@
-# Secrets and Redaction
+# 密钥与脱敏
 
-Before publishing, scan for:
+发布前，请扫描：
 
 - token
 - API key
 - Telegram bot token
 - Gateway token
 - `openclaw.json`
-- auth profiles
-- sessions
-- memory
-- private user notes
+- 认证配置
+- 会话
+- 记忆
+- 私有用户笔记

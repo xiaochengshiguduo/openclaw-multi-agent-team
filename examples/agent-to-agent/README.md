@@ -1,5 +1,5 @@
-# Agent-to-Agent Example
+# Agent 到 Agent 示例
 
-`main` sends compact task briefs to role Agents. Role Agents return structured output to `main`.
+`main` 会向角色 Agent 发送精简任务简报。角色 Agent 将结构化输出返回给 `main`。
 
-Role Agents are internal by default: they should not bypass `main` to contact the user, perform external writes, or expose private runtime context.
+子 Agent 不应绕过 `main` 联系用户。

@@ -1,10 +1,10 @@
-# Reviewer Output
+# Reviewer 输出
 
-## Review
+## 审查
 
-The design is acceptable if path handling is explicit and target directories are not overwritten.
+如果路径处理是显式的，并且不会覆盖目标目录，则该设计可以接受。
 
-## Warnings
+## 警告
 
-- Partial write rollback can be a future enhancement.
-- Template rendering should be avoided in the first version to reduce risk.
+- 部分写入回滚可作为未来增强项。
+- 第一版应避免模板渲染，以降低风险。

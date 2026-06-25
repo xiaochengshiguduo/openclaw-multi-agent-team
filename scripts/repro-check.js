@@ -59,7 +59,6 @@ if (oc.status === 0) {
 
 for (const rel of [
   'README.md',
-  'README.zh-CN.md',
   'SECURITY.md',
   'package.json',
   'scripts/generate-workspaces.js',

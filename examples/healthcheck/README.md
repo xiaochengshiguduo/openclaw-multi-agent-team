@@ -1,16 +1,16 @@
-# Healthcheck Example
+# 健康检查示例
 
-This example shows the distinction between local and runtime healthchecks.
+此示例展示本地健康检查和运行时健康检查之间的区别。
 
-## Local
+## 本地
 
 ```bash
 node scripts/doctor-local.js
 node scripts/healthcheck-local.js
 ```
 
-Local checks inspect files, templates, platform, and symlink capability.
+本地检查会检查文件、模板、平台以及符号链接能力。
 
-## Runtime
+## 运行时
 
-Runtime checks happen after real OpenClaw setup and follow `scripts/healthcheck-runtime.md`.
+运行时检查在完成真实 OpenClaw 设置后进行，并遵循 `scripts/healthcheck-runtime.md`。

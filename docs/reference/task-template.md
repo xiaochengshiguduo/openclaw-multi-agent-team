@@ -1,18 +1,18 @@
-# Task Template
+# 任务模板
 
-Task templates live in:
+任务模板位于：
 
 ```text
 task-templates/_template/
 ```
 
-They are copied to:
+它们会复制到：
 
 ```text
 <OPENCLAW_HOME>/workspace/shared/tasks/_template/
 ```
 
-`create-task-archive.js` currently copies the core task files:
+`create-task-archive.js` 目前会复制核心任务文件：
 
 - `metadata.md`
 - `routing.md`
@@ -20,4 +20,4 @@ They are copied to:
 - `brief.md`
 - `plan.md`
 
-`routing.md` explains why `main` selected direct work, one specialist, full multi-agent coordination, or a high-risk review overlay.
+`routing.md` 说明 `main` 为什么选择直接处理、一个专家、完整多 Agent 协作或高风险审查叠加层。

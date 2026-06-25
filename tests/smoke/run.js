@@ -57,8 +57,6 @@ run(process.execPath, [path.join(root, 'scripts', 'repro-check.js'), '--target',
 console.log('ok repro-check');
 run(process.execPath, [path.join(root, 'tests', 'smoke', 'markdown-links.js')]);
 console.log('ok markdown links');
-run(process.execPath, [path.join(root, 'tests', 'smoke', 'markdown-language-pairs.js')]);
-console.log('ok markdown language pairs');
 run(process.execPath, [path.join(root, 'tests', 'smoke', 'routing-decision.js')]);
 console.log('ok routing decision');
 run(process.execPath, [path.join(root, 'tests', 'smoke', 'team-dispatch-protocol.js')]);
@@ -78,7 +76,6 @@ for (const smokeTest of [
   'healthcheck-local.test.js',
   'create-task-archive.test.js',
   'runtime-localization-inventory.test.js',
-  'runtime-localization-bilingual-mirrors.test.js',
   'runtime-localization-source-resolution.test.js',
   'update-runtime-workspace.test.js',
   'update-runtime-workspace-wrapper.test.js'

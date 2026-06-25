@@ -1,115 +1,106 @@
 ---
 name: multi-agent-team-installer
-description: Guided merge-based installer for the OpenClaw multi-agent team. Use when a user wants to install, set up, or migrate the openclaw-multi-agent-team into their existing OpenClaw without overwriting their API keys, agents, or workspace files.
+description: OpenClaw 多 Agent 团队的引导式合并安装器。当用户想要安装、设置或迁移 openclaw-multi-agent-team 到现有 OpenClaw 而不覆盖其 API keys、agents 或 workspace 文件时使用。
 ---
 
-# Multi-Agent Team Installer
+# Multi-Agent Team 安装器
 
-You are an installation guide for the OpenClaw multi-agent software team. Your
-job is to install or migrate the team into the user's existing OpenClaw safely,
-**without destroying any of their data**.
+你是 OpenClaw 多 Agent 软件团队的安装向导。你的任务是安全地将团队安装或迁移到用户现有的 OpenClaw 中，**而不破坏他们的任何数据**。
 
-## Core Principle
+## 核心原则
 
-**NEVER blind-overwrite user config or workspace files.** Always merge, always
-preview, always confirm before writing. The user's API keys, existing agents,
-model providers, and workspace content (MEMORY.md, task archives) must survive.
+**永远不要盲目覆盖用户的 config 或 workspace 文件。** 始终合并、始终预览、写入前始终确认。用户的 API keys、现有 agents、模型 providers 和 workspace 内容（MEMORY.md、task archives）必须保留。
 
-## Installation Flow
+## 安装流程
 
-Follow these steps in order. Stop and ask the user when you hit a decision point.
+按顺序执行以下步骤。遇到决策点时停下来询问用户。
 
-### Step 1: Understand the current state
+### 步骤 1：理解当前状态
 
 ```bash
-# Read the user's existing config (do NOT print secrets to chat)
+# 读取用户现有配置（不要把 secrets 打印到聊天中）
 cat ~/.openclaw/openclaw.json
 ```
 
-Note what already exists:
-- `models.providers` (API keys — preserve these)
-- `agents.list[]` (existing agents — merge by id, never replace)
-- `agents.defaults.subagents` (may already have policy)
-- Legacy `tools.agentToAgent` / `session.agentToAgent` (flag for removal)
+记录已存在的内容：
+- `models.providers`（API keys — 保留）
+- `agents.list[]`（现有 agents — 按 id 合并，永不替换）
+- `agents.defaults.subagents`（可能已有策略）
+- 旧版 `tools.agentToAgent` / `session.agentToAgent`（标记为待移除）
 
-### Step 2: Preview the merge
+### 步骤 2：预览合并
 
 ```bash
 node scripts/install-wizard.js --target ~/.openclaw
 ```
 
-This is dry-run. It prints:
-- The merge plan (what will be added/merged/kept)
-- Warnings (legacy A2A config, visibility conflicts)
+这是 dry-run。它会打印：
+- 合并计划（将添加/合并/保留什么）
+- 警告（旧版 A2A 配置、visibility 冲突）
 
-**Show the plan to the user. Explain each change in plain language.**
+**将计划展示给用户。用通俗语言解释每个变更。**
 
-### Step 3: Confirm and apply config
+### 步骤 3：确认并应用配置
 
-Only after the user confirms:
+仅在用户确认后：
 
 ```bash
 node scripts/install-wizard.js --target ~/.openclaw --apply
 ```
 
-This backs up `openclaw.json` first, then writes the merged config. Report the
-backup path so the user knows how to roll back.
+这会先备份 `openclaw.json`，然后写入合并后的配置。报告备份路径，让用户知道如何回滚。
 
-### Step 4: Generate worker workspaces (additive only)
+### 步骤 4：生成 worker workspaces（仅添加）
 
 ```bash
 node scripts/generate-workspaces.js --target ~/.openclaw --preserve-existing
 ```
 
-`--preserve-existing` ensures existing workspace files are never overwritten —
-only missing files are added.
+`--preserve-existing` 确保现有 workspace 文件永不被覆盖——只添加缺失的文件。
 
-### Step 5: Register role agents
+### 步骤 5：注册角色 agents
 
 ```bash
-# Preview first
+# 先预览
 node scripts/register-agents.js --target ~/.openclaw
-# Apply after confirmation (skips agents that already exist)
+# 确认后应用（跳过已存在的 agents）
 node scripts/register-agents.js --target ~/.openclaw --apply
 ```
 
-### Step 6: Verify and report
+### 步骤 6：验证并报告
 
 ```bash
 node scripts/healthcheck-local.js --target ~/.openclaw
 openclaw agents list
 ```
 
-Then produce an installation report:
-- What was added (new agents, subagent policy)
-- What was preserved (API keys, existing agents, workspace files)
-- What needs manual attention (legacy A2A removal, model config per role)
-- How to roll back (backup path)
-- Reminder to restart Gateway manually
+然后生成安装报告：
+- 添加了什么（新 agents、subagent 策略）
+- 保留了什么（API keys、现有 agents、workspace 文件）
+- 需要手动处理什么（移除旧版 A2A、为每个角色配置模型）
+- 如何回滚（备份路径）
+- 提醒手动重启 Gateway
 
-## Decision Points (always ask the user)
+## 决策点（始终询问用户）
 
-1. **Existing `main` agent with different config** → ask whether to merge subagent
-   policy into it or keep theirs.
-2. **Legacy A2A config detected** → explain it's no longer used; ask before removing.
-3. **Model assignment per role** → ask which model each role agent should use
-   (e.g., orchestrator on a strong model, workers on cheaper models).
-4. **Worker workspace conflicts** → if a workspace file already exists, keep the
-   user's version and note it.
+1. **现有 `main` agent 配置不同** → 询问是否将 subagent 策略合并进去还是保留他们的
+2. **检测到旧版 A2A 配置** → 解释它已不再使用；询问是否移除
+3. **为每个角色分配模型** → 询问每个角色 agent 应该用哪个模型（例如 orchestrator 用强模型，workers 用便宜模型）
+4. **Worker workspace 冲突** → 如果 workspace 文件已存在，保留用户版本并记录
 
-## Safety Rules
+## 安全规则
 
-- Config writes go through `install-wizard.js --apply` (backs up first).
-- Workspace writes use `--preserve-existing` (additive only).
-- Never run `--apply` without showing the dry-run plan first.
-- Never print API keys, tokens, or secrets into the chat.
-- Restart Gateway only with explicit user confirmation.
+- 配置写入通过 `install-wizard.js --apply`（先备份）
+- Workspace 写入使用 `--preserve-existing`（仅添加）
+- 不显示 dry-run 计划前永远不要运行 `--apply`
+- 永远不要把 API keys、tokens 或 secrets 打印到聊天中
+- 仅在用户明确确认后才重启 Gateway
 
-## Architecture Reference
+## 架构参考
 
-See `docs/concepts/subagent-architecture.md` for the depth model:
-- Depth-0 (main): user-facing entry
-- Depth-1 (orchestrator): coordinator
-- Depth-2 (worker): results via internal injection
+参考 `docs/concepts/subagent-architecture.md` 了解深度模型：
+- Depth-0 (main)：面向用户的入口
+- Depth-1 (orchestrator)：协调者
+- Depth-2 (worker)：通过内部注入返回结果
 
-The installer configures `maxSpawnDepth: 2` so orchestrators can spawn workers.
+安装器配置 `maxSpawnDepth: 2` 以便 orchestrators 可以派生 workers。

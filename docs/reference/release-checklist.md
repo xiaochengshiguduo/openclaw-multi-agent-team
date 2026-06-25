@@ -1,17 +1,17 @@
-# Release Checklist
+# 发布检查清单
 
-Use this checklist before creating a release tag, GitHub release, or changing repository visibility.
+创建 release tag、GitHub release 或修改仓库可见性前使用这个检查清单。
 
-## 1. Scope confirmation
+## 1. 范围确认
 
-- [ ] This is a reusable template/toolkit, not a private workspace backup.
-- [ ] v1 is Linux only.
-- [ ] OpenClaw installation/update is out of scope.
-- [ ] Config patching remains preview-first: one-command reproduction requires explicit `--apply`; lower-level config helpers remain manual.
-- [ ] Gateway restart can happen only in dedicated reproduction/update workflows after explicit `--apply`; use `--no-restart` where supported when you need to defer restart. Lower-level helpers do not restart Gateway.
-- [ ] Telegram binding remains on `main` only by default.
+- [ ] 这是可复用模板/工具链，不是私有 workspace 备份。
+- [ ] v1 仅支持 Linux。
+- [ ] OpenClaw 安装/更新不在范围内。
+- [ ] Config patching 保持 preview-first：一键复现必须显式 `--apply`；低层配置辅助脚本仍保持手动。
+- [ ] Gateway 重启只能由专用复现/更新流程在显式 `--apply` 后执行；需要延后重启时，在支持的位置使用 `--no-restart`。低层辅助脚本不重启 Gateway。
+- [ ] Telegram binding 默认只保留在 `main`。
 
-## 2. Required local checks
+## 2. 必需本地检查
 
 ```bash
 node scripts/doctor-local.js
@@ -22,7 +22,7 @@ node scripts/preflight.js --target /tmp/oc-mat-preflight-repro
 node tests/smoke/run.js
 ```
 
-Expected:
+期望：
 
 ```text
 # doctor-local: ok
@@ -31,16 +31,16 @@ Expected:
 smoke tests passed
 ```
 
-## 3. Secret/private-data scan
+## 3. Secret/private-data 扫描
 
-Before staging, confirm no private runtime state is present:
+staging 前确认没有 private runtime state：
 
 ```bash
 git status --short
 git ls-files --others --exclude-standard
 ```
 
-Must not include:
+不能包含：
 
 - `openclaw.json`
 - `openclaw.json.*`
@@ -48,10 +48,10 @@ Must not include:
 - sessions/transcripts/logs
 - `.env`
 - private keys
-- real `MEMORY.md`
-- private `USER.md`
-- private `TOOLS.md`
-- real task archives
+- 真实 `MEMORY.md`
+- 私有 `USER.md`
+- 私有 `TOOLS.md`
+- 真实任务档案
 
 ## 4. Git staging review
 
@@ -62,11 +62,11 @@ git diff --cached --stat
 git diff --cached --name-only
 ```
 
-Review before commit.
+commit 前必须审查。
 
 ## 5. Release commit
 
-Only after maintainer confirmation:
+只有在 maintainer 确认后执行：
 
 ```bash
 git commit -m "Prepare vX.Y.Z release"
@@ -74,21 +74,21 @@ git commit -m "Prepare vX.Y.Z release"
 
 ## 6. GitHub release readiness
 
-Before creating a release tag or changing repository visibility:
+创建 release tag 或修改仓库可见性前确认：
 
-- [ ] repository name is correct
-- [ ] README renders properly
-- [ ] CI passes
-- [ ] SECURITY.md is present
-- [ ] LICENSE is present
-- [ ] issue/PR templates are present
-- [ ] no private local paths are exposed in docs/examples except intentional generic placeholders
+- [ ] repository name 正确
+- [ ] README 渲染正常
+- [ ] CI 通过
+- [ ] SECURITY.md 存在
+- [ ] LICENSE 存在
+- [ ] issue/PR templates 存在
+- [ ] docs/examples 中没有私有本地路径，除非是有意的通用 placeholder
 
 ## 7. Post-release sanity
 
-After creating a tag, GitHub release, or visibility change:
+创建 tag、GitHub release 或修改可见性后：
 
-- [ ] clone into a clean temp directory
-- [ ] run local checks
-- [ ] run `repro-check.js`
-- [ ] verify README quick start
+- [ ] clone 到干净临时目录
+- [ ] 运行本地检查
+- [ ] 运行 `repro-check.js`
+- [ ] 验证 README quick start

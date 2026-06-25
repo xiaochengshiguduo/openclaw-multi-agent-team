@@ -28,3 +28,5 @@ TASK-YYYYMMDD-HHMM-short-name
 
 ## Next Action
 - ...
+
+> 中文说明：本模板用于 main 维护任务计划、路由、决策、阻塞项和下一步动作；表格字段保持英文以便跨角色和自动化读取。

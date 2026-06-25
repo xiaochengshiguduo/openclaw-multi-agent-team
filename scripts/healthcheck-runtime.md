@@ -1,19 +1,19 @@
-# Runtime Healthcheck
+# 运行时健康检查
 
-This checklist verifies a real OpenClaw runtime after workspaces, Agent registration, and routing configuration have been applied.
+此检查清单用于在工作区、Agent 注册和路由配置已应用后，验证真实的 OpenClaw 运行时。
 
-It is intentionally manual/SOP-driven in v1. Do not use it to bypass config review, Gateway restart approval, or Telegram binding safety.
+v1 中它有意保持为手动/SOP 驱动。不要用它绕过配置审查、Gateway 重启审批或 Telegram 绑定安全要求。
 
-## Preconditions
+## 前置条件
 
-- OpenClaw is installed and running.
-- Model/provider auth is configured.
-- Workspaces were generated from this project.
-- Role Agents were registered.
-- Agent-to-agent routing patch was reviewed and applied manually.
-- Gateway was restarted manually if OpenClaw required it.
+- OpenClaw 已安装并正在运行。
+- 模型/provider 认证已配置。
+- 工作区已从本项目生成。
+- 角色 Agent 已注册。
+- Agent-to-agent 路由补丁已审查，并已手动应用。
+- 如果 OpenClaw 要求，Gateway 已手动重启。
 
-## Expected Agents
+## 预期 Agent
 
 ```text
 main
@@ -29,74 +29,74 @@ docs
 research
 ```
 
-## Check 1 — Runtime status
+## 检查 1 — 运行时状态
 
-Run:
+运行：
 
 ```bash
 openclaw status
 ```
 
-Expected:
+预期：
 
-- Gateway is running.
-- Agent count includes the expected role Agents.
-- No critical task/runtime errors.
+- Gateway 正在运行。
+- Agent 数量包含预期的角色 Agent。
+- 没有严重的任务/运行时错误。
 
-If this fails, stop here and fix OpenClaw runtime first.
+如果此项失败，请在这里停止，并先修复 OpenClaw 运行时。
 
-## Check 2 — Agent inventory
+## 检查 2 — Agent 清单
 
-Run:
+运行：
 
 ```bash
 openclaw agents list
 ```
 
-Expected:
+预期：
 
-- `main` exists.
-- all role Agents exist.
-- role Agents use generated `workspace-<role>` paths.
-- only `main` has user-facing channel binding, if Telegram is used.
+- `main` 存在。
+- 所有角色 Agent 都存在。
+- 角色 Agent 使用生成的 `workspace-<role>` 路径。
+- 如果使用 Telegram，只有 `main` 绑定了面向用户的频道。
 
-Sub-agents should not be Telegram-bound by default.
+子 Agent 默认不应绑定到 Telegram。
 
-## Check 3 — Shared task archive path
+## 检查 3 — 共享任务归档路径
 
-From the host, verify:
+在宿主机上验证：
 
 ```bash
 ls -la "$HOME/.openclaw/workspace/shared/tasks/_template/requirements-package.md"
 ls -la "$HOME/.openclaw/workspace-pm/shared"
 ```
 
-Expected:
+预期：
 
-- task template exists.
-- role workspace `shared` path points to main workspace `shared`.
+- 任务模板存在。
+- 角色工作区的 `shared` 路径指向 main 工作区的 `shared`。
 
-## Check 4 — main → role Agent communication
+## 检查 4 — main → 角色 Agent 通信
 
-From `main`, send a low-risk read-only task to `pm`:
+从 `main` 向 `pm` 发送一个低风险、只读任务：
 
 ```text
 Please verify you can read your AGENTS.md, TEAM.md, and shared/tasks/_template/requirements-package.md. Return only pass/fail and any missing path.
 ```
 
-Expected from `pm`:
+`pm` 的预期返回：
 
 ```text
 pass
 ```
 
-Repeat for all role Agents if doing full verification.
+如果要做完整验证，请对所有角色 Agent 重复此检查。
 
-## Check 5 — All-role shared read matrix
+## 检查 5 — 全角色共享读取矩阵
 
-Expected matrix:
+预期矩阵：
 
-| Role | AGENTS.md | TEAM.md | shared task template |
+| 角色 | AGENTS.md | TEAM.md | shared task template |
 |---|---|---|---|
 | pm | pass | pass | pass |
 | architect | pass | pass | pass |
@@ -109,86 +109,86 @@ Expected matrix:
 | docs | pass | pass | pass |
 | research | pass | pass | pass |
 
-If a role cannot read `shared/tasks`, check the role workspace `shared` symlink.
+如果某个角色无法读取 `shared/tasks`，请检查该角色工作区的 `shared` symlink。
 
-## Check 6 — Fake e2e drill
+## 检查 6 — 模拟 e2e 演练
 
-Create a fake task archive using this project’s task helper, or manually using templates:
+使用本项目的任务辅助工具创建一个模拟任务归档，或手动使用模板创建：
 
 ```bash
 node scripts/create-task-archive.js --slug e2e-drill --tasks-root "$HOME/.openclaw/workspace/shared/tasks" --apply
 ```
 
-Then from `main`:
+然后从 `main`：
 
-1. write a short fake brief
-2. ask `pm` for requirements/acceptance criteria
-3. ask `reviewer` for safety/maintainability review
-4. write `final.md`
-5. summarize result to user
+1. 写一份简短的模拟 brief
+2. 请求 `pm` 给出需求/验收标准
+3. 请求 `reviewer` 做安全性/可维护性审查
+4. 写入 `final.md`
+5. 向用户总结结果
 
-Expected:
+预期：
 
-- task archive exists
-- role outputs are captured or summarized by `main`
-- final result is delivered by `main`, not raw role output
+- 任务归档存在
+- 角色输出由 `main` 捕获或总结
+- 最终结果由 `main` 交付，而不是直接转发原始角色输出
 
-## Check 7 — Safety boundaries
+## 检查 7 — 安全边界
 
-Confirm:
+确认：
 
-- no sub-agent has Telegram binding unless explicitly intended
-- no role Agent has been given broad external-write authority by default
-- no real secrets were copied into generated workspaces
-- `main` remains the user-facing entrypoint
+- 没有子 Agent 绑定 Telegram，除非这是明确有意的设置
+- 默认情况下，没有给任何角色 Agent 授予宽泛的外部写入权限
+- 没有真实密钥被复制到生成的工作区中
+- `main` 仍然是面向用户的入口点
 
-## Pass criteria
+## 通过标准
 
-Runtime reproduction passes when:
+运行时复现通过的条件：
 
-- Gateway/runtime is healthy
-- all expected Agents exist
-- `main` can call role Agents
-- role Agents can read shared task archive templates
-- fake e2e drill completes
-- user-facing delivery stays with `main`
+- Gateway/运行时健康
+- 所有预期 Agent 都存在
+- `main` 能调用角色 Agent
+- 角色 Agent 能读取共享任务归档模板
+- 模拟 e2e 演练完成
+- 面向用户的交付仍由 `main` 完成
 
-## Failure handling
+## 失败处理
 
-Common failures:
+常见失败：
 
 ### Agent-to-agent disabled
 
-Symptom:
+症状：
 
 ```text
 Agent-to-agent messaging is disabled
 ```
 
-Fix:
+修复：
 
-- review `configure-agent-routing.js` output
-- apply required config manually
-- restart Gateway manually if required
+- 审查 `configure-agent-routing.js` 输出
+- 手动应用所需配置
+- 如有需要，手动重启 Gateway
 
-### Role cannot read shared/tasks
+### 角色无法读取 shared/tasks
 
-Fix:
+修复：
 
-- check role workspace path
-- check `shared` symlink
-- regenerate workspace if safe
+- 检查角色工作区路径
+- 检查 `shared` symlink
+- 如果安全，重新生成工作区
 
-### Agent missing
+### Agent 缺失
 
-Fix:
+修复：
 
-- run `register-agents.js` preview
-- apply registration only after review
+- 运行 `register-agents.js` 预览
+- 仅在审查后应用注册
 
-### Telegram routed to sub-agent
+### Telegram 路由到了子 Agent
 
-Fix:
+修复：
 
-- remove sub-agent channel binding
-- keep Telegram on `main` only
+- 移除子 Agent 的频道绑定
+- 仅将 Telegram 保留在 `main` 上

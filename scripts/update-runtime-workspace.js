@@ -8,12 +8,12 @@ const crypto = require('crypto');
 const { spawnSync } = require('child_process');
 const { parseArgs, printHelp } = require('./lib/cli');
 const { projectRoot, resolvePath, assertInside } = require('./lib/paths');
-const { DEFAULT_RUNTIME_LANGUAGE, normalizeRuntimeLanguage, resolveManifestSource } = require('./lib/runtime-localization');
+const { DEFAULT_RUNTIME_LANGUAGE, resolveManifestSource } = require('./lib/runtime-localization');
 
 const HELP = `
 Usage: node scripts/update-runtime-workspace.js [--target ~/.openclaw] [--apply]
        [--to <version>] [--only workspace|task-templates] [--no-restart]
-       [--overwrite-conflicts] [--language en|zh-CN] [--lang en|zh-CN] [--json]
+       [--overwrite-conflicts] [--json]
        [--restart-command <cmd>]
 
 Safely update an already-used OpenClaw runtime workspace with project-managed
@@ -271,16 +271,16 @@ function validateManifest(manifest, only) {
   }
 }
 
-function resolveUpdaterLanguage(args, state) {
-  return normalizeRuntimeLanguage(args.language || args.lang || (state && state.language) || DEFAULT_RUNTIME_LANGUAGE);
+function resolveUpdaterLanguage() {
+  return DEFAULT_RUNTIME_LANGUAGE;
 }
 
 function backupPathFor(rel, backupRoot) {
   return path.join(backupRoot, rel);
 }
 
-function buildPlan({ root, targetRoot, manifests, state, only, language = DEFAULT_RUNTIME_LANGUAGE, overwriteConflictTargets = new Set() }) {
-  const selectedLanguage = normalizeRuntimeLanguage(language);
+function buildPlan({ root, targetRoot, manifests, state, only, overwriteConflictTargets = new Set() }) {
+  const selectedLanguage = DEFAULT_RUNTIME_LANGUAGE;
   const plan = {
     ok: true,
     mode: args.apply ? 'apply' : 'dry-run',
@@ -329,7 +329,7 @@ function buildPlan({ root, targetRoot, manifests, state, only, language = DEFAUL
       }
       let resolvedSource;
       try {
-        resolvedSource = resolveManifestSource(item, selectedLanguage);
+        resolvedSource = resolveManifestSource(item);
       } catch (err) {
         plan.forbidden.push({ manifest: manifest.version, target: rel, reason: err.message });
         continue;
@@ -604,12 +604,7 @@ function restartGateway(command) {
   const statePath = path.join(targetRoot, STATE_REL);
   const planPath = path.join(targetRoot, PLAN_REL);
   const state = readJson(statePath, { version: '', files: {} });
-  let language;
-  try {
-    language = resolveUpdaterLanguage(args, state);
-  } catch (err) {
-    fail(err.message, EXIT.VALIDATION);
-  }
+  let language = DEFAULT_RUNTIME_LANGUAGE;
   const only = args.only || '';
   if (only && !['workspace', 'task-templates'].includes(only)) fail(`invalid --only: ${only}`, EXIT.VALIDATION);
   let manifests;
@@ -621,7 +616,7 @@ function restartGateway(command) {
   let plan;
   const overwriteConflictTargets = new Set();
   try {
-    plan = buildPlan({ root, targetRoot, manifests, state, only, language, overwriteConflictTargets });
+    plan = buildPlan({ root, targetRoot, manifests, state, only, overwriteConflictTargets });
   } catch (err) {
     fail(err.message, EXIT.VALIDATION);
   }
@@ -635,7 +630,7 @@ function restartGateway(command) {
     if (!shouldOverwrite) process.exit(EXIT.CONFLICT);
     for (const rel of eligibleTargets) overwriteConflictTargets.add(rel);
     try {
-      plan = buildPlan({ root, targetRoot, manifests, state, only, language, overwriteConflictTargets });
+      plan = buildPlan({ root, targetRoot, manifests, state, only, overwriteConflictTargets });
     } catch (err) {
       fail(err.message, EXIT.VALIDATION);
     }

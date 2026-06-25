@@ -1,36 +1,36 @@
 ---
-name: Bug report
-about: Report a reproducible problem
+name: Bug report（问题报告）
+about: 报告一个可复现的问题
 labels: bug
 ---
 
-## Summary
+## 摘要
 
-What happened?
+发生了什么？
 
-## Environment
+## 环境
 
 - OS:
 - Node.js version:
 - OpenClaw version (`openclaw --version`):
 - Project version/commit:
 
-## Steps to reproduce
+## 复现步骤
 
 ```bash
 # commands
 ```
 
-## Expected behavior
+## 预期行为
 
-## Actual behavior
+## 实际行为
 
-## Logs/output
+## 日志/输出
 
 ```text
 paste relevant output here
 ```
 
-## Safety note
+## 安全提醒
 
-Please do not paste tokens, `openclaw.json`, auth profiles, Telegram bot tokens, private memory, or session transcripts.
+请不要粘贴 token、`openclaw.json`、auth profiles、Telegram bot token、private memory 或 session transcripts。

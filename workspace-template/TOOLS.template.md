@@ -1,3 +1,3 @@
-# TOOLS.md - Local Environment Notes
+# TOOLS.md - 本地环境备注
 
-Fill this in locally if needed. Do not commit private credentials, tokens, private hosts, or sensitive infrastructure details.
+如有需要，请在本地填写。不要提交私有凭证、token、私有主机或敏感基础设施信息。

@@ -1,54 +1,54 @@
-# Subagent Architecture
+# 子 Agent 架构
 
-OpenClaw's native subagent announce chain enables stable multi-agent orchestration with nested depth levels.
+OpenClaw 原生的 subagent announce 链支持稳定的多 agent 编排，具有嵌套深度层级。
 
-## Architecture Overview
+## 架构概览
 
 ```
-User ↔ main (depth-0, user-facing entry)
+用户 ↔ main (depth-0, 面向用户的入口)
          ↓ sessions_spawn
-    Orchestrator (depth-1, optional coordinator)
+    编排者 (depth-1, 可选协调者)
          ↓ sessions_spawn
-    Workers (depth-2, specialized roles)
-         ↓ announce (deliver=false, internal injection)
-    Orchestrator synthesizes
+    工作者 (depth-2, 专业角色)
+         ↓ announce (deliver=false, 内部注入)
+    编排者综合结果
          ↓ announce
-    main integrates
+    main 整合
          ↓ deliver
-    User receives final result
+    用户接收最终结果
 ```
 
-## Key Principles
+## 核心原则
 
-**1. Stable result flow via announce chain**
+**1. 通过 announce 链实现稳定的结果流转**
 
-- Worker (depth-2) results use `deliver=false` internal injection to orchestrator
-- No reliance on turn-limited ping-pong messaging
-- Push-based completion events, no polling needed
+- 工作者（depth-2）结果使用 `deliver=false` 内部注入给编排者
+- 不依赖有轮数限制的 ping-pong 消息传递
+- 推送式完成事件，无需轮询
 
-**2. No Telegram spam from workers**
+**2. 工作者不刷屏 Telegram**
 
-- Only main (depth-0) delivers to user's Telegram
-- Worker results stay internal until synthesized by orchestrator or main
+- 只有 main（depth-0）向用户的 Telegram 交付
+- 工作者结果在编排者或 main 综合前保持内部
 
-**3. Configurable orchestration**
+**3. 可配置的编排方式**
 
-- Simple tasks: main spawns workers directly (depth-1)
-- Complex tasks: main spawns orchestrator → orchestrator spawns workers (depth-2)
+- 简单任务：main 直接派生工作者（depth-1）
+- 复杂任务：main 派生编排者 → 编排者派生工作者（depth-2）
 
-## Configuration
+## 配置
 
-Add to `~/.openclaw/openclaw.json`:
+在 `~/.openclaw/openclaw.json` 中添加：
 
 ```json5
 {
   "agents": {
     "defaults": {
       "subagents": {
-        "maxSpawnDepth": 2,          // Enable nested orchestrator pattern
-        "maxChildrenPerAgent": 6,    // Limit fan-out per orchestrator
-        "maxConcurrent": 8,          // Total concurrent subagent runs
-        "delegationMode": "suggest"  // Prompt guidance
+        "maxSpawnDepth": 2,          // 启用嵌套编排者模式
+        "maxChildrenPerAgent": 6,    // 限制每个编排者的扇出数
+        "maxConcurrent": 8,          // 并发子 agent 运行总数
+        "delegationMode": "suggest"  // 提示指导
       }
     },
     "list": [{
@@ -61,73 +61,73 @@ Add to `~/.openclaw/openclaw.json`:
   },
   "tools": {
     "sessions": {
-      "visibility": "all"  // Allow cross-session inspection
+      "visibility": "all"  // 允许跨会话检查
     }
   }
 }
 ```
 
-## Usage Pattern
+## 使用模式
 
-**From main:**
+**从 main 派生：**
 
 ```javascript
-// Simple task: spawn workers directly (depth-1)
+// 简单任务：直接派生工作者（depth-1）
 sessions_spawn({
-  task: "Review security of login endpoint",
+  task: "审查登录接口的安全性",
   taskName: "security_review",
   agentId: "security",
   model: "anthropic/claude-opus-4-6"
 });
 
-sessions_yield(); // Wait for completion event
+sessions_yield(); // 等待完成事件
 ```
 
-**Orchestrator pattern:**
+**编排者模式：**
 
 ```javascript
-// Complex task: spawn orchestrator first
+// 复杂任务：先派生编排者
 sessions_spawn({
-  task: "Coordinate backend + frontend + QA for new feature",
+  task: "协调 backend + frontend + QA 开发新功能",
   taskName: "feature_coord",
-  agentId: "architect",  // architect acts as orchestrator
+  agentId: "architect",  // architect 作为编排者
   model: "anthropic/claude-opus-4-6"
 });
 
-// Orchestrator then spawns workers (depth-2)
-// Worker results flow via internal injection to orchestrator
-// Orchestrator synthesizes and announces to main
+// 编排者随后派生工作者（depth-2）
+// 工作者结果通过内部注入流向编排者
+// 编排者综合后 announce 给 main
 ```
 
-## Comparison with Legacy A2A
+## 与旧版 A2A 的对比
 
-This architecture replaces the legacy agent-to-agent (A2A) `sessions_send` pattern:
+本架构替换了旧版 agent-to-agent (A2A) `sessions_send` 模式：
 
-| Aspect | Legacy A2A | Subagent Announce Chain |
+| 方面 | 旧版 A2A | Subagent Announce 链 |
 |---|---|---|
-| Result delivery | `sessions_send` + `maxPingPongTurns` limit | Announce chain, no turn limit |
-| Stability | Results dropped when turn limit exceeded | Push-based, reliable delivery |
-| Recovery | Required manual recovery protocols | Built-in runtime event management |
-| Telegram spam | Workers could message user directly | Only main delivers to user |
-| Configuration | `session.agentToAgent.maxPingPongTurns` | `agents.defaults.subagents.maxSpawnDepth` |
+| 结果交付 | `sessions_send` + `maxPingPongTurns` 限制 | Announce 链，无轮数限制 |
+| 稳定性 | 超出轮数限制时结果丢失 | 推送式，可靠交付 |
+| 恢复 | 需要手动恢复协议 | 内置运行时事件管理 |
+| Telegram 刷屏 | 工作者可能直接向用户发消息 | 只有 main 向用户交付 |
+| 配置 | `session.agentToAgent.maxPingPongTurns` | `agents.defaults.subagents.maxSpawnDepth` |
 
-## When to Use Orchestrator (Depth-2)
+## 何时使用编排者（Depth-2）
 
-**Use orchestrator pattern when:**
+**使用编排者模式当：**
 
-- Task requires 3+ parallel workers
-- Workers need coordination or conflict resolution
-- Results need synthesis before user delivery
-- Example: "Build login feature" → architect coordinates backend + frontend + security + QA
+- 任务需要 3+ 个并行工作者
+- 工作者需要协调或冲突解决
+- 结果需要综合后再交付给用户
+- 示例："构建登录功能" → architect 协调 backend + frontend + security + QA
 
-**Spawn directly when:**
+**直接派生当：**
 
-- Simple 1-2 worker tasks
-- Workers produce independent outputs
-- No synthesis needed
-- Example: "Review this code" → spawn reviewer directly
+- 简单的 1-2 工作者任务
+- 工作者产出独立输出
+- 无需综合
+- 示例："审查这段代码" → 直接派生 reviewer
 
-## Further Reading
+## 扩展阅读
 
-- [OpenClaw Subagents Documentation](https://docs.openclaw.ai/tools/subagents)
-- [Session Tools](https://docs.openclaw.ai/concepts/session-tool)
+- [OpenClaw Subagents 文档](https://docs.openclaw.ai/tools/subagents)
+- [Session 工具](https://docs.openclaw.ai/concepts/session-tool)

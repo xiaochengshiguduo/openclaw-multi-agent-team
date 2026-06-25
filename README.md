@@ -5,142 +5,142 @@
 ![Node.js](https://img.shields.io/badge/node-24%2B-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-A reproducible, long-lived multi-agent software team template for OpenClaw.
+一个可复现、长期可用的 OpenClaw 多 Agent 软件团队模板。
 
-> Status: v1.1.0 local validation. This repository is a sanitized OpenClaw multi-agent team template and setup toolkit. Review the safety boundaries, development guidelines, and local checks before publishing or applying it to a real runtime.
+> 状态：v1.1.0 本地验证中。本仓库是经过脱敏的 OpenClaw 多 Agent 团队模板与设置工具包。在发布或应用到真实 runtime 前，请先审查安全边界、开发规范和本地检查结果。
 
-## What this is
+## 这是什么
 
-`openclaw-multi-agent-team` helps you reproduce a durable OpenClaw software team on Linux:
+`openclaw-multi-agent-team` 用于在 Linux 机器上复现一套长期可用的 OpenClaw 软件团队：
 
-- `main` is the only user-facing Supervisor / CTO / delivery owner.
-- Role Agents handle specialized work: PM, Architect, Backend, Frontend, QA, Reviewer, Security, DevOps, Docs, and Research.
-- Each Agent has its own workspace.
-- All roles share a durable task archive under `shared/tasks`.
-- Important work follows a documented lifecycle: intake → clarify → plan → execute → review → final → archived.
-- Scripts are preview-first and designed for complete reproduction on another new machine.
+- `main` 是唯一用户入口，承担 Supervisor / CTO / 交付负责人职责。
+- 长期岗位 Agent 负责专业分工：PM、Architect、Backend、Frontend、QA、Reviewer、Security、DevOps、Docs、Research。
+- 每个 Agent 有独立 workspace。
+- 所有角色通过 `shared/tasks` 共享持久任务档案。
+- 重要工作遵循标准生命周期：intake → clarify → plan → execute → review → final → archived。
+- 脚本默认 preview-first，适合在另一台新机器上完整复现。
 
-It is a **template and setup toolkit**, not a backup of a private OpenClaw workspace.
+它是一个**模板/工具链项目**，不是当前私有 OpenClaw workspace 的备份。
 
-## Architecture at a glance
+## 架构概览
 
 ```text
-User / Telegram
+用户 / Telegram
       │
       ▼
 main Supervisor
-  CTO + delivery owner + only user-facing entrypoint
+  CTO + 交付负责人 + 唯一用户入口
       │
-      ├── pm          requirements, scope, acceptance boundaries
-      ├── architect   architecture and technical tradeoffs
-      ├── backend     server/API/data logic
-      ├── frontend    UI/client interaction/state
-      ├── qa          test strategy, acceptance, regressions
-      ├── reviewer    maintainability and code review
-      ├── security    secrets, auth, command/file/network risk
-      ├── devops      runtime, CI, services, healthchecks
-      ├── docs        documentation and handoff
-      └── research    external research and option comparison
+      ├── pm          需求、范围、验收边界
+      ├── architect   架构和技术权衡
+      ├── backend     服务端/API/数据逻辑
+      ├── frontend    UI/客户端交互/状态
+      ├── qa          测试策略、验收、回归
+      ├── reviewer    可维护性和代码审查
+      ├── security    密钥、认证、命令/文件/网络风险
+      ├── devops      运行时、CI、服务、健康检查
+      ├── docs        文档和交接
+      └── research    外部调研和方案比较
       │
       ▼
 shared/tasks/TASK-YYYYMMDD-HHMM-slug/
       │
       ▼
-final user-facing delivery from main
+由 main 汇总后的最终用户交付
 ```
 
-## What you get
+## 你会得到什么
 
-- 11 [role templates](roles/)
-- a sanitized [main workspace template](workspace-template/)
-- 18 [task archive templates](task-templates/_template/)
-- [safe setup scripts](scripts/)
-- local healthchecks and smoke tests
-- runtime healthcheck SOP for a real OpenClaw environment
-- [sanitized examples](examples/)
+- 11 个[角色模板](roles/)
+- 脱敏 [main workspace 模板](workspace-template/)
+- 18 个[任务档案模板](task-templates/_template/)
+- [安全脚本](scripts/)
+- 本地健康检查和 smoke tests
+- 真实 OpenClaw 环境 runtime healthcheck SOP
+- [脱敏示例](examples/)
 
-## Safety defaults
+## 安全默认值
 
-- No real `openclaw.json`, config backups, auth profiles, tokens, Telegram bot tokens, Gateway tokens, memories, sessions, transcripts, or private user data are included.
-- Write-capable scripts default to dry-run / preview.
-- `--apply` is required for writes or command execution.
-- The one-command new-machine reproducer can update project-managed OpenClaw config and restart Gateway after preview and explicit `--apply` confirmation.
-- Lower-level config helpers still output reviewable patches for phased/debug workflows.
-- Sub-agents are not bound to Telegram by default.
-- `main` remains the only user-facing entrypoint.
+- 不包含真实 `openclaw.json`、配置备份、auth profiles、token、Telegram bot token、Gateway token、memory、session、transcript 或私人用户数据。
+- 可写脚本默认 dry-run / preview。
+- 写入或执行命令需要显式 `--apply`。
+- 一条命令新机器复现脚本可以在预览和显式 `--apply` 确认后更新本项目管理的 OpenClaw 配置并重启 Gateway。
+- 底层 config 辅助脚本仍为分阶段/调试流程输出可审查 patch。
+- 子 Agent 默认不绑定 Telegram。
+- `main` 始终是唯一用户入口。
 
 
-## Installation
+## 安装
 
-This project now uses a **guided, merge-based installer** that preserves your existing OpenClaw config, API keys, and workspace files.
+本项目现在使用**引导式合并安装器**，保留你现有的 OpenClaw 配置、API keys 和 workspace 文件。
 
-### Quick Start (AI-guided)
+### 快速开始（AI 引导）
 
 ```bash
-# Clone the repository
+# 克隆仓库
 git clone https://github.com/xiaochengshiguduo/openclaw-multi-agent-team.git
 cd openclaw-multi-agent-team
 
-# Let OpenClaw install it for you (recommended)
+# 让 OpenClaw 帮你安装（推荐）
 openclaw agent --skill skills/multi-agent-team-installer \
-  --task "Install the multi-agent team into my OpenClaw"
+  --task "将多 agent 团队安装到我的 OpenClaw"
 ```
 
-The AI agent will:
-- Read your existing config and preserve API keys
-- Merge the team template without overwriting your agents
-- Generate worker workspaces (additive only, never overwrites)
-- Register role agents (skips existing ones)
-- Produce an installation report with rollback instructions
+AI agent 会：
+- 读取你现有的配置并保留 API keys
+- 合并团队模板而不覆盖你的 agents
+- 生成 worker workspaces（仅添加，永不覆盖）
+- 注册角色 agents（跳过已存在的）
+- 生成包含回滚指令的安装报告
 
-### Manual Installation (step-by-step)
+### 手动安装（分步执行）
 
 ```bash
-# 1. Preview the merge (dry-run, writes nothing)
+# 1. 预览合并（dry-run，不写入任何东西）
 node scripts/install-wizard.js
 
-# 2. Review the plan, then apply
+# 2. 检查计划后应用
 node scripts/install-wizard.js --apply
 
-# 3. Generate worker workspaces (preserves existing files)
+# 3. 生成 worker workspaces（保留现有文件）
 node scripts/generate-workspaces.js --preserve-existing
 
-# 4. Register role agents
+# 4. 注册角色 agents
 node scripts/register-agents.js --apply
 
-# 5. Restart Gateway manually after verifying the config
+# 5. 验证配置后手动重启 Gateway
 ```
 
-### Safety Features
+### 安全特性
 
-- **Dry-run by default**: All tools preview changes before writing
-- **Smart merge**: Preserves user API keys, existing agents, and custom config
-- **Automatic backup**: Config is backed up before any write
-- **Additive workspace generation**: Never overwrites existing workspace files
-- **Rollback instructions**: Every operation tells you how to undo it
+- **默认 dry-run**：所有工具在写入前预览变更
+- **智能合并**：保留用户 API keys、现有 agents 和自定义配置
+- **自动备份**：写入前备份配置
+- **增量式 workspace 生成**：永不覆盖现有 workspace 文件
+- **回滚指令**：每个操作都告诉你如何撤销
 
-### Migration from v1.x
+### 从 v1.x 迁移
 
-If you installed v1.x with the legacy overwrite-based method, see [CHANGELOG.md](CHANGELOG.md) for the v2.0.0 migration guide.
+如果你用旧版覆盖式方法安装了 v1.x，参考 [CHANGELOG.md](CHANGELOG.md) 中的 v2.0.0 迁移指南。
 
-## Requirements
+## 前置要求
 
 - Linux
 - Node.js 24+
-- OpenClaw installed and configured separately
-- OpenClaw CLI available for registration/runtime steps
+- OpenClaw 已单独安装并配置
+- 注册和 runtime 步骤需要 OpenClaw CLI
 
-This project does **not** install, update, downgrade, or pin OpenClaw. See the [OpenClaw version policy](docs/reference/openclaw-version-policy.md).
+本项目**不安装、不升级、不降级、也不固定** OpenClaw 版本。详见 [OpenClaw 版本策略](docs/reference/openclaw-version-policy.md)。
 
-Known-good development reference:
+当前开发验证参考版本：
 
 ```text
 OpenClaw 2026.5.27 (27ae826)
 ```
 
-## Quick start
+## 快速开始
 
-Run local checks:
+运行本地检查：
 
 ```bash
 node scripts/doctor-local.js
@@ -148,126 +148,125 @@ node scripts/healthcheck-local.js
 node tests/smoke/run.js
 ```
 
-Install the team with the guided installer (recommended):
+使用引导式安装器安装团队（推荐）：
 
 ```bash
-# Let OpenClaw install it for you, with full guidance
+# 让 OpenClaw 帮你装，全程引导
 openclaw agent --skill skills/multi-agent-team-installer \
-  --task "Install the multi-agent team into my OpenClaw"
+  --task "将多 agent 团队安装到我的 OpenClaw"
 ```
 
-Or install manually, step by step:
+或手动分步安装：
 
 ```bash
-node scripts/install-wizard.js            # preview merge plan (writes nothing)
-node scripts/install-wizard.js --apply    # apply after review (backs up first)
-node scripts/generate-workspaces.js --preserve-existing   # add missing workspace files only
-node scripts/register-agents.js --apply   # register role agents (skips existing)
+node scripts/install-wizard.js            # 预览合并计划（不写入）
+node scripts/install-wizard.js --apply    # 审查后应用（先备份）
+node scripts/generate-workspaces.js --preserve-existing   # 仅添加缺失的 workspace 文件
+node scripts/register-agents.js --apply   # 注册角色 agents（跳过已存在的）
 ```
 
-The installer merges into your existing config without overwriting your API keys,
-existing agents, or workspace files. See the [Installation](#installation) section
-above and [subagent architecture](docs/concepts/subagent-architecture.md) for details.
+安装器会合并进你现有的配置，而不覆盖你的 API keys、现有 agents 或 workspace 文件。
+详见上方 [安装](#安装) 章节和 [子 Agent 架构](docs/concepts/subagent-architecture.md)。
 
-## Updating an already-used runtime workspace
+## 更新已经使用过的 runtime workspace
 
-Use the guided installer (above) for new machines or fresh installs. For an OpenClaw runtime that has already been used, prefer the incremental runtime workspace updater:
+新机器或全新安装使用上方的引导式安装器。对于已经使用过一段时间的 OpenClaw runtime，优先使用增量 runtime workspace updater：
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" --
 ```
 
-The updater is preview-only by default. Apply changes with:
+updater 默认只预览，不写入。应用更新：
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" -- --apply
 ```
 
-Successful no-conflict applies restart Gateway by default. Skip restart with:
+无冲突成功 apply 后默认重启 Gateway。跳过重启：
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/xiaochengshiguduo/openclaw-multi-agent-team/main/scripts/update-runtime-workspace.sh)" -- --apply --no-restart
 ```
 
-If you already have a local checkout, the equivalent local command is:
+如果你已经有本地 checkout，等价本地命令是：
 
 ```bash
 scripts/update-runtime-workspace.sh --apply
 ```
 
-Safety boundaries:
+安全边界：
 
-- Only versioned manifest entries are considered.
-- Only allowlisted project-managed runtime workspace paths can be written: `workspace/AGENTS.md`, `workspace/TEAM.md`, and `workspace/shared/tasks/_template/*.md`.
-- Config, model/provider settings, credentials, memory, sessions, state, transcripts, and user context files are denied.
-- User-modified managed files become conflicts and are not overwritten by default.
-- In an interactive TTY `--apply` run, the updater asks whether to overwrite the listed modified managed conflicts: empty/`n` keeps no-overwrite behavior; `y`/`Y` overwrites only those listed files. Non-interactive automation must opt in with explicit `--overwrite-conflicts`.
-- Writes and authorized overwrites are backed up, atomic, lock-protected, and recorded in `state/openclaw-multi-agent-team/update-state.json` plus `last-plan.json`.
-- If conflicts or forbidden targets remain, the updater does not write and does not restart.
+- 只处理版本化 manifest 声明的条目。
+- 只允许写入 allowlist 中的项目托管 runtime workspace 路径：`workspace/AGENTS.md`、`workspace/TEAM.md`、`workspace/shared/tasks/_template/*.md`。
+- 禁止写配置、模型/provider 设置、凭证、memory、sessions、state、transcripts 和用户上下文文件。
+- 用户修改过的托管文件会变成 conflict，默认不覆盖。
+- 在交互式 TTY `--apply` 运行中，updater 会询问是否覆盖列出的已修改托管 conflict：直接回车/`n` 保持不覆盖；`y`/`Y` 只覆盖这些列出的文件。非交互式自动化必须显式使用 `--overwrite-conflicts` 才会覆盖。
+- 写入和已授权覆盖前都会备份，使用原子写入和锁，并记录到 `state/openclaw-multi-agent-team/update-state.json` 与 `last-plan.json`。
+- 如果仍存在 conflict 或 forbidden target，updater 不写入，也不重启。
 
-## Main scripts
+## 主要脚本
 
-| Script | Purpose | Writes by default? |
+| 脚本 | 用途 | 默认写入吗？ |
 |---|---|---|
-| `scripts/bootstrap-new-machine.sh` | public clone/update wrapper around `reproduce-new-machine.js` | No, unless forwarded `--apply` |
-| `scripts/reproduce-new-machine.js` | one-command new-machine reproduction | No, unless `--apply` |
-| `scripts/update-runtime-workspace.sh` | public clone/update wrapper around `update-runtime-workspace.js` | Plan only, full update with `--apply` |
-| `scripts/update-runtime-workspace.js` | safe incremental update for already-used runtime workspaces | Plan only, full update with `--apply` |
-| `scripts/doctor-local.js` | prerequisite checks | No |
-| `scripts/healthcheck-local.js` | repository/template checks | No |
-| `scripts/healthcheck-runtime.js` | real OpenClaw runtime shape checks | No |
-| `scripts/repro-check.js` | new-machine reproduction readiness | No |
-| `scripts/generate-workspaces.js` | generate workspaces and shared symlinks | No, unless `--apply` |
-| `scripts/create-task-archive.js` | create task archive from templates | No, unless `--apply` |
-| `scripts/register-agents.js` | preview/run `openclaw agents add` | No, unless `--apply` |
-| `scripts/configure-agent-routing.js` | output routing config patch | No real config writes |
-| `scripts/preflight.js` | release-preflight checks | No |
+| `scripts/bootstrap-new-machine.sh` | 公开 clone/update 后调用 `reproduce-new-machine.js` | 否，除非透传 `--apply` |
+| `scripts/reproduce-new-machine.js` | 一条命令新机器复现 | 否，除非 `--apply` |
+| `scripts/update-runtime-workspace.sh` | 公开 clone/update 后调用 `update-runtime-workspace.js` | 只写 plan，完整更新需 `--apply` |
+| `scripts/update-runtime-workspace.js` | 已使用 runtime workspace 的安全增量更新 | 只写 plan，完整更新需 `--apply` |
+| `scripts/doctor-local.js` | 前置条件检查 | 否 |
+| `scripts/healthcheck-local.js` | 仓库/模板检查 | 否 |
+| `scripts/healthcheck-runtime.js` | 真实 OpenClaw runtime 形状检查 | 否 |
+| `scripts/repro-check.js` | 新机器复现 readiness 检查 | 否 |
+| `scripts/generate-workspaces.js` | 生成 workspace 和 shared symlink | 否，除非 `--apply` |
+| `scripts/create-task-archive.js` | 从模板创建任务档案 | 否，除非 `--apply` |
+| `scripts/register-agents.js` | 预览/执行 `openclaw agents add` | 否，除非 `--apply` |
+| `scripts/configure-agent-routing.js` | 输出 routing config patch | 不写真实配置 |
+| `scripts/preflight.js` | 发布前 preflight 检查 | 否 |
 
-See the [script reference](docs/reference/scripts.md).
+详见[脚本参考](docs/reference/scripts.md)。
 
-## Repository structure
+## 仓库结构
 
 ```text
 openclaw-multi-agent-team/
-├── .github/              # CI and contribution templates
-├── docs/                 # user/developer documentation
-├── roles/                # main + role Agent templates
-├── workspace-template/   # sanitized main workspace template
-├── task-templates/       # shared task archive templates
-├── scripts/              # setup/check/reproduction helpers
-├── examples/             # sanitized examples
-├── tests/                # smoke/link checks
-└── dist/                 # reserved for generated packages
+├── .github/              # CI 和协作模板
+├── docs/                 # 用户/开发文档
+├── roles/                # main + 岗位 Agent 模板
+├── workspace-template/   # 脱敏 main workspace 模板
+├── task-templates/       # shared task archive 模板
+├── scripts/              # setup/check/reproduction 脚本
+├── examples/             # 脱敏示例
+├── tests/                # smoke/link 检查
+└── dist/                 # 预留生成产物目录
 ```
 
-See the [directory structure reference](docs/reference/directory-structure.md).
+详见[目录结构参考](docs/reference/directory-structure.md)。
 
-## What this project does not include
+## 本项目不包含什么
 
-- OpenClaw installation itself
-- committed real OpenClaw runtime config
-- committed provider credentials or API keys
+- OpenClaw 本体安装
+- 提交到仓库的真实 OpenClaw runtime config
+- 提交到仓库的 provider credentials 或 API keys
 - Telegram bot tokens
 - Gateway tokens
-- real private `MEMORY.md`, `USER.md`, `TOOLS.md`, sessions, transcripts, or logs
-- automatic Telegram binding for sub-agents
-- OpenClaw installation or external channel onboarding
+- 真实私有 `MEMORY.md`、`USER.md`、`TOOLS.md`、sessions、transcripts 或 logs
+- 子 Agent 自动绑定 Telegram
+- OpenClaw 安装或外部渠道 onboarding
 
-## Documentation
+## 文档入口
 
-Start here:
+建议从这里开始：
 
-- [Documentation index](docs/index.md)
-- [Subagent architecture](docs/concepts/subagent-architecture.md)
-- [Project overview](docs/concepts/overview.md)
-- [Routing decision](docs/concepts/routing-decision.md)
-- [Security model](docs/security/security-model.md)
-- [Development guidelines](docs/reference/development-guidelines.md)
-- [Examples](examples/)
-- [Release checklist](docs/reference/release-checklist.md)
-- [Release notes draft](docs/reference/release-notes-draft.md)
+- [文档导航页](docs/index.md)
+- [子 Agent 架构](docs/concepts/subagent-architecture.md)
+- [项目概览](docs/concepts/overview.md)
+- [路由决策](docs/concepts/routing-decision.md)
+- [安全模型](docs/security/security-model.md)
+- [开发规范](docs/reference/development-guidelines.md)
+- [示例](examples/)
+- [发布检查清单](docs/reference/release-checklist.md)
+- [Release notes 草稿](docs/reference/release-notes-draft.md)
 
-## Validation
+## 验证
 
 ```bash
 node scripts/healthcheck-local.js
@@ -275,7 +274,7 @@ node tests/smoke/run.js
 node scripts/preflight.js
 ```
 
-The GitHub repository also runs CI on push and pull request.
+GitHub 仓库也会在 push 和 pull request 时运行 CI。
 
 ## License
 

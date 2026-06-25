@@ -1,36 +1,36 @@
-# Examples
+# 示例
 
-Sanitized examples for understanding how the OpenClaw multi-agent team is expected to be generated, checked, and used.
+用于理解 OpenClaw 多智能体团队应如何生成、检查和使用的脱敏示例。
 
-These examples are intentionally safe:
+这些示例刻意保持安全：
 
-- no real OpenClaw config
-- no tokens or auth profiles
-- no private memories or sessions
-- no real user task archives
-- no Gateway restart commands
+- 不包含真实的 OpenClaw 配置
+- 不包含令牌或认证配置文件
+- 不包含私有记忆或会话
+- 不包含真实用户任务归档
+- 不包含 Gateway 重启命令
 
-## Start here
+## 从这里开始
 
-| Example | Purpose |
+| 示例 | 用途 |
 |---|---|
-| [Minimal team](minimal-team/) | smallest useful team shape |
-| [Full software team](full-software-team/) | complete 11-Agent team layout |
-| [Task lifecycle](task-lifecycle/) | example task archive flow |
-| [E2E drill](e2e-drill/) | fake multi-agent rehearsal archive |
-| [Agent-to-agent](agent-to-agent/) | expected read-only Agent interaction outputs |
-| [Healthcheck](healthcheck/) | sample local/runtime healthcheck outputs |
-| [Commands](commands/) | copyable dry-run/apply command examples |
-| [Config](config/) | sanitized config patch examples |
+| [最小团队](minimal-team/) | 最小可用团队形态 |
+| [完整软件团队](full-software-team/) | 完整的 11 个 Agent 团队布局 |
+| [任务生命周期](task-lifecycle/) | 示例任务归档流程 |
+| [E2E 演练](e2e-drill/) | 虚构的多智能体演练归档 |
+| [Agent 到 Agent](agent-to-agent/) | 预期的只读 Agent 交互输出 |
+| [健康检查](healthcheck/) | 本地/运行时健康检查输出示例 |
+| [命令](commands/) | 可复制的 dry-run/apply 命令示例 |
+| [配置](config/) | 脱敏的配置补丁示例 |
 
-## Recommended learning path
+## 推荐学习路径
 
-1. Read [Minimal team](minimal-team/).
-2. Compare with [Full software team](full-software-team/).
-3. Review [Task lifecycle](task-lifecycle/).
-4. Run local checks using [Commands](commands/).
-5. Use [Healthcheck](healthcheck/) to compare expected output.
+1. 阅读 [最小团队](minimal-team/)。
+2. 与 [完整软件团队](full-software-team/) 对比。
+3. 查看 [任务生命周期](task-lifecycle/)。
+4. 使用 [命令](commands/) 运行本地检查。
+5. 使用 [健康检查](healthcheck/) 对比预期输出。
 
-## Safety note
+## 安全说明
 
-Treat every example as illustrative. Review scripts and generated files before applying them to a real OpenClaw runtime.
+请将每个示例都视为说明性内容。在将脚本和生成文件应用到真实 OpenClaw 运行环境之前，请先进行审查。

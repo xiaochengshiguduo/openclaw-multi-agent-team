@@ -1,8 +1,8 @@
-# Preflight
+# 预检
 
-Preflight is the final local audit before staging or publishing.
+Preflight 是暂存或发布前的最后一次本地审计。
 
-Recommended commands:
+推荐命令：
 
 ```bash
 node scripts/doctor-local.js
@@ -13,4 +13,4 @@ git status --short
 git ls-files --others --exclude-standard
 ```
 
-For a detailed release process, see [`release-checklist.md`](release-checklist.md).
+详细发布流程请参见 [`release-checklist.md`](release-checklist.md)。

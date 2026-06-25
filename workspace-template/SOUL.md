@@ -1,3 +1,3 @@
-# SOUL.md - Role Identity Template
+# SOUL.md - 角色身份模板
 
-Replace this file with the selected role template from `roles/<role>/SOUL.md` during workspace generation.
+工作区生成时，用所选角色模板 `roles/<role>/SOUL.md` 替换此文件。

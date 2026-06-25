@@ -1,3 +1,3 @@
-# full software team
+# 完整软件团队
 
-See `examples/full-software-team/` or the nearest matching example directory.
+参见 `examples/full-software-team/` 或最接近的示例目录。

@@ -1,5 +1,5 @@
-# Add a Role Agent
+# 添加角色 Agent
 
-Add a role template under `roles/<role>/`, then include it in generation/registration plans.
+在 `roles/<role>/` 下添加角色模板，然后将其纳入生成 / 注册计划。
 
-New role Agents are internal by default: they should be reachable through agent-to-agent routing from `main`, not bound to Telegram or other user-facing channels unless there is an explicit reviewed reason.
+新增角色 Agent 默认是内部角色：应通过 `main` 的 agent-to-agent 路由访问，默认不要绑定 Telegram 或其他面向用户的渠道，除非有明确且已审核的理由。

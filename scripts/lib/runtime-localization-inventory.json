@@ -1,12 +1,10 @@
 {
   "schemaVersion": 1,
-  "description": "运行时本地化源文件清单。默认语言为中文。",
+  "description": "运行时源文件清单（纯中文项目）。",
   "languages": [
-    "en",
     "zh-CN"
   ],
   "defaultLanguage": "zh-CN",
-  "localizedMirrorSuffix": ".zh-CN.md",
   "sourceFiles": [
     {
       "path": "roles/main/AGENTS.md",

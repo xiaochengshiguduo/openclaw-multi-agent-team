@@ -1,4 +1,4 @@
-# Install
+# 安装
 
 ```bash
 git clone https://github.com/xiaochengshiguduo/openclaw-multi-agent-team.git
@@ -6,6 +6,6 @@ cd openclaw-multi-agent-team
 node scripts/doctor-local.js
 ```
 
-All setup scripts are preview-first. Use `--apply` only after reviewing the plan.
+所有设置脚本都采用“先预览”的方式。请仅在审核计划后使用 `--apply`。
 
-No dependency install is required in the initial version because scripts use Node.js standard library only.
+初始版本不需要安装依赖，因为脚本只使用 Node.js 标准库。

@@ -1,18 +1,18 @@
-# Brief
+# 简报
 
-## User request
+## 用户请求
 
-Create a safe helper script that creates a new task archive from templates.
+创建一个安全的辅助脚本，用于根据模板创建新的任务归档。
 
-## Requirements
+## 需求
 
-- Default dry-run.
-- `--apply` required for writes.
-- Strict slug validation.
-- No network calls.
-- No OpenClaw config changes.
-- No overwrites.
+- 默认 dry-run。
+- 写入必须要求 `--apply`。
+- 严格校验 slug。
+- 不进行网络调用。
+- 不更改 OpenClaw 配置。
+- 不覆盖文件。
 
-## Expected output
+## 预期输出
 
-A script plan and acceptance criteria.
+脚本方案和验收标准。

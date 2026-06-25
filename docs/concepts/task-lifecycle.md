@@ -1,22 +1,22 @@
-# Task Lifecycle
+# 任务生命周期
 
-Standard lifecycle:
+标准生命周期：
 
 ```text
 intake → clarify → plan → execute → review → final → archived
 ```
 
-## Stages
+## 阶段
 
-- `intake`: user asks for work.
-- `clarify`: `main` or PM resolves blocking ambiguity.
-- `plan`: task archive and routing plan are created.
-- `execute`: selected role Agents contribute.
-- `review`: QA/reviewer/security/devops checks as needed.
-- `final`: `main` synthesizes final delivery.
-- `archived`: no active work remains.
+- `intake`：用户提出工作请求。
+- `clarify`：`main` 或 PM 解决阻塞性歧义。
+- `plan`：创建任务归档与路由计划。
+- `execute`：选定的角色 Agent 参与贡献。
+- `review`：按需进行 QA/reviewer/security/devops 检查。
+- `final`：`main` 汇总形成最终交付。
+- `archived`：不再有活跃工作。
 
-Terminal states:
+终止状态：
 
 ```text
 blocked | cancelled

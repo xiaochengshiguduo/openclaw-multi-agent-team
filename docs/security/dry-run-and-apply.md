@@ -1,12 +1,12 @@
-# Dry-run and Apply
+# Dry-run 和 Apply
 
-Default:
+默认：
 
 ```bash
 node scripts/example.js
 ```
 
-Write:
+写入：
 
 ```bash
 node scripts/example.js --apply

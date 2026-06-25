@@ -1,20 +1,20 @@
 # <agent> Output
 
-## Conclusion
-<one-sentence result>
+## 结论
+<一句话说明结果>
 
-## Key Findings
+## 关键发现
 - ...
 
-## Work Done
+## 工作内容
 - ...
 
-## Verification
-- Ran: ...
-- Not run: ... because ...
+## 验证
+- 已运行：...
+- 未运行：...，原因：...
 
-## Risks / Pending Confirmation
+## 风险 / 待确认
 - [info|warning|blocking] ...
 
-## Recommended Next Step
+## 建议下一步
 - ...

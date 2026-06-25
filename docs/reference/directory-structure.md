@@ -1,9 +1,9 @@
-# Directory Structure
+# 目录结构
 
 ```text
 openclaw-multi-agent-team/
 ├── README.md
-├── README.zh-CN.md
+├── README.md
 ├── LICENSE
 ├── SECURITY.md
 ├── CONTRIBUTING.md
@@ -22,24 +22,24 @@ openclaw-multi-agent-team/
 
 ## `roles/`
 
-Reusable role templates. Do not store real memory or private user data here.
+可复用的角色模板。不要在这里存放真实记忆或用户私有数据。
 
 ## `workspace-template/`
 
-Generic workspace placeholders used during generation.
+生成期间使用的通用工作区占位文件。
 
 ## `task-templates/`
 
-Templates copied into `shared/tasks/_template/`.
+会复制到 `shared/tasks/_template/` 的模板。
 
 ## `scripts/`
 
-Preview-first setup, healthcheck, and helper scripts.
+预览优先的设置、健康检查和辅助脚本。
 
 ## `examples/`
 
-Fake/sanitized teaching examples.
+虚构 / 已脱敏的教学示例。
 
 ## `tests/`
 
-Smoke tests and fixtures.
+冒烟测试和 fixtures。

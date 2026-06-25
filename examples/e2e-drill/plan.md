@@ -1,13 +1,13 @@
-# Plan
+# 计划
 
-## Routing
+## 路由
 
-| Step | Role | Purpose |
+| 步骤 | 角色 | 目的 |
 |---|---|---|
-| 1 | pm | clarify scope and acceptance criteria |
-| 2 | reviewer | check maintainability and safety risks |
-| 3 | main | synthesize final plan |
+| 1 | pm | 澄清范围和验收标准 |
+| 2 | reviewer | 检查可维护性和安全风险 |
+| 3 | main | 汇总最终方案 |
 
-## Safety
+## 安全
 
-No external writes, no config modification, no Gateway restart.
+不进行外部写入，不修改配置，不重启 Gateway。
