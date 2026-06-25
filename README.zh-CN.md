@@ -71,6 +71,60 @@ shared/tasks/TASK-YYYYMMDD-HHMM-slug/
 - 子 Agent 默认不绑定 Telegram。
 - `main` 始终是唯一用户入口。
 
+
+## 安装
+
+本项目现在使用**引导式合并安装器**，保留你现有的 OpenClaw 配置、API keys 和 workspace 文件。
+
+### 快速开始（AI 引导）
+
+```bash
+# 克隆仓库
+git clone https://github.com/xiaochengshiguduo/openclaw-multi-agent-team.git
+cd openclaw-multi-agent-team
+
+# 让 OpenClaw 帮你安装（推荐）
+openclaw agent --skill skills/multi-agent-team-installer \
+  --task "将多 agent 团队安装到我的 OpenClaw"
+```
+
+AI agent 会：
+- 读取你现有的配置并保留 API keys
+- 合并团队模板而不覆盖你的 agents
+- 生成 worker workspaces（仅添加，永不覆盖）
+- 注册角色 agents（跳过已存在的）
+- 生成包含回滚指令的安装报告
+
+### 手动安装（分步执行）
+
+```bash
+# 1. 预览合并（dry-run，不写入任何东西）
+node scripts/install-wizard.js
+
+# 2. 检查计划后应用
+node scripts/install-wizard.js --apply
+
+# 3. 生成 worker workspaces（保留现有文件）
+node scripts/generate-workspaces.js --preserve-existing
+
+# 4. 注册角色 agents
+node scripts/register-agents.js --apply
+
+# 5. 验证配置后手动重启 Gateway
+```
+
+### 安全特性
+
+- **默认 dry-run**：所有工具在写入前预览变更
+- **智能合并**：保留用户 API keys、现有 agents 和自定义配置
+- **自动备份**：写入前备份配置
+- **增量式 workspace 生成**：永不覆盖现有 workspace 文件
+- **回滚指令**：每个操作都告诉你如何撤销
+
+### 从 v1.x 迁移
+
+如果你用旧版覆盖式方法安装了 v1.x，参考 [CHANGELOG.md](CHANGELOG.md) 中的 v2.0.0 迁移指南。
+
 ## 前置要求
 
 - Linux

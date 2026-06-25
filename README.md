@@ -71,6 +71,60 @@ final user-facing delivery from main
 - Sub-agents are not bound to Telegram by default.
 - `main` remains the only user-facing entrypoint.
 
+
+## Installation
+
+This project now uses a **guided, merge-based installer** that preserves your existing OpenClaw config, API keys, and workspace files.
+
+### Quick Start (AI-guided)
+
+```bash
+# Clone the repository
+git clone https://github.com/xiaochengshiguduo/openclaw-multi-agent-team.git
+cd openclaw-multi-agent-team
+
+# Let OpenClaw install it for you (recommended)
+openclaw agent --skill skills/multi-agent-team-installer \
+  --task "Install the multi-agent team into my OpenClaw"
+```
+
+The AI agent will:
+- Read your existing config and preserve API keys
+- Merge the team template without overwriting your agents
+- Generate worker workspaces (additive only, never overwrites)
+- Register role agents (skips existing ones)
+- Produce an installation report with rollback instructions
+
+### Manual Installation (step-by-step)
+
+```bash
+# 1. Preview the merge (dry-run, writes nothing)
+node scripts/install-wizard.js
+
+# 2. Review the plan, then apply
+node scripts/install-wizard.js --apply
+
+# 3. Generate worker workspaces (preserves existing files)
+node scripts/generate-workspaces.js --preserve-existing
+
+# 4. Register role agents
+node scripts/register-agents.js --apply
+
+# 5. Restart Gateway manually after verifying the config
+```
+
+### Safety Features
+
+- **Dry-run by default**: All tools preview changes before writing
+- **Smart merge**: Preserves user API keys, existing agents, and custom config
+- **Automatic backup**: Config is backed up before any write
+- **Additive workspace generation**: Never overwrites existing workspace files
+- **Rollback instructions**: Every operation tells you how to undo it
+
+### Migration from v1.x
+
+If you installed v1.x with the legacy overwrite-based method, see [CHANGELOG.md](CHANGELOG.md) for the v2.0.0 migration guide.
+
 ## Requirements
 
 - Linux
