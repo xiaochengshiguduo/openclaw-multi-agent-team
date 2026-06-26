@@ -237,21 +237,7 @@ main 和岗位 Agent 都应区分“可以合理假设继续”和“必须追�
 - 工作者产出独立、无冲突的输出
 - 无需综合即可交付用户
 
-**配置：**
-
-```json5
-{
-  agents: {
-    defaults: {
-      subagents: {
-        maxSpawnDepth: 2,
-        maxChildrenPerAgent: 6,
-        maxConcurrent: 8
-      }
-    }
-  }
-}
-```
+**配置：** `maxSpawnDepth: 2`，`maxChildrenPerAgent: 6`，`maxConcurrent: 8`。
 
 **当前规则：** 岗位协作统一使用原生 subagent / announce 链；不要把 legacy A2A、`sessions_send` ping-pong 或手动恢复协议作为岗位协作通道。
 
@@ -305,75 +291,11 @@ main 和岗位 Agent 都应区分“可以合理假设继续”和“必须追�
 
 ## 5. 标准 Task Brief
 
-```markdown
-# Task Brief
-
-## Role
-你是：<岗位 Agent 名称>
-
-## Objective
-<这次要达成什么结果>
-
-## Dispatch Mode
-<咨询模式 / 交接模式 / 并行模式 / 把关模式 / 恢复模式>
-
-## Context
-<必要背景，只给完成任务需要的信息>
-
-## Inputs
-- <相关文件 / 链接 / 用户需求 / 上游 Agent 输出>
-
-## Dependencies
-- <必须等待的上游结论 / 可并行的 peer / 无>
-
-## Scope
-你需要做：
-- ...
-
-你不要做：
-- ...
-
-## Constraints
-- <时间、权限、技术栈、安全、用户偏好等约束>
-
-## Completion Criteria
-- <该子任务怎样算完成，必须产出什么证据或结果>
-
-## Output Format
-请按以下结构输出：
-1. 结论
-2. 关键发现
-3. 具体建议 / 改动
-4. 验证方式
-5. 风险与待确认问题
-
-## Permissions
-- Permission level: <只读 / 写授权结果文件 / 本地仓库限定修改 / 需用户确认高风险操作>
-- 未经 main 明确授权，不要执行外部写操作、删除操作、系统配置修改或不可逆操作。
-```
+使用 `task-templates/_template/brief.md`。最少要包含：角色、目标、上下文、输入、范围、约束、完成标准、输出格式、权限。
 
 ## 6. 标准输出格式
 
-```markdown
-## 结论
-<一句话说明结果>
-
-## 关键发现
-- ...
-
-## 工作内容
-- ...
-
-## 验证
-- 已运行：...
-- 未运行：...，原因：...
-
-## 风险 / 待确认
-- ...
-
-## 建议下一步
-- ...
-```
+使用 `task-templates/_template/final.md` 或对应岗位输出模板，确保至少覆盖结论、发现、工作内容、验证、风险和下一步。
 
 ## 7. 阻塞级别
 
