@@ -9,6 +9,7 @@ const { assertRoleName } = require('./lib/slug');
 const { ensureDir, copyFile, symlink, applyActions } = require('./lib/fs-safe');
 const { printPlan, printResults } = require('./lib/report');
 const { DEFAULT_RUNTIME_LANGUAGE } = require('./lib/runtime-localization');
+const { generateRoleTeamMd } = require('./lib/team-md-filter');
 
 const HELP = `
 Usage: node scripts/generate-workspaces.js [--target ~/.openclaw] [--roles pm,docs] [--apply] [--preserve-existing]
@@ -43,11 +44,20 @@ const actions = [];
 ensureDir(mainWorkspace, actions);
 ensureDir(path.join(sharedTarget, 'tasks', '_template'), actions);
 for (const file of ['TEAM.md']) copyLocalized(path.join('workspace-template', file), path.join(mainWorkspace, file), actions);
+// Read the full TEAM.md once for generating role-specific versions
+const fullTeamMd = require('fs').readFileSync(path.join(root, 'workspace-template', 'TEAM.md'), 'utf8');
 for (const role of selected) {
   const workspace = role === 'main' ? mainWorkspace : path.join(target, `workspace-${role}`);
   ensureDir(workspace, actions);
   ensureDir(path.join(workspace, 'memory'), actions);
-  copyLocalized('workspace-template/TEAM.md', path.join(workspace, 'TEAM.md'), actions);
+  if (role === 'main') {
+    copyLocalized('workspace-template/TEAM.md', path.join(workspace, 'TEAM.md'), actions);
+  } else {
+    // Role agents get a trimmed TEAM.md with only their role and relevant sections
+    const roleTeamMd = generateRoleTeamMd(fullTeamMd, role);
+    const dest = path.join(workspace, 'TEAM.md');
+    actions.push({ type: 'write', dest, content: roleTeamMd, note: `TEAM.md (trimmed for ${role})` });
+  }
   copyLocalized(path.join('roles', role, 'AGENTS.md'), path.join(workspace, 'AGENTS.md'), actions);
   copyLocalized(path.join('roles', role, 'SOUL.md'), path.join(workspace, 'SOUL.md'), actions);
   for (const [src, dest] of [

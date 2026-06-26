@@ -6,6 +6,7 @@ function printPlan(actions, { apply = false } = {}) {
     if (action.type === 'copy') console.log(`${apply ? 'COPY' : 'would copy'} ${action.src} -> ${action.dest}`);
     else if (action.type === 'mkdir') console.log(`${apply ? 'MKDIR' : 'would mkdir'} ${action.path}`);
     else if (action.type === 'symlink') console.log(`${apply ? 'SYMLINK' : 'would symlink'} ${action.path} -> ${action.target}`);
+    else if (action.type === 'write') console.log(`${apply ? 'WRITE' : 'would write'} ${action.dest}${action.note ? ` (${action.note})` : ''}`);
     else console.log(`${apply ? 'DO' : 'would do'} ${JSON.stringify(action)}`);
   }
 }

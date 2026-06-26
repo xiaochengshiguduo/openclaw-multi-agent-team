@@ -42,6 +42,15 @@ function applyActions(actions, { force = false } = {}) {
         fs.copyFileSync(action.src, action.dest, force ? 0 : fs.constants.COPYFILE_EXCL);
         results.push({ ...action, status: existed && force ? 'overwritten' : 'copied' });
       }
+    } else if (action.type === 'write') {
+      fs.mkdirSync(path.dirname(action.dest), { recursive: true });
+      const existed = exists(action.dest);
+      if (existed && !force) {
+        results.push({ ...action, status: 'skipped', reason: 'exists' });
+      } else {
+        fs.writeFileSync(action.dest, action.content, 'utf8');
+        results.push({ ...action, status: existed && force ? 'overwritten' : 'written' });
+      }
     } else if (action.type === 'symlink') {
       if (exists(action.path)) {
         if (!force) {
