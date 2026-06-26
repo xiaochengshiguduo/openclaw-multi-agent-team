@@ -26,7 +26,7 @@ cat ~/.openclaw/openclaw.json
 - `models.providers`（API keys — 保留）
 - `agents.list[]`（现有 agents — 按 id 合并，永不替换）
 - `agents.defaults.subagents`（可能已有策略）
-- 旧版 `tools.agentToAgent` / `session.agentToAgent`（标记为待移除）
+- 旧版 `tools.agentToAgent` / `session.agentToAgent`（仅在发现时提示用户移除）
 
 ### 步骤 2：预览合并
 
@@ -36,7 +36,7 @@ node scripts/install-wizard.js --target ~/.openclaw
 
 这是 dry-run。它会打印：
 - 合并计划（将添加/合并/保留什么）
-- 警告（旧版 A2A 配置、visibility 冲突）
+- 警告（仅限当前仍会影响安装的配置冲突）
 
 **将计划展示给用户。用通俗语言解释每个变更。**
 
@@ -77,14 +77,14 @@ openclaw agents list
 然后生成安装报告：
 - 添加了什么（新 agents、subagent 策略）
 - 保留了什么（API keys、现有 agents、workspace 文件）
-- 需要手动处理什么（移除旧版 A2A、为每个角色配置模型）
+- 需要手动处理什么（仅列出仍然需要用户确认的配置冲突）
 - 如何回滚（备份路径）
 - 提醒手动重启 Gateway
 
 ## 决策点（始终询问用户）
 
 1. **现有 `main` agent 配置不同** → 询问是否将 subagent 策略合并进去还是保留他们的
-2. **检测到旧版 A2A 配置** → 解释它已不再使用；询问是否移除
+2. **检测到旧版 `tools.agentToAgent` / `session.agentToAgent`** → 提示它已过时，询问是否移除
 3. **为每个角色分配模型** → 询问每个角色 agent 应该用哪个模型（例如 orchestrator 用强模型，workers 用便宜模型）
 4. **Worker workspace 冲突** → 如果 workspace 文件已存在，保留用户版本并记录
 

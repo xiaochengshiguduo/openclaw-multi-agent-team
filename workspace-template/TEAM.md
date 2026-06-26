@@ -253,12 +253,7 @@ main 和岗位 Agent 都应区分“可以合理假设继续”和“必须追�
 }
 ```
 
-**与旧版 agent-to-agent (A2A) 方式的对比：**
-
-本架构替换了旧版 A2A `sessions_send` ping-pong 模式，后者存在稳定性问题：
-- A2A 依赖 `maxPingPongTurns` 限制；超出轮数限制会导致结果丢失。
-- Subagent announce 链无轮数限制；结果通过运行时管理的内部注入流转。
-- A2A 需要手动恢复协议；subagent announce 是推送式的，天然可靠。
+**当前规则：** 岗位协作统一使用原生 subagent / announce 链；不要把 legacy A2A、`sessions_send` ping-pong 或手动恢复协议作为岗位协作通道。
 
 ### 3.7 Multi-Agent 完成定义
 
