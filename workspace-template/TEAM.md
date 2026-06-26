@@ -291,11 +291,11 @@ main 和岗位 Agent 都应区分“可以合理假设继续”和“必须追�
 
 ## 5. 标准 Task Brief
 
-使用 `task-templates/_template/brief.md`。最少要包含：角色、目标、上下文、输入、范围、约束、完成标准、输出格式、权限。
+使用 `shared/tasks/_template/brief.md`。最少要包含：角色、目标、上下文、输入、范围、约束、完成标准、输出格式、权限。
 
 ## 6. 标准输出格式
 
-使用 `task-templates/_template/final.md` 或对应岗位输出模板，确保至少覆盖结论、发现、工作内容、验证、风险和下一步。
+使用 `shared/tasks/_template/final.md` 或对应岗位输出模板，确保至少覆盖结论、发现、工作内容、验证、风险和下一步。
 
 ## 7. 阻塞级别
 
